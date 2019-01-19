@@ -62,6 +62,7 @@ export const init = () => firestore.enablePersistence()
 .then(() => {
   users = firestore.collection('users');
 
+  
   return fetchInfo();
 });
 
