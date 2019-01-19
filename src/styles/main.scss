@@ -17,3 +17,20 @@
   background-color: transparent;
   background-image: none;
 }
+
+#landing {
+  background: url('../images/landing.jpg'); // TODO image placeholder???
+  // height: 500px; /* You must set a specified height */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#root > :not(.is-fullheight, .navbar) {
+  margin-top: $navbar-height;
+}
+
+.is-clickable {
+  cursor: pointer;
+}
+

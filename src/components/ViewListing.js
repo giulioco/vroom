@@ -4,25 +4,15 @@ import { Route, Link } from 'react-router-dom';
 import * as db from '../db';
 
 
-export default class Listings extends React.Component {
-
-  state = {
-    listings: null,
-  }
-
-  componentDidMount() {
-    this.unsubscribe = db.getListings().then((listings) => {
-      this.setState({ listings });
-    });
-  }
-
+export default class Listing extends React.Component {
 
   render() {
-    const { listings } = this.state;
+    const { name } = this.props.data;
 
     return (
       <div>
         <h1>View listing</h1>
+        
       </div>
     );
   }

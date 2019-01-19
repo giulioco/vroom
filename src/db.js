@@ -82,6 +82,8 @@ export const signIn = () => auth.signInWithPopup(googleProvider)
   else return window.location.pathname;
 });
 
+export const authChange = (fn) => auth.onAuthStateChanged(fn);
+
 export const signOut = () => auth.signOut();
 
 export const deleteProfile = () => auth.currentUser.delete()

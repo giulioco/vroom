@@ -2,9 +2,14 @@ import React from 'react';
 import { Route, Link } from 'react-router-dom';
 
 import ViewListing from './ViewListing';
+import * as db from '../db';
 
 
 export default class Listings extends React.Component {
+
+  state = {
+    listings: null,
+  }
 
   componentDidMount() {
     this.fetchListings();
@@ -12,6 +17,11 @@ export default class Listings extends React.Component {
 
   fetchListings = () => {
 
+    this.listingId = this.props.match.params.id;
+
+    this.unsubscribe = db.getListings().then((listings) => {
+      this.setState({ listings });
+    });
   }
 
   searchForm = (e) => {
@@ -21,6 +31,7 @@ export default class Listings extends React.Component {
   }
 
   render() {
+    const { listings } = this.state;
 
     return (
       <div>

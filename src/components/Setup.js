@@ -26,12 +26,18 @@ export default class Setup extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    db.setupAccount(this.state)
+    const { location, name } = this.state;
+
+    db.setupAccount({
+      location,
+      name,
+      setup: true,
+    })
     .then(() => this.props.history.push('/dashboard'));
   }
 
   getLocation = () => {
-    if (navigator.geolocation) {
+    if (navigator && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(this.showPosition);
     } else {
       alert('Geolocation is not supported by this browser.');

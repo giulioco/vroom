@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, NavLink, withRouter } from 'react-router-dom';
 
 import * as db from '../db';
-
+import signinButton from '../images/signin.png';
 
 // To support a fixed header, add this class to document head
 // document.documentElement.classList.add('has-navbar-fixed-top');
@@ -14,12 +14,14 @@ class Nav extends React.PureComponent {
     loggedIn: !!db.getUser(),
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.location !== nextProps.location)
-      this.setState({
-        open: false,
-        loggedIn: !!db.getUser(), // HACK to check if loggedIn state changes
-      });
+  componentDidMount(nextProps) {
+    this.unsubscribe = db.authChange(() => {
+      this.setState({ loggedIn: !!db.getUser() });
+    });
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   toggle = () => this.setState(({ open }) => ({ open: !open }))
@@ -30,15 +32,16 @@ class Nav extends React.PureComponent {
 
   render() {
     const { open, loggedIn } = this.state;
+    const front = this.props.location.pathname === '/';
 
     const username = db.getUser() && db.getUser().displayName;
 
     return (
-      <nav className="navbar is-transparent">
+      <nav className={`navbar is-fixed-top ${front ? 'is-transparent' : 'is-link'}`}>
         <div className="container">
           <div className="navbar-brand">
             <Link className="navbar-item" to="/">
-              <h1 className="is-size-4 site-title">Vroom</h1>
+              <h1 className="is-size-4 site-title has-text-weight-bold">Vroom</h1>
             </Link>
             <div className={`navbar-burger burger ${open ? 'is-active' : ''}`}
               onClick={this.toggle} role="button" tabIndex="0">
@@ -90,12 +93,11 @@ class Nav extends React.PureComponent {
                   </div>
                 </div>
               </> : <>
-                <a className="navbar-item">
-                  <button onClick={this.signIn} className="button">Sign In</button>
-                </a>
-                <a className="navbar-item">
-                  <button onClick={this.signUp} className="button">Sign Up</button>
-                </a>
+                <div className="navbar-item">
+                  <button className="button is-outlined is-link is-inverted" onClick={this.signIn}>
+                    Sign In
+                  </button>
+                </div>
               </>}
             </div>
           </div>
