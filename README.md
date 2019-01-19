@@ -1,15 +1,15 @@
 
 <h1 align="center">
   <br>
-  <a href="#"><img src="https://raw.githubusercontent.com/gcollelu/vroom/master/resources/logo.png" alt="VRoom" width="200"></a>
+  <a href="#"><img src="https://raw.githubusercontent.com/gcollelu/vroom/master/resources/logo.png" alt="VRoom" width="100"></a>
   <br>
 </h1>
 
 <h4 align="center">A platform for people sleeping in their vehicles to find overnight parking. 🚍</h4>
 
 <p align="center">
-	<a href="https://forthebadge.com">
-      <img src="https://forthebadge.com/images/badges/made-with-react.svg">
+<a href="https://forthebadge.com">
+      <img src="https://forthebadge.com/images/badges/made-with-javascript.svg">
     </a>
 	<a href="https://forthebadge.com">
       <img src="https://forthebadge.com/images/badges/built-with-love.svg">
