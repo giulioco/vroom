@@ -34,19 +34,33 @@
 
 ## The Issue
 
-* Generate recipe from specified type of cuisine
-* Generate recipe with selected ingredients
+* 30% of the homeless population in Santa Cruz resides in their vehicles. 
+* Finding a place to park your car and sleep in it can be hard.
+* Most of public parking are patrolled by local police.
+* Many people are offering their drive-ways for rent on Craigslist, given the housing crisis in the county.
+* Government led programs are scarce and do not fit the demand.
 
 ## The Audience
 
+* Our app is aimed to anyone sleeping in their car or van of preference.
+
 ## Our Solution
+
+* Our goal is to make an app to connect people that have an extra parking space they would like to offer with people that need a safe place to park their vehicle overnight.
 
 ## API Used
 
+For this application, we used the following APIs :
+
+* FireBase
 
 ## Credits
 
 This software uses the following open source packages:
+
+## License
+
+
 
 
 
