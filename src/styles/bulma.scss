@@ -25,6 +25,8 @@ $body-background-color: $beige-lighter;
 $control-border-width: 2px;
 $input-border-color: transparent;
 $input-shadow: none;
+$navbar-item-color: $pink;
+// $navbar-item-color
 
 // Import only what you need from Bulma
 @import "~bulma/sass/utilities/_all.sass";
@@ -33,6 +35,7 @@ $input-shadow: none;
 @import "~bulma/sass/elements/container.sass";
 @import "~bulma/sass/elements/form.sass";
 @import "~bulma/sass/elements/title.sass";
+@import "~bulma/sass/elements/content.sass";
 @import "~bulma/sass/components/navbar.sass";
 @import "~bulma/sass/layout/hero.sass";
 @import "~bulma/sass/layout/section.sass";
