@@ -1,5 +1,4 @@
 
-// Max docs for batch write is 500
 const deleteQueryBatch = (query, batchSize, resolve, reject) => {
   query.get()
   .then((snap) => {
@@ -29,6 +28,7 @@ const deleteQueryBatch = (query, batchSize, resolve, reject) => {
   .catch(reject);
 };
 
-exports.deleteCollection = (collectionRef, batchSize = 200) => new Promise((resolve, reject) => {
+// Max docs for batch write is 500
+exports.deleteCollection = (collectionRef, batchSize = 300) => new Promise((resolve, reject) => {
   deleteQueryBatch(collectionRef.orderBy('__name__').limit(batchSize), batchSize, resolve, reject);
 });

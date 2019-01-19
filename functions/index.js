@@ -7,7 +7,8 @@ global.config = functions.config();
 
 // Enable database access
 admin.initializeApp({
-  credential: admin.credential.applicationDefault(),
+  credential: admin.credential.cert(require('./credentials.json')),
+  databaseURL: 'https://vroom-db.firebaseio.com',
 });
 
 // Export database triggers
