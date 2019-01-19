@@ -28,12 +28,13 @@ export const getUser = () => auth.currentUser;
 export let userData = null;
 
 const fetchInfo = () => {
-  users.doc(getUser().uid).get()
+  if (!getUser()) return Promise.resolve();
+
+  return users.doc(getUser().uid).get()
   .then((doc) => {
     const data = doc.data();
 
     userData = data;
-    console.log(data);
 
     if (!data.setup) return '/setup';
     else return '/';
