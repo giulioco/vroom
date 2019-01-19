@@ -5,9 +5,8 @@ import { withRouter } from 'react-router-dom';
 const getMessage = (code) => {
   switch (code) {
     case 'permission-denied':
-    case 403: return [403, 'You don\'t have access to this list!'];
-    case 404: return [404, 'Sorry, the thing you want isn\'t here.'];
-    case 501: return [501, 'Unimplemented! This feature will be available soon.'];
+    case 403: return [403, 'You don\'t have access to this content!'];
+    case 404: return [404, 'Oops, nothing here!'];
     default: return [500, 'Something unexpected occurred... Please try again'];
   }
 };
@@ -65,7 +64,7 @@ class ErrorBoundary extends React.Component {
             <br/>
             <br/>
             <button className="button is-medium is-primary"
-              onClick={this.goBack}>Go back
+              onClick={this.goBack}>Go Back
             </button>
           </div>
         </div>
