@@ -32,10 +32,9 @@ const fetchInfo = () => {
 
   return users.doc(getUser().uid).get()
   .then((doc) => {
+    console.log(getUser().uid);
     const data = doc.data();
-
     userData = data;
-
     if (!data.setup) return '/setup';
     else return '/';
   });
