@@ -8,8 +8,9 @@ export default class Setup extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
-      name: db.userData.name, 
+      name: db.getUser().displayName,
       license_verification: false,
       location: [0,0],
     };
@@ -45,23 +46,49 @@ export default class Setup extends React.Component {
   }
 
   showPosition = (position) => {
+    console.log(position);
     this.setState({ location: [position.coords.latitude, position.coords.longitude] });
   }
 
-  render() {
-    const user = db.getUser();
-    
+  render() {    
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label className="label">
-          Name:
-          <input type="text" value={this.state.name} onChange={this.handleChange} />
-        </label>
-        <label className="label">
-          Location: [{this.state.location[0]},{this.state.location[1]}]
-        </label>
+      <form onSubmit={this.handleSubmit} className="container">
 
-        <button type="submit" className="button">Submit</button>
+        <br/>
+        <h1 className="is-size-1">Account Setup</h1>
+
+        <div className="field">
+          <label className="label">Display Name</label>
+          <div className="control">
+            <input className="input" type="text" value={this.state.name} onChange={this.handleChange} />
+          </div>
+        </div>
+        
+        <div className="field">{}
+          <label className="label">Location</label>
+          <div className="control">
+            <input className="input" type="text" value={this.state.location[0] + ',' + this.state.location[1]} onChange={this.handleChange} />
+          </div>
+        </div>
+
+
+        <div className="field">
+          <label className="label">How will you be using this service?</label>
+          <div className="control">
+            <div className="select">
+              <select>
+                <option value="lister">Lister</option>
+                <option value="renter">Renter</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <div className="field">
+          <div className="control">
+            <button type="submit" className="button is-link">Finish Setup</button>
+          </div>
+        </div>
       </form>
     );
   }
