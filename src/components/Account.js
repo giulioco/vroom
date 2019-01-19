@@ -5,6 +5,10 @@ import * as db from '../db';
 
 export default class Account extends React.Component {
 
+  componentDidMount() {
+    
+  }
+
   deleteProfile = () => {
     db.deleteProfile()
     .then(() => this.props.history.push('/'))

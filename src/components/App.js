@@ -15,6 +15,8 @@ import About from './About';
 import Dashboard from './Dashboard';
 import Account from './Account';
 import Setup from './Setup';
+import Listings from './Listings';
+import CreateListing from './CreateListing';
 
 import ErrorBoundary from './ErrorBoundary';
 import Nav from './Nav';
@@ -45,6 +47,8 @@ const App = () => (
             <Route exact path="/about" component={About}/>
             <PrivateRoute exact path="/setup" component={Setup}/>
             <PrivateRoute exact path="/account" component={Account}/>
+            <PrivateRoute exact path="/listings/:new" component={CreateListing}/>
+            <PrivateRoute path="/listings" component={Listings}/>
             <Route exact path="/logout" render={() => {
               db.signOut().catch(console.error);
               return <Redirect to="/"/>;

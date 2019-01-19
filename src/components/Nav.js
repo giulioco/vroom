@@ -56,6 +56,20 @@ class Nav extends React.PureComponent {
             <div className="navbar-end">
               { loggedIn ? <>
                 <div className="navbar-item has-dropdown is-hoverable">
+                  <a className="navbar-link" to="/account">
+                    Mode
+                  </a>
+                  <div className="navbar-dropdown is-right is-boxed">
+                    <a className="navbar-item" to="/account">
+                      Lister
+                    </a>
+                    <hr className="navbar-divider"/>
+                    <a className="navbar-item" to="/logout">
+                      Renter
+                    </a>
+                  </div>
+                </div>
+                <div className="navbar-item has-dropdown is-hoverable">
                   <NavLink className="navbar-link" to="/account">
                     {username}
                   </NavLink>

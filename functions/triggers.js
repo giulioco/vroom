@@ -7,6 +7,7 @@ const users = firestore.collection('users');
 
 
 exports.createUser = functions.auth.user().onCreate((user) => {
+  console.log(user.displayName, user.email);
   return users.doc(user.uid).set({
     created: admin.firestore.Timestamp.now(),
     name: user.displayName,

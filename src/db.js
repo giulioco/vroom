@@ -17,11 +17,14 @@ firebase.initializeApp({
 
 const auth = firebase.auth();
 const firestore = firebase.firestore();
-
+// const storage = firebase.storage().ref('/profile_pics');
+// storage.child().
 
 // Global collections
 /** @type firebase.firestore.CollectionReference */
 export let users;
+/** @type firebase.firestore.CollectionReference */
+export let listings;
 
 export const getUser = () => auth.currentUser;
 
@@ -32,11 +35,9 @@ const fetchInfo = () => {
 
   return users.doc(getUser().uid).get()
   .then((doc) => {
-    const data = doc.data();
+    userData = doc.data() || {};
 
-    userData = data;
-
-    if (!data.setup) return '/setup';
+    if (!userData.setup) return '/setup';
     else return '/';
   });
 };
@@ -61,6 +62,7 @@ export const init = () => firestore.enablePersistence()
 }))
 .then(() => {
   users = firestore.collection('users');
+  listings = firestore.collection('listings');
 
   return fetchInfo();
 });
@@ -83,3 +85,26 @@ export const signOut = () => auth.signOut();
 
 export const deleteProfile = () => auth.currentUser.delete()
 .then(() => auth.signOut());
+
+export const setupAccount = (data) => users.doc(getUser().uid).set(data);
+
+// sortBy can be 'distance' or 'rate'
+export const getListings = (radius, sortBy = 'rate') => {
+  let query = listings.orderBy(sortBy);
+  // listings.where()
+  return query.get().then((snap) => {
+    return snap.docs.map((doc) => {
+      const data = doc.data();
+      data.id = doc.id;
+      return data;
+    });
+  });
+};
+
+export const getListing = (id) => {
+  return listings.doc(id).get().then((doc) => {
+    const data = doc.data();
+    data.id = doc.id;
+    return data;
+  });
+};
