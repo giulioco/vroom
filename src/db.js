@@ -25,6 +25,21 @@ export let users;
 
 export const getUser = () => auth.currentUser;
 
+export let userData = null;
+
+const fetchInfo = () => {
+  users.doc(getUser().uid).get()
+  .then((doc) => {
+    const data = doc.data();
+
+    userData = data;
+    console.log(data);
+
+    if (!data.setup) return '/setup';
+    else return '/';
+  });
+};
+
 export const init = () => firestore.enablePersistence()
 .catch((err) => {
   if (err.code === 'failed-precondition')
@@ -45,12 +60,17 @@ export const init = () => firestore.enablePersistence()
 }))
 .then(() => {
   users = firestore.collection('users');
+
+  return fetchInfo();
 });
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 export const signIn = () => auth.signInWithPopup(googleProvider)
-.then(() => {
+.then(() => fetchInfo())
+.then((path) => {
+  if (path) return path;
+
   const { from } = decodeQuery(window.location.search);
   if (from && from.startsWith('/')) return from;
   else if (window.location.pathname === '/') return '/dashboard';
@@ -59,4 +79,5 @@ export const signIn = () => auth.signInWithPopup(googleProvider)
 
 export const signOut = () => auth.signOut();
 
-export const deleteProfile = () => auth.currentUser.delete();
+export const deleteProfile = () => auth.currentUser.delete()
+.then(() => auth.signOut());

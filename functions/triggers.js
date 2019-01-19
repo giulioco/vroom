@@ -10,6 +10,7 @@ exports.createUser = functions.auth.user().onCreate((user) => {
   return users.doc(user.uid).set({
     created: admin.firestore.Timestamp.now(),
     name: user.displayName,
+    setup: false,
   });
 });
 

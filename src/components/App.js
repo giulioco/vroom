@@ -24,14 +24,19 @@ import * as db from '../db';
 NavLink.defaultProps.activeClassName = 'is-active';
 
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route {...rest} render={(props) => db.getUser() ? <Component {...props}/> : (
-    <Redirect to={{
-      pathname: '/',
-      search: `?from=${encodeURIComponent(props.location.pathname)}`,
-    }}/>
-  )}/>
-);
+const PrivateRoute = ({ component: Component, ...rest }) => {
+
+  let redirect;
+  if (db.userData && !db.userData.setup) redirect = <Redirect to={{
+    pathname: '/setup',
+  }}/>;
+  else if (!db.getUser()) redirect = <Redirect to={{
+    pathname: '/',
+    search: `?from=${encodeURIComponent(props.location.pathname)}`,
+  }}/>;
+
+  return <Route {...rest} render={(props) => !redirect ? <Component {...props}/> : redirect}/>
+};
 
 
 const App = () => (
