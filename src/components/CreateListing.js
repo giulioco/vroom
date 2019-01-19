@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom';
+import MiniMap from './MiniMap';
 
 export default class CreateListing extends React.Component {
 
@@ -39,6 +40,7 @@ handleChange = (name) => (event) => {
         <label className="label">
           Address: 
           <input type="text" value={this.state.address} onChange={this.handleChange("address")} />
+          <MiniMap></MiniMap>
         </label>
         <label className="label">
           Description: 
