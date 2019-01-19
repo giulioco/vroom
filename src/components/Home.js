@@ -14,7 +14,8 @@ export default class Home extends React.PureComponent {
   render() {
     return (
       <div className="container">
-        <h1 className="is-size-1">Vroom</h1>
+        <h1 className="is-size-1">Vroooooom</h1>
+        <p>This is the landing page</p>
         <button onClick={this.signIn} className="button is-primary">Sign In</button>
       </div>
     );

@@ -9,12 +9,14 @@ import {
 } from 'react-router-dom';
 // import RouterToUrlQuery from 'react-url-query/lib/react/RouterToUrlQuery';
 
+// Main pages:
 import Home from './Home';
 import About from './About';
-import ErrorBoundary from './ErrorBoundary';
+import Dashboard from './Dashboard';
 import Account from './Account';
-import Nav from './Nav';
 
+import ErrorBoundary from './ErrorBoundary';
+import Nav from './Nav';
 import * as db from '../db';
 
 
@@ -40,6 +42,7 @@ const App = () => (
         <ErrorBoundary>
           <Switch>
             <Route exact path="/" component={Home}/>
+            <Route exact path="/dashboard" component={Dashboard}/>
             <Route exact path="/about" component={About}/>
             <PrivateRoute exact path="/account" component={Account}/>
             <Route exact path="/logout" render={() => {

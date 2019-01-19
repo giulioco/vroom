@@ -34,7 +34,7 @@ class Nav extends React.PureComponent {
     const username = db.getUser() && db.getUser().displayName;
 
     return (
-      <nav className="navbar is-transparent has-shadow">
+      <nav className="navbar is-transparent">
         <div className="container">
           <div className="navbar-brand">
             <Link className="navbar-item" to="/">
@@ -69,11 +69,14 @@ class Nav extends React.PureComponent {
                     </Link>
                   </div>
                 </div>
-              </> : (
+              </> : <>
                 <a className="navbar-item">
-                  <button className="button is-discord" onClick={this.signIn}>Sign In</button>
+                  <button onClick={this.signIn} className="button">Sign In</button>
                 </a>
-              )}
+                <a className="navbar-item">
+                  <button onClick={this.signUp} className="button">Sign Up</button>
+                </a>
+              </>}
             </div>
           </div>
         </div>
