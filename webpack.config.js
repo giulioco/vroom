@@ -38,3 +38,5 @@ module.exports = require('webpack-boiler')({
     loader: loaderHTML,
   }],
 });
+
+delete module.exports.module.rules[3].include;
