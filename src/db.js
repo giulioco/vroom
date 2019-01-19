@@ -28,18 +28,18 @@ export let listings;
 
 export const getUser = () => auth.currentUser;
 
-export let userData = null;
+let _userData = null;
+export const userData = () => _userData;
 
 const fetchInfo = () => {
   if (!getUser()) return Promise.resolve();
 
-  return users.doc(getUser().uid).get()
-  .then((doc) => {
-    userData = doc.data() || {};
+  const unsub = users.doc(getUser().uid).onSnapshot((doc) => {
+    _userData = doc.data() || {};
 
-    if (!userData.setup) return '/setup';
+    if (!_userData.setup) return '/setup';
     else return '/';
-  });
+  }, () => unsub());
 };
 
 export const init = () => firestore.enablePersistence()
@@ -64,7 +64,6 @@ export const init = () => firestore.enablePersistence()
   users = firestore.collection('users');
   listings = firestore.collection('listings');
 
-  
   return fetchInfo();
 });
 
@@ -86,8 +85,10 @@ export const authChange = (fn) => auth.onAuthStateChanged(fn);
 
 export const signOut = () => auth.signOut();
 
-export const deleteProfile = () => auth.currentUser.delete()
-.then(() => auth.signOut());
+export const deleteProfile = () => auth.signInWithPopup(googleProvider)
+.then(() => auth.currentUser.delete())
+.then(() => auth.signOut())
+.then(() => alert('Account successfully deleted'));
 
 export const setupAccount = (data) => users.doc(getUser().uid).set(data);
 
