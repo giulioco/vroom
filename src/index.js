@@ -2,7 +2,7 @@ import React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as Offline from 'offline-plugin/runtime';
 
-import './styles/main.scss';
+import './styles/index.scss';
 import App from './components/App';
 import * as db from './db';
 
