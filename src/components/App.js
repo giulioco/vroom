@@ -50,7 +50,7 @@ const App = () => (
             <Route exact path="/about" component={About}/>
             <PrivateRoute exact path="/setup" component={Setup}/>
             <PrivateRoute exact path="/account" component={Account}/>
-            <PrivateRoute exact path="/listings/:new" component={CreateListing}/>
+            <PrivateRoute exact path="/listings/new" component={CreateListing}/>
             <PrivateRoute path="/listings" component={Listings}/>
             <Route exact path="/logout" render={() => {
               db.signOut().catch(console.error);
