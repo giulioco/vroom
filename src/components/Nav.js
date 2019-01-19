@@ -55,6 +55,12 @@ class Nav extends React.PureComponent {
             </div>
             <div className="navbar-end">
               { loggedIn ? <>
+                <NavLink className="navbar-item" exact to="/listings">
+                  Listings
+                </NavLink>
+                <NavLink className="navbar-item" exact to="/listings/new">
+                  Create Listing
+                </NavLink>
                 <div className="navbar-item has-dropdown is-hoverable">
                   <a className="navbar-link" to="/account">
                     Mode

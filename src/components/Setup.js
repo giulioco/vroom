@@ -8,10 +8,11 @@ export default class Setup extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {name: db.userData.name, 
-                  license_verification: false,
-                  location: [0,0]
-                  };
+    this.state = {
+      name: db.userData.name, 
+      license_verification: false,
+      location: [0,0],
+    };
   }
 
   componentDidMount() {
@@ -19,23 +20,26 @@ export default class Setup extends React.Component {
   }
 
   handleChange = (event) => {
-    this.setState({name: event.target.value});
+    this.setState({ name: event.target.value });
   }
 
-  handleSubmit(event) {
-    db.setupAccount()
+  handleSubmit = (event) => {
+    event.preventDefault();
+
+    db.setupAccount(this.state)
+    .then(() => this.props.history.push('/dashboard'));
   }
 
   getLocation = () => {
-   if (navigator.geolocation) {
+    if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(this.showPosition);
     } else {
-      x.innerHTML = "Geolocation is not supported by this browser.";
+      alert('Geolocation is not supported by this browser.');
     }
   }
 
   showPosition = (position) => {
-    this.setState({location: [position.coords.latitude, position.coords.longitude]});
+    this.setState({ location: [position.coords.latitude, position.coords.longitude] });
   }
 
   render() {
@@ -43,15 +47,15 @@ export default class Setup extends React.Component {
     
     return (
       <form onSubmit={this.handleSubmit}>
-        <label>
+        <label className="label">
           Name:
           <input type="text" value={this.state.name} onChange={this.handleChange} />
         </label>
-        <label>
+        <label className="label">
           Location: [{this.state.location[0]},{this.state.location[1]}]
         </label>
 
-        <input type="submit" value="Submit" />
+        <button type="submit" className="button">Submit</button>
       </form>
     );
   }
