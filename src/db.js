@@ -68,6 +68,7 @@ export const init = () => firestore.enablePersistence()
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 export const signIn = () => auth.signInWithPopup(googleProvider)
+.then(() => new Promise(resolve => setTimeout(() => resolve(), 1500)))
 .then(() => fetchInfo())
 .then((path) => {
   if (path) return path;
