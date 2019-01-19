@@ -25,7 +25,6 @@ export let users;
 
 export const getUser = () => auth.currentUser;
 
-
 export const init = () => firestore.enablePersistence()
 .catch((err) => {
   if (err.code === 'failed-precondition')
@@ -54,13 +53,10 @@ export const signIn = () => auth.signInWithPopup(googleProvider)
 .then(() => {
   const { from } = decodeQuery(window.location.search);
   if (from && from.startsWith('/')) return from;
-  else if (window.location.pathname === '/') return '/account';
+  else if (window.location.pathname === '/') return '/dashboard';
   else return window.location.pathname;
 });
 
 export const signOut = () => auth.signOut();
 
-export const deleteProfile = () => {
-  const userId = getUser().id;
-  return users.doc(userId).delete();
-};
+export const deleteProfile = () => auth.currentUser.delete();
