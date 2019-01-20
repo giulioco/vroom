@@ -2,6 +2,9 @@ import React from 'react';
 import { Route, Link } from 'react-router-dom';
 import SearchAddress from './SearchAddress';
 import GeocodeMap from './GeocodeMap';
+import firebase from "firebase";
+import FileUploader from "react-firebase-file-uploader";
+import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
 
 export default class CreateListing extends React.Component {
 
@@ -20,7 +23,7 @@ export default class CreateListing extends React.Component {
       house_rules: "",
       size: "",
       cancellation_policy: 0,
-      location: [0,0],
+      listing_img: ""
     };
   }
 
@@ -29,6 +32,21 @@ export default class CreateListing extends React.Component {
     const target = event.target;
     this.setState({ [name]: target.value });
   }
+
+ handleUploadStart = () => this.setState({ isUploading: true, progress: 0 });
+  handleProgress = progress => this.setState({ progress });
+  handleUploadError = error => {
+    this.setState({ isUploading: false });
+    console.error(error);
+  };
+
+  handleUploadSuccess = filename => {
+    this.setState({ listing_img: filename, progress: 100, isUploading: false });
+    firebase.storage().ref("listing_images")
+      .child(filename)
+      .getDownloadURL()
+      .then(url => this.setState({ listing_imgURL: url }));
+  };
 
   handleCheckboxChange = (name) => (event) => {
   	console.log(name + " = " + event.target.checked)
@@ -52,10 +70,26 @@ export default class CreateListing extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-
+    const { listing_name, license_verification, description, amenities,  cancellation_policy, listing_img } = this.state; 
+    const location = this.coords;
+    const address = this.address;
+    const data = {
+    	listing_name: listing_name,
+    	license_verification: license_verification,
+    	address: address,
+    	location: location,
+    	description: description,
+    	amenities: amenities,
+    	cancellation_policy: cancellation_policy,
+    	listing_img: listing_img
+    };
+    console.log(data);
+    db.createListing(data)
+    .then(() => this.props.history.push('/dashboard'));
   }
 
   handleAddressChange = ({ address, coords }) => {
+  	console.log("handle address called!!")
     this.address = address;
     this.coords = coords;
   }
@@ -74,7 +108,26 @@ export default class CreateListing extends React.Component {
 
         <div className="field">
           <label className="label">Address</label>
-              <SearchAddress/>
+              <SearchAddress onResult={this.handleAddressChange} />
+        </div>
+
+        <div className="field">
+          {this.state.isUploading && <p> <progress className="progress is-success" value={this.state.progress} max="100">{this.state.progress}%</progress></p>}
+          {this.state.listing_imgURL && <figure className="image is-128x128"><img className="is-rounded" src={this.state.listing_imgURL}/></figure>}
+
+           <CustomUploadButton
+              accept="image/*"
+              name="listing_imgURL"
+              randomizeFilename
+              storageRef={firebase.storage().ref('listing_images')}
+              onUploadStart={this.handleUploadStart}
+              onUploadError={this.handleUploadError}
+              onUploadSuccess={this.handleUploadSuccess}
+              onProgress={this.handleProgress}
+              className="button is-link"
+              >
+              Select Image
+            </CustomUploadButton>
         </div>
 
         <div className="field">

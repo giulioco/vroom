@@ -96,6 +96,8 @@ export const deleteProfile = () => auth.signInWithPopup(googleProvider)
 .then(() => alert('Account successfully deleted'));
 
 export const setupAccount = (data) => users.doc(getUser().uid).set(data);
+export const createListing = (data) => db.listings.add(data);
+
 
 // sortBy can be 'distance' or 'rate'
 // export const getListings = (radius, sortBy = 'rate', fn) => {
