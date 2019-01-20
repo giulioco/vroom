@@ -125,172 +125,221 @@ export default class CreateListing extends React.Component {
 			        <Step>
 			        	{({ nextStep }) => 
 			        		<>
-			        			<div className="card">
-				        			<div className="card-header">
-					        			Where?
-					        		</div>
-					        		<div className="field">
-							          <label className="label">Address</label>
+			        			<div className="hero is-medium is-light is-bold">
+				        			<div className="hero-body">
+												<div class="container">
+													<h1 class="title">
+													Where?
+													</h1>
+					        			</div>
+												<div className="is-divider"></div>
+					        			<div className="field">
+							          	<label className="label">Address</label>
 							              <SearchAddress required onResult={this.handleAddressChange} />
-							        </div>
-								</div>
-								<button type="button" className="button is-link" onClick={nextStep}>Next</button>
+							        	</div>
+												<button type="button" className="button is-link" onClick={nextStep}>Next</button>
+											</div>
+										</div>
+								
 							</>
 						}
 		  			</Step>
 		  			<Step>
 			        	{({ nextStep, previousStep }) => 
 			        		<>	
-			        			<div className="card">
-				        			<div className="card-header">
-					        			What?
-					        		</div>
-					        		<div className="field">
-							          <label className="label">Listing name</label>
-							            <div className="control">
-							              <input required type="text" placeholder="Text that will show up in searches" className="input" value={this.state.listing_name} onChange={this.handleChange("listing_name")} />
-							            </div>
-							        </div>
-							        <div className="is-divider"></div>
-							        <div className="field">
-							          {this.state.isUploading && <p> <progress className="progress is-success" value={this.state.progress} max="100">{this.state.progress}%</progress></p>}
-							          {this.state.listing_imgURL && <figure className="image is-128x128"><img className="is-rounded" src={this.state.listing_imgURL}/></figure>}
-							          <p className="content">Upload a picture of your listing.</p>
-							           <CustomUploadButton
-							              accept="image/*"
-							              name="listing_imgURL"
-							              randomizeFilename
-							              storageRef={firebase.storage().ref('listing_images')}
-							              onUploadStart={this.handleUploadStart}
-							              onUploadError={this.handleUploadError}
-							              onUploadSuccess={this.handleUploadSuccess}
-							              onProgress={this.handleProgress}
-							              className="button is-link"
-							              >
-							              Select Image
-							            </CustomUploadButton>
-							        </div>
-							        <div className="is-divider"></div>
-							        <div className="field">
-							        <label className="label"> Description</label>
-							          <div className="control">
-							            <textarea required placeholder="What best describes your parking space?" value={this.state.description} className="textarea" onChange={this.handleChange("description")} />
-							          </div>
-							        </div>
+										<div className="hero is-medium is-light is-bold">
+											<div className="hero-body">
+												<div class="container">
+													<h1 class="title">
+													What?
+													</h1>
+													</div>
+													<div className="is-divider"></div>
+
+													<div class="columns">
+														<div class="column">
+
+															<div className="field">
+																<label className="label">Listing name</label>
+																	<div className="control">
+																		<input required type="text" placeholder="Text that will show up in searches" className="input" value={this.state.listing_name} onChange={this.handleChange("listing_name")} />
+																	</div>
+															</div>
+
+														</div>
+														<div class="column">
+															
+														<div className="field">
+															{this.state.isUploading && <p> <progress className="progress is-success" value={this.state.progress} max="100">{this.state.progress}%</progress></p>}
+															{this.state.listing_imgURL && <figure className="image is-128x128"><img className="is-rounded" src={this.state.listing_imgURL}/></figure>}
+															<p className="content">Upload a picture of your listing.</p>
+															<CustomUploadButton
+																	accept="image/*"
+																	name="listing_imgURL"
+																	randomizeFilename
+																	storageRef={firebase.storage().ref('listing_images')}
+																	onUploadStart={this.handleUploadStart}
+																	onUploadError={this.handleUploadError}
+																	onUploadSuccess={this.handleUploadSuccess}
+																	onProgress={this.handleProgress}
+																	className="button is-link"
+																	>
+																	Select Image
+																</CustomUploadButton>
+														</div>
+
+														</div>
+														<div class="column">
+															
+														<div className="field">
+															<label className="label"> Description</label>
+																<div className="control">
+																	<textarea required placeholder="What best describes your parking space?" value={this.state.description} className="textarea" onChange={this.handleChange("description")} />
+																</div>
+															</div>
+														</div>
+														
+													</div>
+													<button type="button" className="button is-link" onClick={previousStep}>Previous</button>
+							    				<button type="button" className="button is-link" onClick={nextStep}>Next</button>
+
+											{/* vvv end of container */}
+											</div>
 							   	</div>
-							   	<button type="button" className="button is-link" onClick={previousStep}>Previous</button>
-							    <button type="button" className="button is-link" onClick={nextStep}>Next</button>
+
 						   </>
 						}
 		  			</Step>
 		  			<Step>
 			        	{({ nextStep, previousStep }) =>
 			        		<>
-			        			<div className="card">
-				        			<div className="card-header">
-					        			When?
-					        		</div>
-					        		<label className="label">
-										Availability:
-										<DayPicker
-								          selectedDays={this.state.dates_unavailable}
-								          onDayClick={this.handleDayClick}
-								        />
-							        </label>
-								</div>
-								<button type="button" className="button is-link" onClick={previousStep}>Previous</button>	
-								<button type="button" className="button is-link" onClick={nextStep}>Next</button>
-			        		</>
-						}
-		  			</Step>
-		  			<Step>
-			        	{({ nextStep, previousStep }) =>
-			        		<>
-			        			<div className="card">
-				        			<div className="card-header">
-					        			How?
-					        		</div>
-					        		<div className = "level"/>
-					        		<div className="columns has-text-left">
-					        			<div className="column is-centered is-3 is-offset-one-quarter">
-					        				<div className="field">
-										        <label className="label">
-										        	Amenities
-										        </label>
-									         	<div className="field">
-									            <input  type="checkbox" 
-									            		className="is-checkradio"
-									                    name="bathroom"
-									                    id="bathroom"
-									                    checked={this.state.amenities.bathroom} 
-									                    onChange={this.handleCheckboxChange("bathroom")}/> <label htmlFor="bathroom">Bathroom </label> 
-									            </div>
-									            <div className="field">
-									            <input  type="checkbox" 
-									            		className="is-checkradio"
-									                    name="water"
-									                    id="water"
-									                    checked={this.state.amenities.water} 
-									                    onChange={this.handleCheckboxChange("water")}/> <label htmlFor="water">Water </label>
-									            </div>
-									            <div className="field">
-									            <input  type="checkbox" 
-									            		className="is-checkradio"
-									                    name="wifi"
-									                    id="wifi"
-									                    checked={this.state.amenities.wifi} 
-									                    onChange={this.handleCheckboxChange("wifi")}/> <label htmlFor="wifi"> WiFi </label>
-									            </div>
-									            <div className="field">
-									            <input  type="checkbox" 
-									            		className="is-checkradio"
-									                    name="electricity"
-									                    id="electricity"
-									                    checked={this.state.amenities.electricity} 
-									                    onChange={this.handleCheckboxChange("electricity")}/> <label htmlFor="electricity"> Electricity </label>
-									             </div>
-										    </div>
+										<div className="hero is-medium is-light is-bold">
+				        			<div className="hero-body">
+												<div class="container">
+													<h1 class="title">
+					        					When?
+													</h1>
 					        			</div>
-					        			<div className="column">
-					        				<div className = "level"/>
-					        				<div className="level">
-							        			<label className="label">
-										          Size: 
-										          <div className="select">
-										          <select value={this.state.size} onChange={this.handleChange("size")}>
-										            <option value="small">Small</option>
-										            <option value="medium">Medium</option>
-										            <option value="Large">Large</option>
-										          </select>
-										          </div>
-										        </label>
-										    </div>
-										    <div className="level">
-											    <div className="field">
-										          <label className="label">
-										            Rate $ 
-										            <input required placeholder="0.00" type="number" min="0" value={this.state.rate} onChange={this.handleChange("rate")} step="0.01"/>
-										            <i> per night</i>
-										          </label>  
-										        </div>
-										    </div>
-					        			</div>
-					        		</div>
-							        
+												<div className="is-divider"></div>
+													<div className="field">
+													<label className="label">
+														Availability:
+														<DayPicker
+																	selectedDays={this.state.dates_unavailable}
+																	onDayClick={this.handleDayClick}
+																/>
+													</label>
+													</div>
+													<button type="button" className="button is-link" onClick={previousStep}>Previous</button>	
+													<button type="button" className="button is-link" onClick={nextStep}>Next</button>
+												{/* vvv end of container */}
+												</div>
+				        		
 								</div>
-				        		<button type="button" className="button is-link" onClick={previousStep}>Previous</button>	
-								<button type="button" className="button is-link" onClick={nextStep}>Next</button>
+
 			        		</>
 						}
 		  			</Step>
 		  			<Step>
 			        	{({ nextStep, previousStep, isActive }) =>
 			        		<>
-			        			<div className="card">
-				        			<div className="card-header">
-					        			Policy
-					        		</div>
-					        		<div className="field">
+
+
+									{/* <div className="hero is-medium is-light is-bold">
+				        			<div className="hero-body">
+												<div class="container">
+													<h1 class="title">
+													Where?
+													</h1>
+					        			</div>
+												<div className="is-divider"></div>
+					        			<div className="field">
+							          	<label className="label">Address</label>
+							              <SearchAddress required onResult={this.handleAddressChange} />
+							        	</div>
+												<button type="button" className="button is-link" onClick={nextStep}>Next</button>
+											</div>
+										</div> */}
+
+
+<div className="hero is-medium is-light is-bold">
+				        			<div className="hero-body">
+												<div class="container">
+													<h1 class="title">
+					        				How?
+													</h1>
+													<div className="is-divider"></div>
+												{/* vvv end of container */}
+					        			</div>
+												<div className = "level"/>
+													<div className="columns has-text-left">
+														<div className="column is-centered is-3 is-offset-one-quarter">
+															<div className="field">
+																<label className="label">
+																	Amenities
+																</label>
+																<div className="field">
+																	<input  type="checkbox" 
+																			className="is-checkradio"
+																					name="bathroom"
+																					id="bathroom"
+																					checked={this.state.amenities.bathroom} 
+																					onChange={this.handleCheckboxChange("bathroom")}/> <label htmlFor="bathroom">Bathroom </label> 
+																	</div>
+																	<div className="field">
+																	<input  type="checkbox" 
+																			className="is-checkradio"
+																					name="water"
+																					id="water"
+																					checked={this.state.amenities.water} 
+																					onChange={this.handleCheckboxChange("water")}/> <label htmlFor="water">Water </label>
+																	</div>
+																	<div className="field">
+																	<input  type="checkbox" 
+																			className="is-checkradio"
+																					name="wifi"
+																					id="wifi"
+																					checked={this.state.amenities.wifi} 
+																					onChange={this.handleCheckboxChange("wifi")}/> <label htmlFor="wifi"> WiFi </label>
+																	</div>
+																	<div className="field">
+																	<input  type="checkbox" 
+																			className="is-checkradio"
+																					name="electricity"
+																					id="electricity"
+																					checked={this.state.amenities.electricity} 
+																					onChange={this.handleCheckboxChange("electricity")}/> <label htmlFor="electricity"> Electricity </label>
+																	</div>
+														</div>
+														</div>
+														<div className="column">
+															<div className = "level"/>
+															<div className="level">
+																<label className="label">
+																	Size: 
+																	<div className="select">
+																	<select value={this.state.size} onChange={this.handleChange("size")}>
+																		<option value="small">Small</option>
+																		<option value="medium">Medium</option>
+																		<option value="Large">Large</option>
+																	</select>
+																	</div>
+																</label>
+														</div>
+														<div className="level">
+															<div className="field">
+																	<label className="label">
+																		Rate $ 
+																		<input required placeholder="0.00" type="number" min="0" value={this.state.rate} onChange={this.handleChange("rate")} step="0.01"/>
+																		<i> per night</i>
+																	</label>  
+																</div>
+														</div>
+														</div>
+													</div>
+
+													{/*  */}
+													<div className="field">
 							          <label className="label">
 							            Cancellation Policy 
 							            <div className="control">
@@ -332,10 +381,15 @@ export default class CreateListing extends React.Component {
 
 							          </label>
 							        </div>
-								</div>
-								<button type="button" className="button is-link" 
+											{/*  */}
+
+											<button type="button" className="button is-link" 
 								onClick={previousStep}>Previous</button>
 								{isActive ? (<button type="submit" className="button">Submit</button>) : (<button type="submit" disabled className="button">Submit</button>)}
+											</div>
+			        
+								</div>
+				        		
 			        		</>
 						}
 		  			</Step>
