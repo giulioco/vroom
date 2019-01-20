@@ -243,7 +243,7 @@ export default class CreateListing extends React.Component {
 						}
 		  			</Step>
 		  			<Step>
-			        	{({ nextStep, previousStep }) =>
+			        	{({ nextStep, previousStep, isActive }) =>
 			        		<>
 			        			<div className="card">
 				        			<div className="card-header">
@@ -293,7 +293,7 @@ export default class CreateListing extends React.Component {
 							        </div>
 								</div>
 								<button className="button is-link" onClick={previousStep}>Previous</button>
-				        		<button type="submit" className="button">Submit</button>	
+				        		{isActive ? (<button type="submit" className="button">Submit</button>) : (<button type="submit" disabled className="button">Submit</button>)}	
 			        		</>
 						}
 		  			</Step>
@@ -309,9 +309,10 @@ export class Step extends React.Component {
   render() {
   	const nextStep = this.props.nextStep;
   	const previousStep = this.props.previousStep;
+  	const isActive = this.props.isActive;
     return (
       <div>
-        {this.props.children({ nextStep, previousStep })}
+        {this.props.children({ nextStep, previousStep, isActive })}
       </div>
     );
   }
