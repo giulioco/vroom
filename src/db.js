@@ -28,13 +28,13 @@ export const listingImages = storage.ref('listing_images');
 
 export const Helpers = firebase.firestore;
 
-//hacky global start end dates for bookings
+// hacky global start end dates for bookings
 // export var bookingStart;
 // export var bookingEnd;
 export let bookingDates = {
-  start: "",
-  end: ""
-}
+  start: new Date(),
+  end: new Date(),
+};
 
 // Global collections
 /** @type firebase.firestore.CollectionReference */
