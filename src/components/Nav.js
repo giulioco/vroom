@@ -3,7 +3,6 @@ import { Link, NavLink, withRouter } from 'react-router-dom';
 
 import * as db from '../db';
 import brandingImg from '../images/vroom-car-text.svg';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // To support a fixed header, add this class to document head
 // document.documentElement.classList.add('has-navbar-fixed-top');
@@ -50,10 +49,10 @@ class Nav extends React.PureComponent {
       NavBarEnd = (
         <>
           <NavLink className="navbar-item" exact to="/dashboard">
-          <FontAwesomeIcon icon="tachometer-alt" />  Dashboard
+          Dashboard
           </NavLink>
           <NavLink className="navbar-item" exact to="/listings">
-            Listings
+          Listings
           </NavLink>
           <NavLink className="navbar-item" exact to="/listings/new">
             Create Listing

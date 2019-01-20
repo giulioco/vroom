@@ -21,11 +21,6 @@ import ViewListing from './ViewListing';
 import ErrorBoundary from './ErrorBoundary';
 import Nav from './Nav';
 import * as db from '../db';
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faIgloo } from '@fortawesome/free-solid-svg-icons'
-
-library.add(faIgloo)
 
 
 // Set default NavLink activeClassName
