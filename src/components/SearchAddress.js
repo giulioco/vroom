@@ -17,6 +17,10 @@ export default class SearchAddress extends Component {
     // These maps throw errors. Catch them then throw them away!
   }
 
+  shouldComponentUpdate() {
+    return false;
+  }
+
   onResultAddress = (event) => {
     console.log("djkde")
     this.props.onResult({

@@ -77,7 +77,7 @@ export default class CreateListing extends React.Component {
     	listing_name: listing_name,
     	license_verification: license_verification,
     	address: address,
-    	location: location,
+    	position: db.geo.point(location[1], location[0]).data,
     	description: description,
     	amenities: amenities,
     	cancellation_policy: cancellation_policy,
