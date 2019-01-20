@@ -14,25 +14,11 @@ export default () => (
       </h1>
       <h4 align="center">A platform for people sleeping in their vehicles to find overnight parking. 🚍</h4>
       <p align="center">
-        <a href="https://forthebadge.com">
-          <img src="https://forthebadge.com/images/badges/made-with-javascript.svg" />
-        </a>
-        <a href="https://forthebadge.com">
-          <img src="https://forthebadge.com/images/badges/built-with-love.svg" />
-        </a>
-      </p>
-      <p><br /></p>
-      <p align="center">
-        <a href="https://saythanks.io/to/gcollelu">
-          <img src="https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg" />
-        </a>
-      </p>
-      <p align="center">
-        <a href="#the-issue">The Issue</a> •
-        <a href="#the-audience">The Audience</a> •
-        <a href="#our-solution">Our Solution</a> •
-        <a href="#api-used">API Used</a> 
-        <a href="#credits">Credits</a> •
+        <a href="#the-issue">The Issue</a> •&nbsp;
+        <a href="#the-audience">The Audience</a> •&nbsp;
+        <a href="#our-solution">Our Solution</a> •&nbsp;
+        <a href="#api-used">API Used</a> •&nbsp;
+        <a href="#credits">Credits</a> •&nbsp;
         <a href="#license">License</a>
       </p>
       <h2 id="theissue">The Issue</h2>
@@ -59,6 +45,8 @@ export default () => (
       <h2 id="credits">Credits</h2>
       <p>This software uses the following open source packages:</p>
       <h2 id="license">License</h2>
+      <p>MIT</p>
+      <br/>
     </div>
   </div>
 );

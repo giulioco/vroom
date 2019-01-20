@@ -3,6 +3,7 @@ import React from 'react';
 import * as db from '../db';
 import signinButton from '../images/signin.png';
 
+
 export default class Home extends React.PureComponent {
 
   signIn = () => {

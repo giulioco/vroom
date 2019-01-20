@@ -19,6 +19,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 db.init()
-  .then(() => {
-    ReactDOM.render(<App />, document.getElementById('root'));
+  .then((path) => {
+    ReactDOM.render(<App path={path} />, document.getElementById('root'));
   });
