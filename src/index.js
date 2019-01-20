@@ -8,6 +8,7 @@ import * as db from './db';
 import './createData';
 
 
+
 if (process.env.NODE_ENV === 'production') {
   Offline.install({
     onUpdateReady: () => Offline.applyUpdate(),
