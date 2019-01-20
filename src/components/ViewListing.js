@@ -11,10 +11,23 @@ export default class ViewListing extends React.Component {
 
   componentDidMount() {
     this.id = this.props.match.params.id;
-    
+
     db.listings.doc(this.id).get().then((doc) => {
       if (doc.exists) {
         const data = doc.data();
+
+        //amenities is stored as a map,
+        // find the amenities the listing has,
+        // make it into a string that can be displayed
+        var amenitiesArray = []
+        const keys = Object.keys(data.amenities)
+        for (const key of keys) {
+          if (data.amenities[key]) {
+            amenitiesArray.push(key)
+          }
+        }
+        data.amenities = amenitiesArray.join(" ")
+
         console.log(data);
         this.setState({ data });
 
