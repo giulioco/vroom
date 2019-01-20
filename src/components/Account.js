@@ -24,7 +24,7 @@ export default class Account extends React.Component {
   }
 
   deleteProfile = () => {
-    if (!confirm('Are your sure? This will delete you data forever')) return;
+    if (!confirm('Are you sure? This will delete your data forever.')) return;
 
     db.deleteProfile()
     .then(() => this.props.history.push('/'))

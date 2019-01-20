@@ -47,6 +47,9 @@ class Nav extends React.PureComponent {
     } else if (userData && userData.setup) {
       NavBarEnd = (
         <>
+          <NavLink className="navbar-item" exact to="/dashboard">
+            Dashboard
+          </NavLink>
           <NavLink className="navbar-item" exact to="/listings">
             Listings
           </NavLink>
@@ -82,7 +85,7 @@ class Nav extends React.PureComponent {
         <div className="container">
           <div className="navbar-brand">
             <Link className="navbar-item " to="/">
-              <img src="/src/images/vroom-car-text.svg" className="d-inline-block align-top" alt=""></img>
+              <img src="/src/images/vroom-car-text.svg" className="d-inline-block align-top" alt=""/>
             </Link>
             <div className={`navbar-burger burger ${open ? 'is-active' : ''}`}
               onClick={this.toggle} role="button" tabIndex="0">

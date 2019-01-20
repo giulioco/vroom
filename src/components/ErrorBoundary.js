@@ -59,8 +59,8 @@ class ErrorBoundary extends React.Component {
       <section className="hero is-fullheight-flex">
         <div className="hero-body">
           <div className="container has-text-centered">
-            <h1 className="big-error-code">{code}</h1>
-            <h3 className="is-size-2">{message}</h3>
+            <h1 className="is-size-1">{code}</h1>
+            <h3 className="is-size-4">{message}</h3>
             <br/>
             <br/>
             <button className="button is-medium is-primary"

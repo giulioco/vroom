@@ -44,10 +44,10 @@ const App = () => (
       <ErrorBoundary>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/about" component={About} />
           <PrivateRoute exact path="/setup" component={Setup} />
           <PrivateRoute exact path="/account" component={Account} />
+          <PrivateRoute exact path="/dashboard" component={Dashboard} />
           <PrivateRoute exact path="/listings/new" component={CreateListing} />
           <PrivateRoute exact path="/listings/:id" component={ViewListing} />
           <PrivateRoute path="/listings" component={Listings} />
