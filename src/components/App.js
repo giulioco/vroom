@@ -14,13 +14,18 @@ import Home from './Home';
 import About from './About';
 import Dashboard from './Dashboard';
 import Account from './Account';
-import Setup from './Setup';
+import Setup from './Setup' ;
 import Listings from './Listings';
 import CreateListing from './CreateListing';
 import ViewListing from './ViewListing';
 import ErrorBoundary from './ErrorBoundary';
 import Nav from './Nav';
 import * as db from '../db';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faIgloo } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faIgloo)
 
 
 // Set default NavLink activeClassName

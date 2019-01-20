@@ -123,7 +123,7 @@ export default class CreateListing extends React.Component {
 			        <Step>
 			        	{({ nextStep }) => 
 			        		<>
-			        			<div className="hero is-medium is-light is-bold">
+			        			<div className="hero is-medium is-light is-bold is-fullwidth">
 				        			<div className="hero-body">
 												<div className="">
 													<h1 className="title">
@@ -169,7 +169,7 @@ export default class CreateListing extends React.Component {
 															
 														<div className="field">
 															{this.state.isUploading && <p> <progress className="progress is-success" value={this.state.progress} max="100">{this.state.progress}%</progress></p>}
-															{this.state.listing_imgURL && <figure className="image is-128x128"><img className="is-rounded" src={this.state.listing_imgURL}/></figure>}
+															{this.state.listing_imgURL && <figure className="image"><img className="" src={this.state.listing_imgURL}/></figure>}
 															<p className="content">Upload a picture of your listing.</p>
 															<CustomUploadButton
 																	accept="image/*"
@@ -333,11 +333,13 @@ export default class CreateListing extends React.Component {
 														</div>
 														<div className="level">
 															<div className="field">
+																<div className="control">
 																	<label className="label">
 																		Rate $ 
-																		<input required className="input" placeholder="0.00" type="number" min="0" value={this.state.rate} onChange={this.handleChange("rate")} step="0.01"/>
+																		<input required className="input" placeholder="0.00" type="number" min="0" value={this.state.rate} onChange={this.handleChange("rate")} step="0.5"/>
 																		<i> per night</i>
 																	</label>  
+																	</div>
 																</div>
 														</div>
 														</div>
