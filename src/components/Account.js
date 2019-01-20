@@ -37,7 +37,6 @@ export default class Account extends React.Component {
     const user = db.getUser();
     
     return (
-<<<<<<< HEAD
       	<div className = "container is-centered has-text-centered">
 	      	{/* <div className= "column is-two-fifths"> */}
 		      	{/* <div className = "card"> */}
@@ -52,24 +51,6 @@ export default class Account extends React.Component {
 		        <button onClick={this.deleteProfile} className="button is-danger">Delete your Account</button>
 		    {/* </div> */}
 		</div>
-=======
-      <div className="columns is-centered has-text-centered">
-        <div className="column is-two-fifths">
-          <div className="card">
-            <h1 className="is-size-1">Account</h1>
-            { avatarURL && (
-              <figure className="image is-128x128">
-                <img className="is-rounded" src={avatarURL}/>
-              </figure>
-            )}
-            <label className="label">Display Name</label>
-            <p>{user.displayName}</p>
-            <br/>
-          </div>
-          <button onClick={this.deleteProfile} className="button is-danger">Delete your Account</button>
-        </div>
-      </div>
->>>>>>> a1edfe264015c245262923e5b57ab9b50a0f8549
     );
   }
 }

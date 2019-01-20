@@ -57,17 +57,6 @@ export default class CreateListing extends React.Component {
     });
   }
 
-  // handleSliderChange = (name) => (event) => {
-  //   const value = event.target.value;
-  //   const checkedValue = event.target.checked;
-  //   //this.setState({ [name]: this.state.policies[value] })
-
-  //   this.setState(({ cancellation_policy }) => {
-  //     cancellation_policy[value] = value;
-  //     return { amenities: { ...amenities } };
-  //   });
-  // }
-
   handleSubmit = (event) => {
     event.preventDefault();
     const { listing_name, license_verification, description, amenities,  cancellation_policy, listing_img } = this.state; 
@@ -97,7 +86,7 @@ export default class CreateListing extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit} className="container">
-
+        <h1 className="is-size-1">Make a new listing</h1>
         <div className="field">
           <label className="label">Listing name</label>
             <div className="control">
