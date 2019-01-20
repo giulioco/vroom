@@ -107,7 +107,13 @@ export const setupAccount = (data) => users.doc(getUser().uid).set(data);
 
 export const createListing = (data) => listings.add(data);
 
-export const getListings = (lat, long, radius, cb) => {
+export const getListings = (lat, long, radius, dates, cb) => {
   const center = geo.point(lat, long);
-  return geoListings.within(center, radius, 'position').subscribe(cb).unsubscribe;
+
+  return geoListings.within(center, radius, 'position').subscribe((res) => {
+    console.log(res);
+    // if (!dates || !res.unavailable) return cb(res);
+    cb(res);
+    // cb(listings.filter((listing) => listing.unavailable[]));
+  }).unsubscribe;
 };
