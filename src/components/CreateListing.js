@@ -118,9 +118,7 @@ export default class CreateListing extends React.Component {
   render() {
     return (
     <div className = "container is-centered has-text-centered">
-	    	<h1 className="is-size-1">Make a new listing</h1>
 		      <form onSubmit={this.handleSubmit}>
-		        <div className="is-divider"></div>
 		        <StepWizard>
 			        <Step>
 			        	{({ nextStep }) => 
