@@ -328,7 +328,7 @@ export default class CreateListing extends React.Component {
 															<div className="field">
 																	<label className="label">
 																		Rate $ 
-																		<input required placeholder="0.00" type="number" min="0" value={this.state.rate} onChange={this.handleChange("rate")} step="0.01"/>
+																		<input required className="input" placeholder="0.00" type="number" min="0" value={this.state.rate} onChange={this.handleChange("rate")} step="0.01"/>
 																		<i> per night</i>
 																	</label>  
 																</div>
@@ -341,8 +341,8 @@ export default class CreateListing extends React.Component {
 							          <label className="label">
 							            Cancellation Policy 
 							            <div className="control">
-							              <input className="slider is-fullwidth is-warning" step="1" min="0" max="2" value={this.state.cancellation_policy} type="range"
-							                      onChange={this.handlePolicyChange("cancellation_policy")}></input>
+							              <input className={`slider is-fullwidth  ${this.state.cancellation_policy === '0' ? 'is-success' : (this.state.cancellation_policy === '1' ? 'is-warning' : 'is-danger')}`} step="1" min="0" max="2" value={this.state.cancellation_policy} type="range"
+							                      onChange={this.handleChange("cancellation_policy")}></input>
 							            </div>
 
 							            <div className="columns is-mobile">
