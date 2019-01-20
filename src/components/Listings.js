@@ -1,7 +1,6 @@
 import React from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import ViewListing from './ViewListing';
 import * as db from '../db';
 import GeocodeMap from './GeocodeMap';
 
@@ -10,10 +9,16 @@ export default class Listings extends React.Component {
 
   state = {
     listings: null,
+    radius: 5,
+    coords: null,
   }
 
   componentDidMount() {
-    this.fetchListings();
+    if (navigator && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(({ coords }) => {
+        this.setState({ coords: [coords.latitude, coords.longitude] }, this.fetchListings);
+      }, console.error);
+    }
   }
 
   componentWillUnmount() {
@@ -21,42 +26,54 @@ export default class Listings extends React.Component {
   }
 
   fetchListings = () => {
+    const { coords, radius } = this.state;
+
+    if (!coords) return;
 
     if (this.unsubscribe) this.unsubscribe();
 
-    this.unsubscribe = db.listings.onSnapshot((snap) => {
-      const listings = snap.docs.map((doc) => {
-        const data = doc.data();
-        data.id = doc.id;
-        return data;
-      });
-      console.log(listings);
+    this.unsubscribe = db.getListings(coords[0], coords[1], radius, (listings) => {
       this.setState({ listings });
-    }, console.error);
+    });
   }
 
-  searchForm = (e) => {
-    e.preventDefault();
+  onResult = ({ coords, address }) => {
+    this.setState({ coords }, this.fetchListings);
+    this.address = address;
+  }
 
-    console.log(e.location.value);
+  changeRadius = (e) => {
+
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+      this.timeout = null;
+    }
+    this.timeout = setTimeout(this.fetchListings, 1000);
+
+    this.setState({ radius: Number.parseInt(e.target.value, 10) });
   }
 
   render() {
-    const { listings } = this.state;
+    const { listings, radius, coords } = this.state;
 
     return (
       <div>
-        <div className="columns">
-          <div className="column is-6">
-            <GeocodeMap onResult={this.onResult} matches={[]} circleCenter={null} circleRadius={null}/>
+        <div style={{ position: 'relative' }}>
+          <GeocodeMap onResult={this.onResult} listings={listings || []} radius={radius} center={coords}/>
+          <div style={{ position: 'absolute', top: 300, left: 0, padding: 8 }}>
+            <input className="slider is-fullwidth" step="1" min="2" max="300"
+              value={radius} type="range" orient="vertical" onChange={this.changeRadius}/>
+            <div className="has-text-centered"><strong>Radius</strong><br/>{radius} km</div>
           </div>
-          <div className="column is-6">
+          <div className="listings">
             {listings && listings.map((listing) => (
-              <div key={listing.id} className="box">{listing.address}</div>
+              <Link key={listing.id} className="box" to={`/listing/${listing.id}`}>
+                <strong>{listing.address}</strong><br/>
+                <p className="is-size-7">{listing.description}</p>
+              </Link>
             ))}
           </div>
         </div>
-        <Route exact path="/listings/:id" component={ViewListing}/>
       </div>
     );
   }

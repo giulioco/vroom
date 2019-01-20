@@ -11,14 +11,18 @@ export default class SearchAddress extends Component {
   containerRef = React.createRef();
 
   handleGeocoderViewportChange = () => {
-    throw '';
   };
 
   componentDidCatch(error) {
-    console.error(error);
+    // These maps throw errors. Catch them then throw them away!
   }
 
-  onResult = (event) => {
+  shouldComponentUpdate() {
+    return false;
+  }
+
+  onResultAddress = (event) => {
+    console.log("djkde")
     this.props.onResult({
       coords: event.result.center,
       address: event.result.place_name,
@@ -37,7 +41,7 @@ export default class SearchAddress extends Component {
           <Geocoder
             mapRef={this.mapRef}
             containerRef={this.containerRef}
-            onResult={this.onResult}
+            onResult={this.onResultAddress}
             onViewportChange={this.handleGeocoderViewportChange}
             mapboxApiAccessToken={MAPBOX_TOKEN}
             position="top-left"

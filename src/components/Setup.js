@@ -1,9 +1,8 @@
 import React from 'react';
+import "react-firebase-file-uploader";
+import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
 
 import * as db from '../db';
-import firebase from "firebase";
-import FileUploader from "react-firebase-file-uploader";
-import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
 
 
 export default class Setup extends React.Component {
@@ -14,8 +13,8 @@ export default class Setup extends React.Component {
     this.state = {
       name: db.getUser().displayName,
       license_verification: false,
-      location: [0,0],
-      avatar: ""
+      location: [0, 0],
+      avatar: "",
     };
   }
 
@@ -36,10 +35,11 @@ export default class Setup extends React.Component {
 
   handleUploadSuccess = filename => {
     this.setState({ avatar: filename, progress: 100, isUploading: false });
-    firebase.storage().ref("user_images")
-      .child(filename)
-      .getDownloadURL()
-      .then(url => this.setState({ avatarURL: url }));
+    
+    db.images
+    .child(filename)
+    .getDownloadURL()
+    .then(url => this.setState({ avatarURL: url }));
   };
 
   handleSubmit = (event) => {
@@ -65,7 +65,6 @@ export default class Setup extends React.Component {
   }
 
   showPosition = (position) => {
-    console.log(position);
     this.setState({ location: [position.coords.latitude, position.coords.longitude] });
   }
 
@@ -90,7 +89,7 @@ export default class Setup extends React.Component {
               accept="image/*"
               name="avatar"
               randomizeFilename
-              storageRef={firebase.storage().ref('user_images')}
+              storageRef={db.images}
               onUploadStart={this.handleUploadStart}
               onUploadError={this.handleUploadError}
               onUploadSuccess={this.handleUploadSuccess}
@@ -111,4 +110,3 @@ export default class Setup extends React.Component {
     );
   }
 }
-

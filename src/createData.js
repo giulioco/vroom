@@ -1,37 +1,34 @@
 // creates n number of fake listings; only the location is slightly changed
 
 import * as db from './db';
-import firebase from 'firebase/app';
 
-export const createData = () => {
+window.createData = () => {
 
-  var n = 2
+  const n = 5;
 
-  var latMax = 37
-  var latMin = 35
-  var longMax = -122
-  var longMin = -123
+  const latMax = 37;
+  const latMin = 35;
+  const longMax = -122;
+  const longMin = -123;
 
-  for (var i = 0; i < n; i++) {
+  for (let i = 100; i < 100 + n; i++) {
 
-    var randLat = Math.random() * (latMax - latMin) + latMin
-    var randLong = Math.random() * (longMax - longMin) + longMin
+    const randLat = Math.random() * (latMax - latMin) + latMin;
+    const randLong = Math.random() * (longMax - longMin) + longMin;
 
-    var docData = {
+    const docData = {
       address: i + " street",
       amenities: ["bathroom", "water"],
       description: "this too is a very nice place. pls come here",
       listerID: "TestID" + i,
-      location: new firebase.firestore.GeoPoint(randLat, randLong),
+      position: db.geo.point(randLat, randLong).data,
       policy: "placeholder",
       rate: 3,
       schedule: "placeholder",
-      size: "small"
+      size: "small",
     };
 
     db.listings.add(docData);
-    console.log("added")
-
 
   }
 };
