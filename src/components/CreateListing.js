@@ -169,7 +169,7 @@ export default class CreateListing extends React.Component {
 															
 														<div className="field">
 															{this.state.isUploading && <p> <progress className="progress is-success" value={this.state.progress} max="100">{this.state.progress}%</progress></p>}
-															{this.state.listing_imgURL && <figure className="image is-128x128"><img className="is-rounded" src={this.state.listing_imgURL}/></figure>}
+															{this.state.listing_imgURL && <figure className="image"><img className="" src={this.state.listing_imgURL}/></figure>}
 															<p className="content">Upload a picture of your listing.</p>
 															<CustomUploadButton
 																	accept="image/*"
