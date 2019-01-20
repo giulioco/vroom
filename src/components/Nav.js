@@ -53,11 +53,6 @@ class Nav extends React.PureComponent {
           <NavLink className="navbar-item" exact to="/listings/new">
             Create Listing
           </NavLink>
-          <div className="navbar-item">
-            <button className="button is-link is-inverted">
-              Mode: Lister
-            </button>
-          </div>
           <div className="navbar-item has-dropdown is-hoverable">
             <NavLink className="navbar-link" to="/account">
               {userData.name}

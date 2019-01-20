@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import MapGL, {NavigationControl} from 'react-map-gl';
+
 const TOKEN = 'pk.eyJ1Ijoia2Fpb2JhcmIiLCJhIjoiY2pyM3pqamwyMThsaTQ2cWxrNjlvMm9tbSJ9.JrUUH2OmqsbmlKedxW-l2g';
 const navStyle = {
   position: 'absolute',
   top: 0,
   left: 0,
-  padding: '10px'
+  padding: '10px',
 };
+
 export default class MiniMap extends Component {
 constructor(props) {
     super(props);

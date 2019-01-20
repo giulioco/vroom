@@ -5,7 +5,7 @@
   <br>
 </h1>
 
-<h4 align="center">A platform for people sleeping in their vehicles to find overnight parking. 🚍</h4>
+<h4 align="center">A platform for people sleeping in their vehicles to find overnight parking. </h4>
 
 <p align="center">
 <a href="https://forthebadge.com">

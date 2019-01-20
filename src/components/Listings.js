@@ -3,6 +3,7 @@ import { Route, Link } from 'react-router-dom';
 
 import ViewListing from './ViewListing';
 import * as db from '../db';
+import GeocodeMap from './GeocodeMap';
 
 
 export default class Listings extends React.Component {
@@ -15,13 +16,23 @@ export default class Listings extends React.Component {
     this.fetchListings();
   }
 
+  componentWillUnmount() {
+    if (this.unsubscribe) this.unsubscribe();
+  }
+
   fetchListings = () => {
 
-    this.listingId = this.props.match.params.id;
+    if (this.unsubscribe) this.unsubscribe();
 
-    this.unsubscribe = db.getListings().then((listings) => {
+    this.unsubscribe = db.listings.onSnapshot((snap) => {
+      const listings = snap.docs.map((doc) => {
+        const data = doc.data();
+        data.id = doc.id;
+        return data;
+      });
+      console.log(listings);
       this.setState({ listings });
-    });
+    }, console.error);
   }
 
   searchForm = (e) => {
@@ -35,10 +46,16 @@ export default class Listings extends React.Component {
 
     return (
       <div>
-        <form onSubmit={this.searchForm}>
-          <input type="text" name="location"/>
-          <button type="submit" className="button">Search</button>
-        </form>
+        <div className="columns">
+          <div className="column is-6">
+            <GeocodeMap onResult={this.onResult} matches={[]} circleCenter={null} circleRadius={null}/>
+          </div>
+          <div className="column is-6">
+            {listings && listings.map((listing) => (
+              <div key={listing.id} className="box">{listing.address}</div>
+            ))}
+          </div>
+        </div>
         <Route exact path="/listings/:id" component={ViewListing}/>
       </div>
     );

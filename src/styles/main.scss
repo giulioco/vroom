@@ -34,3 +34,39 @@
   cursor: pointer;
 }
 
+.mymarker {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 1px solid red;
+  background: rgba(255, 95, 95, 0.425);
+}
+
+$sizes: (0,10,15,20,25,30,50);
+$positions: ('top','left','bottom','right');
+
+@each $size in $sizes {
+  .u-m-#{$size} {
+    margin: $size + px;
+  }
+  .u-p-#{$size} {
+    padding: $size + px;
+  }
+}
+
+.search-address {
+
+//   .mapboxgl-canvas-container, .mapboxgl-ctrl-bottom-left, .mapboxgl-ctrl-bottom-right {
+//     display: none;
+//   }
+  .mapboxgl-ctrl-geocoder.mapboxgl-ctrl, .mapboxgl-ctrl-top-left {
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    box-shadow: none;
+    // display: block;
+    // position: relative;
+  }
+
+}
+
