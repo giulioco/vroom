@@ -4,7 +4,7 @@ import SearchAddress from './SearchAddress';
 import GeocodeMap from './GeocodeMap';
 import firebase from "firebase";
 import FileUploader from "react-firebase-file-uploader";
-import MultiDayPicker from './MultiDayPicker'
+// import MultiDayPicker from './MultiDayPicker'
 import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
 
 export default class CreateListing extends React.Component {
@@ -235,7 +235,7 @@ export default class CreateListing extends React.Component {
         </label>
         <label className="label">
 			Availability:
-			<MultiDayPicker/>
+			{/* <MultiDayPicker/> */}
         </label>
 
         <div className="is-divider"></div>
