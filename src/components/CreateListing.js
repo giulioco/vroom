@@ -7,6 +7,7 @@ import FileUploader from "react-firebase-file-uploader";
 import 'react-dates/initialize';
 import { DateRangePicker, SingleDatePicker, DayPickerRangeController } from 'react-dates';
 import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
+import StepWizard from 'react-step-wizard';
 
 export default class CreateListing extends React.Component {
 
@@ -92,7 +93,26 @@ export default class CreateListing extends React.Component {
         <h1 className="is-size-1">Make a new listing</h1>
 
         <div className="is-divider"></div>
-
+        <StepWizard>
+	        <Step>
+	        	{({ nextStep }) => (
+				    <button onClick={nextStep}>Next</button>
+				  )}
+  			</Step>
+  			<Step>
+	        	{({ nextStep, previousStep }) => <>
+	        		<button onClick={previousStep}>Previous</button>
+				    <button onClick={nextStep}>Next</button>
+				   </>
+				}
+  			</Step>
+  			<Step>
+	        	{({ previousStep }) => (
+			      <button onClick={previousStep}>Previous</button>
+			    )
+				}
+  			</Step>
+        </StepWizard>
         <div className="field">
           <label className="label">Listing name</label>
             <div className="control">
@@ -251,3 +271,20 @@ export default class CreateListing extends React.Component {
     );
 	}
 }
+
+
+export class Step extends React.Component {
+  render() {
+  	const nextStep = this.props.nextStep;
+  	const previousStep = this.props.previousStep;
+    return (
+      <div>
+        {this.props.children({ nextStep, previousStep })}
+      </div>
+    );
+  }
+}
+
+
+
+
