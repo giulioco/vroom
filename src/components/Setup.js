@@ -100,17 +100,7 @@ export default class Setup extends React.Component {
               Select Image
             </CustomUploadButton>
         </div>
-        <div className="field">
-          <label className="label">How will you be using this service?</label>
-          <div className="control">
-            <div className="select">
-              <select>
-                <option value="lister">Lister</option>
-                <option value="renter">Renter</option>
-              </select>
-            </div>
-          </div>
-        </div>
+        
         <br/>
         <div className="field">
           <div className="control">

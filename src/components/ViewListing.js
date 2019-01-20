@@ -33,7 +33,7 @@ export default class ViewListing extends React.Component {
       return (
         <div>
           {/* <h1>View listing {this.props.match.params.id}</h1> */}
-          <h1>amenities</h1>
+          <h1 className="is-size-1">amenities</h1>
           <p>{this.state.data.amenities}</p>
           <h1>description </h1>
           <p>{this.state.data.description}</p>
