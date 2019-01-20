@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom';
-import GeocodeMap from './GeocodeMap';
+import SearchAddress from './SearchAddress';
+
 
 export default class CreateListing extends React.Component {
 
@@ -9,18 +10,16 @@ export default class CreateListing extends React.Component {
     this.state = {
       listing_name: "Your listing name", 
       license_verification: false,
-      address: "115 High St.",
       description: "Your description here",
       amenities: "",
       house_rules: "",
       size: "",
       cancellation_policy: "",
-      location: [0,0],
     };
   }
 
 
-handleChange = (name) => (event) => {
+  handleChange = (name) => (event) => {
     this.setState({ [name]: event.target.value });
   }
 
@@ -29,18 +28,23 @@ handleChange = (name) => (event) => {
 
   }
 
+  handleAddressChange = ({ address, coords }) => {
+    this.address = address;
+    this.coords = coords;
+  }
+
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} className="container">
         <label className="label">
           Listing name:
           <input type="text" value={this.state.listing_name} onChange={this.handleChange("listing_name")} />
         </label>
         <label className="label">
           Address: 
-          <input type="text" value={this.state.address} onChange={this.handleChange("address")} />
-          <GeocodeMap/>
+          {/* <input type="text" value={this.state.address} onChange={this.handleChange("address")} /> */}
+          <SearchAddress onResult={this.handleAddressChange}/>
         </label>
         <label className="label">
           Description: 

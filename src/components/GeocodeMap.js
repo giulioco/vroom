@@ -1,56 +1,72 @@
-import React, { Component } from 'react'
-import MapGL from 'react-map-gl'
-import Geocoder from 'react-map-gl-geocoder'
-import DeckGL, { GeoJsonLayer } from "deck.gl";
+import React, { Component } from 'react';
+import MapGL, { Marker } from 'react-map-gl';
+import Geocoder from 'react-map-gl-geocoder';
+// import DeckGL, { GeoJsonLayer } from 'deck.gl';
+
 const MAPBOX_TOKEN = 'pk.eyJ1Ijoia2Fpb2JhcmIiLCJhIjoiY2pyM3pqamwyMThsaTQ2cWxrNjlvMm9tbSJ9.JrUUH2OmqsbmlKedxW-l2g';
 
+
 export default class GeocodeMap extends Component {
+
   state = {
     viewport: {
-      width: "30%",
-      height: "100%",
+      width: 400,
+      height: 400,
       latitude: 37.7577,
       longitude: -122.4376,
-      zoom: 8
+      zoom: 8,
     },
-    searchResultLayer: null
   };
 
   mapRef = React.createRef();
 
-  handleViewportChange = viewport => {
-    this.setState({
-      viewport: { ...this.state.viewport, ...viewport }
+  componentDidCatch(error) {
+    console.error(error);
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.resize);
+    this.resize();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.resize);
+  }
+
+  resize = () => {
+    this.handleViewportChange({
+      width: window.innerWidth,
+      height: window.innerHeight,
     });
+  }
+
+  handleViewportChange = viewport => {
+    this.setState(({ viewport: pastViewport }) => ({
+      viewport: { ...pastViewport, ...viewport },
+    }));
   };
 
-  // if you are happy with Geocoder default settings, you can just use handleViewportChange directly
   handleGeocoderViewportChange = viewport => {
     const geocoderDefaultOverrides = { transitionDuration: 1000 };
 
     return this.handleViewportChange({
       ...viewport,
-      ...geocoderDefaultOverrides
+      ...geocoderDefaultOverrides,
     });
   };
 
-  handleOnResult = event => {
+  handleOnResult = (event) => {
+    console.log(event.result.center);
     this.setState({
-      searchResultLayer: new GeoJsonLayer({
-        id: "search-result",
-        data: event.result.geometry,
-        getFillColor: [255, 0, 0, 128],
-        getRadius: 1000,
-        pointRadiusMinPixels: 10,
-        pointRadiusMaxPixels: 10
-      })
+      coords: event.result.geometry.coordinates,
+      name: event.result.place_name,
     });
   };
 
   render() {
-  	const { viewport, searchResultLayer } = this.state;
+    const { viewport, coords, name } = this.state;
 
-    return (
+    return <>
       <MapGL
         ref={this.mapRef}
         {...viewport}
@@ -63,8 +79,14 @@ export default class GeocodeMap extends Component {
           mapboxApiAccessToken={MAPBOX_TOKEN}
           position="top-left"
         />
-        <DeckGL {...viewport} layers={[searchResultLayer]} />
+        {coords ? (
+          <Marker longitude={coords[0]} latitude={coords[1]} className="mymarker" >
+            <p>asdsada</p>
+          </Marker>
+        ) : null}
+        {/* <DeckGL {...viewport} layers={[searchResultLayer]} /> */}
       </MapGL>
-    );
+      { name && <p><strong>{name}</strong></p> }
+    </>;
   }
 }

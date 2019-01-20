@@ -1,6 +1,5 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBowlingBall } from '@fortawesome/free-solid-svg-icons';
+
 import * as db from '../db';
 
 
@@ -30,7 +29,7 @@ export default class Setup extends React.Component {
     const { location, name } = this.state;
 
     db.setupAccount({
-      location,
+      location: new db.Helpers.GeoPoint(location[0], location[1]),
       name,
       setup: true,
     })

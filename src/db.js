@@ -20,6 +20,8 @@ const firestore = firebase.firestore();
 // const storage = firebase.storage().ref('/profile_pics');
 // storage.child().
 
+export const Helpers = firebase.firestore;
+
 // Global collections
 /** @type firebase.firestore.CollectionReference */
 export let users;
@@ -31,16 +33,19 @@ export const getUser = () => auth.currentUser;
 let _userData = null;
 export const userData = () => _userData;
 
-const fetchInfo = () => {
-  if (!getUser()) return Promise.resolve();
+const fetchInfo = () => new Promise((resolve) => {
+  if (!getUser()) return resolve('/');
 
   const unsub = users.doc(getUser().uid).onSnapshot((doc) => {
     _userData = doc.data() || {};
 
-    if (!_userData.setup) return '/setup';
-    else return '/';
-  }, () => unsub());
-};
+    if (!_userData.setup) resolve('/setup');
+    else resolve('/dashboard');
+  }, () => {
+    unsub();
+    resolve('/');
+  });
+});
 
 export const init = () => firestore.enablePersistence()
 .catch((err) => {
@@ -93,22 +98,22 @@ export const deleteProfile = () => auth.signInWithPopup(googleProvider)
 export const setupAccount = (data) => users.doc(getUser().uid).set(data);
 
 // sortBy can be 'distance' or 'rate'
-export const getListings = (radius, sortBy = 'rate') => {
-  let query = listings.orderBy(sortBy);
-  // listings.where()
-  return query.get().then((snap) => {
-    return snap.docs.map((doc) => {
-      const data = doc.data();
-      data.id = doc.id;
-      return data;
-    });
-  });
-};
+// export const getListings = (radius, sortBy = 'rate', fn) => {
+//   let query = listings.orderBy(sortBy);
+//   // listings.where()
+//   return query.onSnapshot((snap) => {
+//     fn(snap.docs.map((doc) => {
+//       const data = doc.data();
+//       data.id = doc.id;
+//       return data;
+//     }));
+//   }, () => fn(null));
+// };
 
-export const getListing = (id) => {
-  return listings.doc(id).get().then((doc) => {
-    const data = doc.data();
-    data.id = doc.id;
-    return data;
-  });
-};
+// export const getListing = (id, fn) => {
+//   return listings.doc(id).onSnapshot((doc) => {
+//     const data = doc.data();
+//     data.id = doc.id;
+//     fn(data);
+//   }, () => fn(null));
+// };
