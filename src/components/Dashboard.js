@@ -30,7 +30,6 @@ export default class Dashboard extends React.Component {
       });
       this.setState({ theirs });
     });
-
   }
 
   componentWillUnmount() {
@@ -61,6 +60,7 @@ export default class Dashboard extends React.Component {
         { (!mine || !mine.length) && (!theirs || !theirs.length) && (
           <p className="is-size-3 has-text-link"><br/>No booked times yet!</p>
         )}
+        <br/>
 
       </div>
     );

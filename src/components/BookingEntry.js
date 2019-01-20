@@ -6,6 +6,7 @@ import * as db from '../db';
 const Bl = ({ user, listing, dates, title, buttons }) => (
   <div className="box">
     <p className="is-size-3">{title}</p>
+    <br/>
     <div className="columns">
       <div className="column is-3 is-mobile">
         <figure className="image is-128x128">
@@ -15,7 +16,7 @@ const Bl = ({ user, listing, dates, title, buttons }) => (
       <div className="column is-3 is-mobile">
         {/* <strong>For: </strong> */}
         <p className="has-text-grey">User:</p>
-        {user.name}
+        <a className="link" href={`mailto:${user.email}`}>{user.name}</a>
         <br/><br/>
         <p className="has-text-grey">Booked Dates:</p>
         {dates}
@@ -64,12 +65,12 @@ export default class BookingEntry extends React.Component {
   }
 
   cancel = () => {
-    db.listings.doc(this.props.id).update({ status: 'canceled' })
+    db.bookings.doc(this.props.id).update({ status: 'canceled' })
     .catch(console.error);
   }
 
   accept = () => {
-    db.listings.doc(this.props.id).update({ status: 'active' })
+    db.bookings.doc(this.props.id).update({ status: 'active' })
     .catch(console.error);
   }
 
@@ -80,7 +81,7 @@ export default class BookingEntry extends React.Component {
     const userId = db.getUser().uid;
     const mine = userId === lister_id;
 
-    const range = start_date.toLocaleDateString() + ' - ' + end_date.toLocaleDateString();
+    const range = start_date.toDate().toLocaleDateString() + ' - ' + end_date.toDate().toLocaleDateString();
 
     let Inner = null;
     if (!user || !listing) Inner = null;
@@ -93,7 +94,7 @@ export default class BookingEntry extends React.Component {
     else if (status === 'pending' && mine)
       Inner = (
         <Bl user={user} listing={listing} dates={range} title="Pending Invite" buttons={<>
-          <button onClick={this.accept} className="button is-danger">Accept</button>
+          <button onClick={this.accept} className="button is-success">Accept</button>
           <button onClick={this.cancel} className="button is-danger">Deny</button>
         </>}/>
       );
@@ -103,9 +104,13 @@ export default class BookingEntry extends React.Component {
           <button onClick={this.cancel} className="button is-danger">Cancel</button>
         </>}/>
       );
+    else if (status === 'canceled')
+      Inner = (
+        <Bl user={user} listing={listing} dates={range} title="Canceled Booking" buttons={null}/>
+      );
     else if (status === 'done')
       Inner = (
-        <Bl user={user} listing={listing} dates={range} title="Past booking" buttons={null}/>
+        <Bl user={user} listing={listing} dates={range} title="Past Booking" buttons={null}/>
       );
     return Inner;
   }

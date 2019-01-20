@@ -51,6 +51,7 @@ export default class Setup extends React.Component {
       name,
       image_name: avatar,
       setup: true,
+      email: db.getUser().email,
     })
     .then(() => this.props.history.push('/dashboard'));
   }
