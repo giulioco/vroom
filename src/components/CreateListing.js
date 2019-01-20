@@ -105,8 +105,8 @@ export default class CreateListing extends React.Component {
 							          <label className="label">Address</label>
 							              <SearchAddress required onResult={this.handleAddressChange} />
 							        </div>
-								    <button onClick={nextStep}>Next</button>
 								</div>
+								<button className="button is-link" onClick={nextStep}>Next</button>
 							</>
 						}
 		  			</Step>
@@ -150,9 +150,9 @@ export default class CreateListing extends React.Component {
 							            <textarea required placeholder="What best describes your parking space?" value={this.state.description} className="textarea" onChange={this.handleChange("description")} />
 							          </div>
 							        </div>
-				        			<button onClick={previousStep}>Previous</button>
-							    	<button onClick={nextStep}>Next</button>
 							   	</div>
+							   	<button className="button is-link" onClick={previousStep}>Previous</button>
+							    <button className="button is-link" onClick={nextStep}>Next</button>
 						   </>
 						}
 		  			</Step>
@@ -167,9 +167,9 @@ export default class CreateListing extends React.Component {
 										Availability:
 										<MultiDayPicker/>
 							        </label>
-				        			<button onClick={previousStep}>Previous</button>	
-								    <button onClick={nextStep}>Next</button>
 								</div>
+								<button className="button is-link" onClick={previousStep}>Previous</button>	
+								<button className="button is-link" onClick={nextStep}>Next</button>
 			        		</>
 						}
 		  			</Step>
@@ -236,9 +236,9 @@ export default class CreateListing extends React.Component {
 							            <i> per night</i>
 							          </label>  
 							        </div>
-				        			<button onClick={previousStep}>Previous</button>	
-								    <button onClick={nextStep}>Next</button>
 								</div>
+				        		<button className="button is-link" onClick={previousStep}>Previous</button>	
+								<button  className="button is-link" onClick={nextStep}>Next</button>
 			        		</>
 						}
 		  			</Step>
@@ -291,9 +291,9 @@ export default class CreateListing extends React.Component {
 
 							          </label>
 							        </div>
-				        			<button onClick={previousStep}>Previous</button>
-				        			<button type="submit" className="button">Submit</button>	
 								</div>
+								<button className="button is-link" onClick={previousStep}>Previous</button>
+				        		<button type="submit" className="button">Submit</button>	
 			        		</>
 						}
 		  			</Step>
