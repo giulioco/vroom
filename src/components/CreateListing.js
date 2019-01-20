@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom';
 import SearchAddress from './SearchAddress';
-
+import GeocodeMap from './GeocodeMap';
 
 export default class CreateListing extends React.Component {
 
@@ -19,23 +19,15 @@ export default class CreateListing extends React.Component {
       },
       house_rules: "",
       size: "",
-<<<<<<< HEAD
       cancellation_policy: 0,
       location: [0,0],
-=======
-      cancellation_policy: "",
->>>>>>> 25426b3aa3454844ca1b8f35620903ef4ca6da62
     };
   }
 
 
   handleChange = (name) => (event) => {
-<<<<<<< HEAD
     const target = event.target;
     this.setState({ [name]: target.value });
-=======
-    this.setState({ [name]: event.target.value });
->>>>>>> 25426b3aa3454844ca1b8f35620903ef4ca6da62
   }
 
   handleCheckboxChange = (name) => (event) => {
