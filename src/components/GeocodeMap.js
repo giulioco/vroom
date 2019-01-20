@@ -118,6 +118,7 @@ export default class GeocodeMap extends Component {
             const pos = listing.position.geopoint;
             return (
               <Marker key={listing.id} latitude={pos.latitude} longitude={pos.longitude}>
+                <span>TEST</span>
                 <Link className="map-user" to={`/listings/${listing.id}`}/>
               </Marker>
             );
