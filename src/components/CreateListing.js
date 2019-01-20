@@ -125,7 +125,7 @@ export default class CreateListing extends React.Component {
 			        		<>
 			        			<div className="hero is-medium is-light is-bold">
 				        			<div className="hero-body">
-												<div className="container">
+												<div className="">
 													<h1 className="title">
 													Where?
 													</h1>
@@ -147,7 +147,7 @@ export default class CreateListing extends React.Component {
 			        		<>	
 										<div className="hero is-medium is-light is-bold">
 											<div className="hero-body">
-												<div className="container">
+												<div className="">
 													<h1 className="title">
 													What?
 													</h1>
@@ -217,7 +217,7 @@ export default class CreateListing extends React.Component {
 			        		<>
 										<div className="hero is-medium is-light is-bold">
 				        			<div className="hero-body">
-												<div className="container">
+												<div className="">
 													<h1 className="title">
 					        					When are you busy?
 													</h1>
