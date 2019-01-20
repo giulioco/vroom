@@ -98,16 +98,16 @@ export default class ViewListing extends React.Component {
           <div className="column"></div>
           <div class="column is-two-thirds">
 
-            <h1 className="is-size-1">amenities</h1>
+            <h1 className="is-size-4">amenities</h1>
             <pre>{JSON.stringify(amenities)}</pre>
-            <h1>description </h1>
-            <p>{description}</p>
-            <h1>policy</h1>
-            <pre>{policy}</pre>
-            <h1>rate</h1>
-            <p>{rate}</p>
-            <h1>size</h1>
-            <p>{size}</p>
+            <h1 className="is-size-4">description </h1>
+            <p>{this.state.data.description}</p>
+            <h1 className="is-size-4">policy</h1>
+            <pre>{this.state.data.policy}</pre>
+            <h1 className="is-size-4">rate</h1>
+            <p>{this.state.data.rate}</p>
+            <h1 className="is-size-4">Parking spot size</h1>
+            <p>{this.state.data.size}</p>
 
             <nav className="level">
               {/* <div className="level-left"> */}

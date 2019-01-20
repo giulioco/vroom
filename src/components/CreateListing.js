@@ -36,13 +36,26 @@ export default class CreateListing extends React.Component {
     this.setState({ [name]: target.value });
   }
 
+  handlePolicyChange = (name) => (event) => {
+    console.log(name)
+    const targetValue = event.target.value;
+    if (targetValue <= 0) {
+      type = "flexible"
+    } else if (targetValue == 1) {
+      type = "moderate"
+    } else if (targetValue >= 2) {
+      type = "strict"
+    }
+    this.setState({ [name]: type });
+  }
+
  handleUploadStart = () => this.setState({ isUploading: true, progress: 0 });
   handleProgress = progress => this.setState({ progress });
   handleUploadError = error => {
     this.setState({ isUploading: false });
     console.error(error);
-  };
-
+  }; 
+  
   handleUploadSuccess = filename => {
     this.setState({ listing_img: filename, progress: 100, isUploading: false });
     firebase.storage().ref("listing_images")
@@ -62,7 +75,8 @@ export default class CreateListing extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { listing_name, license_verification, description, amenities,  cancellation_policy, listing_img } = this.state; 
+    const { listing_name, license_verification, description, amenities,  cancellation_policy, listing_img, rate } = this.state;
+    
     const location = this.coords;
     const address = this.address;
     const data = {
@@ -74,7 +88,8 @@ export default class CreateListing extends React.Component {
     	amenities: amenities,
     	cancellation_policy: cancellation_policy,
     	listing_img: listing_img,
-    	lister_id: db.getUser().uid
+      lister_id: db.getUser().uid,
+      rate: rate
     };
     console.log(data);
     db.createListing(data)
@@ -254,7 +269,7 @@ export default class CreateListing extends React.Component {
 							            Cancellation Policy 
 							            <div className="control">
 							              <input className="slider is-fullwidth is-warning" step="1" min="0" max="2" value={this.state.cancellation_policy} type="range"
-							                      onChange={this.handleChange("cancellation_policy")}></input>
+							                      onChange={this.handlePolicyChange("cancellation_policy")}></input>
 							            </div>
 
 							            <div className="columns is-mobile">
