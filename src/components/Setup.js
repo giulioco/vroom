@@ -17,6 +17,16 @@ export default class Setup extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const image = db.userData().image_name;
+    if (image) {
+      db.images
+      .child(image)
+      .getDownloadURL()
+      .then(url => this.setState({ avatarURL: url }));
+    }
+  }
+
   handleChange = (event) => {
     this.setState({ name: event.target.value });
   }
@@ -50,10 +60,6 @@ export default class Setup extends React.Component {
     })
     .then(() => this.props.history.push('/dashboard'));
   }
-
-  // showPosition = (position) => {
-  //   this.setState({ location: [position.coords.latitude, position.coords.longitude] });
-  // }
 
   render() {    
     return (

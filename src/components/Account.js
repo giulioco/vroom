@@ -39,7 +39,9 @@ export default class Account extends React.Component {
     return (
       <div className="columns is-centered has-text-centered">
         <div className="column is-two-fifths">
+          <br/>
           <div className="card">
+            <div className="card-content">
             { avatarURL && (
               <div className="card-image">
                 <figure className="image" width="100%">
@@ -47,10 +49,13 @@ export default class Account extends React.Component {
                 </figure>
               </div>
             )}
+            </div>
             <label className="label">Display Name</label>
             <p>{user.displayName}</p>
             <br/>
+
           </div>
+          <br/>
           <button onClick={this.deleteProfile} className="button is-danger">Delete your Account</button>
         </div>
       </div>
