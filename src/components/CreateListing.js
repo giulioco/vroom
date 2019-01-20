@@ -91,6 +91,8 @@ export default class CreateListing extends React.Component {
       <form onSubmit={this.handleSubmit} className="container">
         <h1 className="is-size-1">Make a new listing</h1>
 
+        <div className="is-divider"></div>
+
         <div className="field">
           <label className="label">Listing name</label>
             <div className="control">
@@ -98,15 +100,19 @@ export default class CreateListing extends React.Component {
             </div>
         </div>
 
+        <div className="is-divider"></div>
+
         <div className="field">
           <label className="label">Address</label>
               <SearchAddress required onResult={this.handleAddressChange} />
         </div>
 
+        <div className="is-divider"></div>
+
         <div className="field">
           {this.state.isUploading && <p> <progress className="progress is-success" value={this.state.progress} max="100">{this.state.progress}%</progress></p>}
           {this.state.listing_imgURL && <figure className="image is-128x128"><img className="is-rounded" src={this.state.listing_imgURL}/></figure>}
-
+          <p className="content">Upload a picture of your listing.</p>
            <CustomUploadButton
               required
               accept="image/*"
@@ -123,12 +129,16 @@ export default class CreateListing extends React.Component {
             </CustomUploadButton>
         </div>
 
+        <div className="is-divider"></div>
+
         <div className="field">
         <label className="label"> Description</label>
           <div className="control">
             <textarea required placeholder="What best describes your parking space?" value={this.state.description} className="textarea" onChange={this.handleChange("description")} />
           </div>
         </div>
+
+        <div className="is-divider"></div>
 
         <div className="field">
         <label className="label">Amenities</label>
@@ -166,11 +176,13 @@ export default class CreateListing extends React.Component {
              </div>
         </div>
 
+        <div className="is-divider"></div>
+
         <div className="field">
           <label className="label">
             Cancellation Policy 
             <div className="control">
-              <input className="slider is-fullwidth" step="1" min="0" max="2" value={this.state.cancellation_policy} type="range"
+              <input className="slider is-fullwidth is-warning" step="1" min="0" max="2" value={this.state.cancellation_policy} type="range"
                       onChange={this.handleChange("cancellation_policy")}></input>
             </div>
 
@@ -209,6 +221,7 @@ export default class CreateListing extends React.Component {
           </label>
         </div>
 
+        <div className="is-divider"></div>
 
         <label className="label">
           Size: 
@@ -220,6 +233,8 @@ export default class CreateListing extends React.Component {
           </select>
           </div>
         </label>
+
+        <div className="is-divider"></div>
 
         <div className="field">
           <label className="label">
