@@ -67,7 +67,10 @@ export default class Listings extends React.Component {
           </div>
           <div className="listings">
             {listings && listings.map((listing) => (
-              <Link key={listing.id} className="box" to={`/listing/${listing.id}`}>{listing.address}</Link>
+              <Link key={listing.id} className="box" to={`/listing/${listing.id}`}>
+                <strong>{listing.address}</strong><br/>
+                <p className="is-size-7">{listing.description}</p>
+              </Link>
             ))}
           </div>
         </div>
