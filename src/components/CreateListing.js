@@ -200,8 +200,12 @@ export default class CreateListing extends React.Component {
 														</div>
 														
 													</div>
-													<button type="button" className="button is-link" onClick={previousStep}>Previous</button>
-							    				<button type="button" className="button is-link" onClick={nextStep}>Next</button>
+													<div className= "column is-4 is-offset-one-third">
+														<div className="level">
+															<button type="button" className="button is-link level-left" onClick={previousStep}>Previous</button>
+								    						<button type="button" className="button is-link level-right" onClick={nextStep}>Next</button>
+								    					</div>
+							    					</div>
 
 											{/* vvv end of container */}
 											</div>
@@ -217,21 +221,24 @@ export default class CreateListing extends React.Component {
 				        			<div className="hero-body">
 												<div className="container">
 													<h1 className="title">
-					        					When?
+					        					When are you busy?
 													</h1>
 					        			</div>
 												<div className="is-divider"></div>
 													<div className="field">
 													<label className="label">
-														Availability:
 														<DayPicker
 																	selectedDays={this.state.dates_unavailable}
 																	onDayClick={this.handleDayClick}
 																/>
 													</label>
 													</div>
-													<button type="button" className="button is-link" onClick={previousStep}>Previous</button>	
-													<button type="button" className="button is-link" onClick={nextStep}>Next</button>
+													<div className= "column is-4 is-offset-one-third">
+														<div className="level">
+															<button type="button" className="button is-link" onClick={previousStep}>Previous</button>	
+															<button type="button" className="button is-link" onClick={nextStep}>Next</button>
+														</div>
+													</div>
 												{/* vvv end of container */}
 												</div>
 				        		
@@ -382,11 +389,14 @@ export default class CreateListing extends React.Component {
 							          </label>
 							        </div>
 											{/*  */}
-
-											<button type="button" className="button is-link" 
-								onClick={previousStep}>Previous</button>
-								{isActive ? (<button type="submit" className="button">Submit</button>) : (<button type="submit" disabled className="button">Submit</button>)}
+											<div className= "column is-4 is-offset-one-third">
+												<div className="level">
+													<button type="button" className="button is-link" 
+														onClick={previousStep}>Previous</button>
+														{isActive ? (<button type="submit" className="button">Submit</button>) : (<button type="submit" disabled className="button">Submit</button>)}
+												</div>
 											</div>
+									</div>
 			        
 								</div>
 				        		
