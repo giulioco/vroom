@@ -28,6 +28,7 @@
     "react-map-gl": "^4.0.8",
     "react-map-gl-geocoder": "^1.6.1",
     "react-router-dom": "^4.3.1",
+    "react-step-wizard": "^5.0.0",
     "rxjs": "^6.3.3"
   },
   "devDependencies": {
