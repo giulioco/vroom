@@ -34,10 +34,11 @@ export default class Account extends React.Component {
       	<div className = "columns is-centered has-text-centered">
 	      	<div className= "column is-two-fifths">
 		      	<div className = "card">
-			        <h1 className="is-size-1">Account</h1>
-              <figure className="image is-128x128"><img className="is-rounded" src={this.state.avatarURL}/></figure>
+		      		<div class="card-image">
+	              		<figure className="image" width="100%"><img className="" src={this.state.avatarURL}/></figure>
+	              	</div>
 			        <label className="label">Display Name</label>
-			        <p>{user.displayName}</p>
+			        	<p>{user.displayName}</p>
 			        <br/>
 			    </div>
 		        <button onClick={this.deleteProfile} className="button is-danger">Delete your Account</button>
