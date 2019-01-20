@@ -45,7 +45,6 @@ export default class Setup extends React.Component {
   }
 
   showPosition = (position) => {
-    console.log(position);
     this.setState({ location: [position.coords.latitude, position.coords.longitude] });
   }
 

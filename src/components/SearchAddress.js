@@ -15,7 +15,7 @@ export default class SearchAddress extends Component {
   };
 
   componentDidCatch(error) {
-    console.error(error);
+    // These maps throw errors. Catch them then throw them away!
   }
 
   onResult = (event) => {

@@ -33,7 +33,6 @@ export default class CreateListing extends React.Component {
     this.coords = coords;
   }
 
-
   render() {
     return (
       <form onSubmit={this.handleSubmit} className="container">

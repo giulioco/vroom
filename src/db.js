@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import * as geofirex from 'geofirex';
 
 import { decodeQuery } from './utils';
 
@@ -14,6 +15,8 @@ firebase.initializeApp({
   messagingSenderId: '67269393820',
 });
 
+export const geo = geofirex.init(firebase);
+
 
 const auth = firebase.auth();
 const firestore = firebase.firestore();
@@ -25,7 +28,7 @@ export const Helpers = firebase.firestore;
 // Global collections
 /** @type firebase.firestore.CollectionReference */
 export let users;
-/** @type firebase.firestore.CollectionReference */
+/** @type geofirex.GeoFireCollectionRef */
 export let listings;
 
 export const getUser = () => auth.currentUser;
@@ -67,7 +70,7 @@ export const init = () => firestore.enablePersistence()
 }))
 .then(() => {
   users = firestore.collection('users');
-  listings = firestore.collection('listings');
+  listings = geo.collection('listings');
 
   return fetchInfo();
 });
@@ -96,6 +99,11 @@ export const deleteProfile = () => auth.signInWithPopup(googleProvider)
 .then(() => alert('Account successfully deleted'));
 
 export const setupAccount = (data) => users.doc(getUser().uid).set(data);
+
+export const getListings = (lat, long, radius, cb) => {
+  const center = geo.point(lat, long);
+  return listings.within(center, radius, 'position').subscribe(cb).unsubscribe;
+};
 
 // sortBy can be 'distance' or 'rate'
 // export const getListings = (radius, sortBy = 'rate', fn) => {
