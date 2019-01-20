@@ -1,6 +1,6 @@
 import React from 'react';
+
 import * as db from '../db';
-import firebase from "firebase";
 
 
 export default class Account extends React.Component {
@@ -9,14 +9,18 @@ export default class Account extends React.Component {
     super(props);
 
     this.state = {
-      avatarURL: ""
+      avatarURL: '',
     };
   }
+
   componentDidMount() {
-    firebase.storage().ref("user_images")
-      .child(db.userData().image_name)
+    const image = db.userData().image_name;
+    if (image) {
+      db.images
+      .child(image)
       .getDownloadURL()
       .then(url => this.setState({ avatarURL: url }));
+    }
   }
 
   deleteProfile = () => {
@@ -28,6 +32,8 @@ export default class Account extends React.Component {
   }
 
   render() {
+    const { avatarURL } = this.state;
+
     const user = db.getUser();
     
     return (

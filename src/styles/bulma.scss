@@ -31,6 +31,7 @@ $navbar-item-color: $pink;
 // Import only what you need from Bulma
 @import "~bulma/sass/utilities/_all.sass";
 @import "~bulma/sass/base/_all.sass";
+@import "~bulma/sass/elements/box.sass";
 @import "~bulma-slider/dist/css/bulma-slider.sass";
 @import "~bulma-extensions/bulma-checkradio/dist/css/bulma-checkradio.sass";
 @import "~bulma/sass/elements/button.sass";

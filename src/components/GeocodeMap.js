@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import MapGL, { Marker } from 'react-map-gl';
 import Geocoder from 'react-map-gl-geocoder';
-// import DeckGL, { GeoJsonLayer } from 'deck.gl';
+import DeckGL, { ScatterplotLayer } from 'deck.gl';
+import { Link } from 'react-router-dom';
 
 const MAPBOX_TOKEN = 'pk.eyJ1Ijoia2Fpb2JhcmIiLCJhIjoiY2pyM3pqamwyMThsaTQ2cWxrNjlvMm9tbSJ9.JrUUH2OmqsbmlKedxW-l2g';
 
@@ -12,16 +13,8 @@ export default class GeocodeMap extends Component {
     viewport: {
       width: 400,
       height: 400,
-      latitude: 37.7577,
-      longitude: -122.4376,
-      zoom: 8,
+      zoom: 11,
     },
-  };
-
-  mapRef = React.createRef();
-
-  componentDidCatch(error) {
-    console.error(error);
   }
 
   componentDidMount() {
@@ -29,9 +22,28 @@ export default class GeocodeMap extends Component {
     this.resize();
   }
 
+  componentDidCatch(error) {
+    console.error(error);
+  }
+
   componentWillUnmount() {
     window.removeEventListener('resize', this.resize);
   }
+
+  // static getDerivedStateFromProps(props, state) {
+  //   if (props.center && (props.center[0] !== state.viewport.latitude || props.center[1] !== state.viewport.longitude)) {
+  //     return {
+  //       viewport: {
+  //         ...state.viewport,
+  //         latitude: props.center[0],
+  //         longitude: props.center[1],
+  //       },
+  //     };
+  //   }
+  //   return null;
+  // }
+
+  mapRef = React.createRef();
 
   resize = () => {
     this.handleViewportChange({
@@ -56,15 +68,21 @@ export default class GeocodeMap extends Component {
   };
 
   handleOnResult = (event) => {
-    console.log(event.result.center);
-    this.setState({
-      coords: event.result.geometry.coordinates,
+    const [long, lat] = event.result.center;
+    this.props.onResult({
+      coords: [lat, long],
       name: event.result.place_name,
     });
   };
 
   render() {
-    const { viewport, coords, name } = this.state;
+    const { viewport } = this.state;
+    const { listings, radius, center } = this.props;
+
+    if (center) {
+      viewport.latitude = center[0];
+      viewport.longitude = center[1];
+    }
 
     return <>
       <MapGL
@@ -79,14 +97,31 @@ export default class GeocodeMap extends Component {
           mapboxApiAccessToken={MAPBOX_TOKEN}
           position="top-left"
         />
-        {coords ? (
-          <Marker longitude={coords[0]} latitude={coords[1]} className="mymarker" >
-            <p>asdsada</p>
-          </Marker>
-        ) : null}
-        {/* <DeckGL {...viewport} layers={[searchResultLayer]} /> */}
+        { center && (
+          <DeckGL {...viewport} layers={[
+            new ScatterplotLayer({
+              data: [
+                { position: [center[1], center[0]] },
+              ],
+              getPosition: d => d.position,
+              getRadius: radius * 1000,
+              // stroked: true,
+              getColor: [106, 174, 242, 100],
+              pickable: false,
+              // getLineColor: [255, 255, 0],
+              // getLineWidth: 20,
+            }),
+          ]}/>
+        )}
+        {listings.map((listing) => {
+          const pos = listing.position.geopoint;
+          return (
+            <Marker key={listing.id} latitude={pos.latitude} longitude={pos.longitude}>
+              <Link className="map-user" to={`/listing/${listing.id}`}/>
+            </Marker>
+          );
+        })}
       </MapGL>
-      { name && <p><strong>{name}</strong></p> }
     </>;
   }
 }

@@ -32,7 +32,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => db.getUser() ? <Component {...props} /> : <Redirect to={{
     pathname: '/',
     search: `?from=${encodeURIComponent(props.location.pathname)}`,
-  }} />} />
+  }} />}/>
 );
 
 
