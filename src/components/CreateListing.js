@@ -254,7 +254,7 @@ export default class CreateListing extends React.Component {
 											    <div className="field">
 										          <label className="label">
 										            Rate $ 
-										            <input required placeholder="0.00" type="number" min="0" value={this.state.rate} onChange={this.handleChange("rate")} step="0.01"/>
+										            <input required className="input" placeholder="0.00" type="number" min="0" value={this.state.rate} onChange={this.handleChange("rate")} step="0.01"/>
 										            <i> per night</i>
 										          </label>  
 										        </div>
@@ -275,27 +275,27 @@ export default class CreateListing extends React.Component {
 				        			<div className="card-header">
 					        			Policy
 					        		</div>
-					        		<div className="field">
+					        		<div className="field is-three-fifths is-offset-one-fifth">
 							          <label className="label">
 							            Cancellation Policy 
-							            <div className="control">
-							              <input className={`slider is-fullwidth  ${this.state.cancellation_policy === '0' ? 'is-success' : (this.state.cancellation_policy === '1' ? 'is-warning' : 'is-danger')}`} step="1" min="0" max="2" value={this.state.cancellation_policy} type="range"
+							            <div className="control ">
+							              <input className={`slider is-fullwidth ${this.state.cancellation_policy === '0' ? 'is-success' : (this.state.cancellation_policy === '1' ? 'is-warning' : 'is-danger')}`} step="1" min="0" max="2" value={this.state.cancellation_policy} type="range"
 							                      onChange={this.handleChange("cancellation_policy")}></input>
 							            </div>
 
 							            <div className="columns is-mobile">
 							              <div className="column has-text-centered">
-							                <span className="badge is-badge-outlined" data-badge="">
+							                <span className="badge has-text-weight-bold is-badge-outlined" data-badge="">
 							                  Flexible
 							                </span>
 							              </div>
 
-							              <div className="column has-text-centered">
+							              <div className="column has-text-weight-bold has-text-centered">
 							                <span className="badge is-badge-success is-badge-outlined" data-badge="">
 							                  Moderate
 							                </span>
 							              </div>
-							              <div className="column has-text-centered">
+							              <div className="column has-text-weight-bold has-text-centered">
 							                <span className="badge is-badge-warning is-badge-outlined" data-badge="">
 							                  Strict
 							                </span>
@@ -303,14 +303,14 @@ export default class CreateListing extends React.Component {
 							            </div>
 
 							            <div className="columns is-mobile">
-							              <div className="column has-text-centered">
+							              <div className="column has-text-weight-light has-text-centered">
 							                  Renters can cancel up to 24 hours before the a scheduled date, and are elligible to a full-refund.
 							              </div>
 
-							              <div className="column has-text-centered">
+							              <div className="column has-text-weight-light has-text-centered">
 							                  The booker can cancel their booking up to three days before their scheduled stay and are elligible to a 50% refund.
 							              </div>
-							              <div className="column has-text-centered">
+							              <div className="column has-text-weight-light has-text-centered">
 							                  All bookings are final, and no refunds are awarded to no-shows.
 							              </div>
 							            </div>
