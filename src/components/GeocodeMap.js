@@ -44,11 +44,12 @@ export default class GeocodeMap extends Component {
   // }
 
   mapRef = React.createRef();
+  containerRef = React.createRef();
 
   resize = () => {
     this.handleViewportChange({
-      width: window.innerWidth,
-      height: window.innerHeight,
+      width: this.containerRef.current.offsetWidth,
+      height: this.containerRef.current.offsetHeight - 2, // just got to
     });
   }
 
@@ -84,44 +85,46 @@ export default class GeocodeMap extends Component {
       viewport.longitude = center[1];
     }
 
-    return <>
-      <MapGL
-        ref={this.mapRef}
-        {...viewport}
-        onViewportChange={this.handleViewportChange}
-        mapboxApiAccessToken={MAPBOX_TOKEN}>
-        <Geocoder
-          mapRef={this.mapRef}
-          onResult={this.handleOnResult}
-          onViewportChange={this.handleGeocoderViewportChange}
-          mapboxApiAccessToken={MAPBOX_TOKEN}
-          position="top-left"
-        />
-        { center && (
-          <DeckGL {...viewport} layers={[
-            new ScatterplotLayer({
-              data: [
-                { position: [center[1], center[0]] },
-              ],
-              getPosition: d => d.position,
-              getRadius: radius * 1000,
-              // stroked: true,
-              getColor: [106, 174, 242, 100],
-              pickable: false,
-              // getLineColor: [255, 255, 0],
-              // getLineWidth: 20,
-            }),
-          ]}/>
-        )}
-        {listings.map((listing) => {
-          const pos = listing.position.geopoint;
-          return (
-            <Marker key={listing.id} latitude={pos.latitude} longitude={pos.longitude}>
-              <Link className="map-user" to={`/listing/${listing.id}`}/>
-            </Marker>
-          );
-        })}
-      </MapGL>
-    </>;
+    return (
+      <div ref={this.containerRef} style={{ flex: 1 }}>
+        <MapGL
+          ref={this.mapRef}
+          {...viewport}
+          onViewportChange={this.handleViewportChange}
+          mapboxApiAccessToken={MAPBOX_TOKEN}>
+          <Geocoder
+            mapRef={this.mapRef}
+            onResult={this.handleOnResult}
+            onViewportChange={this.handleGeocoderViewportChange}
+            mapboxApiAccessToken={MAPBOX_TOKEN}
+            position="top-left"
+          />
+          { center && (
+            <DeckGL {...viewport} layers={[
+              new ScatterplotLayer({
+                data: [
+                  { position: [center[1], center[0]] },
+                ],
+                getPosition: d => d.position,
+                getRadius: radius * 1000,
+                // stroked: true,
+                getColor: [106, 174, 242, 100],
+                pickable: false,
+                // getLineColor: [255, 255, 0],
+                // getLineWidth: 20,
+              }),
+            ]}/>
+          )}
+          {listings.map((listing) => {
+            const pos = listing.position.geopoint;
+            return (
+              <Marker key={listing.id} latitude={pos.latitude} longitude={pos.longitude}>
+                <Link className="map-user" to={`/listings/${listing.id}`}/>
+              </Marker>
+            );
+          })}
+        </MapGL>
+      </div>
+    );
   }
 }
