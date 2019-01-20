@@ -42,6 +42,18 @@
   background: rgba(255, 95, 95, 0.425);
 }
 
+$sizes: (0,10,15,20,25,30,50);
+$positions: ('top','left','bottom','right');
+
+@each $size in $sizes {
+  .u-m-#{$size} {
+    margin: $size + px;
+  }
+  .u-p-#{$size} {
+    padding: $size + px;
+  }
+}
+
 .search-address {
 
 //   .mapboxgl-canvas-container, .mapboxgl-ctrl-bottom-left, .mapboxgl-ctrl-bottom-right {
