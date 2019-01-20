@@ -143,7 +143,6 @@ export default class CreateListing extends React.Component {
 							          {this.state.listing_imgURL && <figure className="image is-128x128"><img className="is-rounded" src={this.state.listing_imgURL}/></figure>}
 							          <p className="content">Upload a picture of your listing.</p>
 							           <CustomUploadButton
-							              required
 							              accept="image/*"
 							              name="listing_imgURL"
 							              randomizeFilename
@@ -197,62 +196,73 @@ export default class CreateListing extends React.Component {
 				        			<div className="card-header">
 					        			How?
 					        		</div>
-					        		<div className="field">
-								        <label className="label">
-								        	Amenities
-								        </label>
-							         	<div className="field">
-							            <input  type="checkbox" 
-							            		className="is-checkradio"
-							                    name="bathroom"
-							                    id="bathroom"
-							                    checked={this.state.amenities.bathroom} 
-							                    onChange={this.handleCheckboxChange("bathroom")}/> <label htmlFor="bathroom">Bathroom </label> 
-							            </div>
-							            <div className="field">
-							            <input  type="checkbox" 
-							            		className="is-checkradio"
-							                    name="water"
-							                    id="water"
-							                    checked={this.state.amenities.water} 
-							                    onChange={this.handleCheckboxChange("water")}/> <label htmlFor="water">Water </label>
-							            </div>
-							            <div className="field">
-							            <input  type="checkbox" 
-							            		className="is-checkradio"
-							                    name="wifi"
-							                    id="wifi"
-							                    checked={this.state.amenities.wifi} 
-							                    onChange={this.handleCheckboxChange("wifi")}/> <label htmlFor="wifi"> WiFi </label>
-							            </div>
-							            <div className="field">
-							            <input  type="checkbox" 
-							            		className="is-checkradio"
-							                    name="electricity"
-							                    id="electricity"
-							                    checked={this.state.amenities.electricity} 
-							                    onChange={this.handleCheckboxChange("electricity")}/> <label htmlFor="electricity"> Electricity </label>
-							             </div>
-								    </div>
-								    <div className="is-divider"></div>
-								    <label className="label">
-							          Size: 
-							          <div className="select">
-							          <select value={this.state.size} onChange={this.handleChange("size")}>
-							            <option value="small">Small</option>
-							            <option value="medium">Medium</option>
-							            <option value="Large">Large</option>
-							          </select>
-							          </div>
-							        </label>
-							        <div className="is-divider"></div>
-							        <div className="field">
-							          <label className="label">
-							            Rate $ 
-							            <input required placeholder="0.00" type="number" min="0" value={this.state.rate} onChange={this.handleChange("rate")} step="0.01"/>
-							            <i> per night</i>
-							          </label>  
-							        </div>
+					        		<div className = "level"/>
+					        		<div className="columns has-text-left">
+					        			<div className="column is-centered is-3 is-offset-one-quarter">
+					        				<div className="field">
+										        <label className="label">
+										        	Amenities
+										        </label>
+									         	<div className="field">
+									            <input  type="checkbox" 
+									            		className="is-checkradio"
+									                    name="bathroom"
+									                    id="bathroom"
+									                    checked={this.state.amenities.bathroom} 
+									                    onChange={this.handleCheckboxChange("bathroom")}/> <label htmlFor="bathroom">Bathroom </label> 
+									            </div>
+									            <div className="field">
+									            <input  type="checkbox" 
+									            		className="is-checkradio"
+									                    name="water"
+									                    id="water"
+									                    checked={this.state.amenities.water} 
+									                    onChange={this.handleCheckboxChange("water")}/> <label htmlFor="water">Water </label>
+									            </div>
+									            <div className="field">
+									            <input  type="checkbox" 
+									            		className="is-checkradio"
+									                    name="wifi"
+									                    id="wifi"
+									                    checked={this.state.amenities.wifi} 
+									                    onChange={this.handleCheckboxChange("wifi")}/> <label htmlFor="wifi"> WiFi </label>
+									            </div>
+									            <div className="field">
+									            <input  type="checkbox" 
+									            		className="is-checkradio"
+									                    name="electricity"
+									                    id="electricity"
+									                    checked={this.state.amenities.electricity} 
+									                    onChange={this.handleCheckboxChange("electricity")}/> <label htmlFor="electricity"> Electricity </label>
+									             </div>
+										    </div>
+					        			</div>
+					        			<div className="column">
+					        				<div className = "level"/>
+					        				<div className="level">
+							        			<label className="label">
+										          Size: 
+										          <div className="select">
+										          <select value={this.state.size} onChange={this.handleChange("size")}>
+										            <option value="small">Small</option>
+										            <option value="medium">Medium</option>
+										            <option value="Large">Large</option>
+										          </select>
+										          </div>
+										        </label>
+										    </div>
+										    <div className="level">
+											    <div className="field">
+										          <label className="label">
+										            Rate $ 
+										            <input required placeholder="0.00" type="number" min="0" value={this.state.rate} onChange={this.handleChange("rate")} step="0.01"/>
+										            <i> per night</i>
+										          </label>  
+										        </div>
+										    </div>
+					        			</div>
+					        		</div>
+							        
 								</div>
 				        		<button className="button is-link" onClick={previousStep}>Previous</button>	
 								<button  className="button is-link" onClick={nextStep}>Next</button>
