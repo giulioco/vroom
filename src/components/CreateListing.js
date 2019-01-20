@@ -4,7 +4,7 @@ import SearchAddress from './SearchAddress';
 import GeocodeMap from './GeocodeMap';
 import firebase from "firebase";
 import FileUploader from "react-firebase-file-uploader";
-import MultiDayPicker from './MultiDayPicker'
+import DayPicker, { DateUtils } from 'react-day-picker';
 import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
 import StepWizard from 'react-step-wizard';
 
@@ -29,6 +29,19 @@ export default class CreateListing extends React.Component {
       dates_unavailable: []
     };
 
+  }
+
+  handleDayClick = (day, { selected }) => {
+    const dates_unavailable  = this.state.dates_unavailable;
+    if (selected) {
+      const selectedIndex = dates_unavailable.findIndex(selectedDay =>
+        DateUtils.isSameDay(selectedDay, day)
+      );
+      dates_unavailable.splice(selectedIndex, 1);
+    } else {
+      dates_unavailable.push(day);
+    }
+    this.setState({ dates_unavailable });
   }
 
   handleChange = (name) => (event) => {
@@ -75,8 +88,12 @@ export default class CreateListing extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+<<<<<<< HEAD
     const { listing_name, license_verification, description, amenities,  cancellation_policy, listing_img, rate } = this.state;
     
+=======
+    const { listing_name, license_verification, description, amenities,  cancellation_policy, listing_img, dates_unavailable } = this.state; 
+>>>>>>> 665818191a9685555148e24219fff213fa0e0e01
     const location = this.coords;
     const address = this.address;
     const data = {
@@ -88,8 +105,13 @@ export default class CreateListing extends React.Component {
     	amenities: amenities,
     	cancellation_policy: cancellation_policy,
     	listing_img: listing_img,
+<<<<<<< HEAD
       lister_id: db.getUser().uid,
       rate: rate
+=======
+    	lister_id: db.getUser().uid,
+    	dates_unavailable: dates_unavailable
+>>>>>>> 665818191a9685555148e24219fff213fa0e0e01
     };
     console.log(data);
     db.createListing(data)
@@ -120,8 +142,8 @@ export default class CreateListing extends React.Component {
 							          <label className="label">Address</label>
 							              <SearchAddress required onResult={this.handleAddressChange} />
 							        </div>
-								    <button onClick={nextStep}>Next</button>
 								</div>
+								<button className="button is-link" onClick={nextStep}>Next</button>
 							</>
 						}
 		  			</Step>
@@ -165,9 +187,9 @@ export default class CreateListing extends React.Component {
 							            <textarea required placeholder="What best describes your parking space?" value={this.state.description} className="textarea" onChange={this.handleChange("description")} />
 							          </div>
 							        </div>
-				        			<button onClick={previousStep}>Previous</button>
-							    	<button onClick={nextStep}>Next</button>
 							   	</div>
+							   	<button className="button is-link" onClick={previousStep}>Previous</button>
+							    <button className="button is-link" onClick={nextStep}>Next</button>
 						   </>
 						}
 		  			</Step>
@@ -180,11 +202,14 @@ export default class CreateListing extends React.Component {
 					        		</div>
 					        		<label className="label">
 										Availability:
-										<MultiDayPicker/>
+										<DayPicker
+								          selectedDays={this.state.dates_unavailable}
+								          onDayClick={this.handleDayClick}
+								        />
 							        </label>
-				        			<button onClick={previousStep}>Previous</button>	
-								    <button onClick={nextStep}>Next</button>
 								</div>
+								<button className="button is-link" onClick={previousStep}>Previous</button>	
+								<button className="button is-link" onClick={nextStep}>Next</button>
 			        		</>
 						}
 		  			</Step>
@@ -251,14 +276,14 @@ export default class CreateListing extends React.Component {
 							            <i> per night</i>
 							          </label>  
 							        </div>
-				        			<button onClick={previousStep}>Previous</button>	
-								    <button onClick={nextStep}>Next</button>
 								</div>
+				        		<button className="button is-link" onClick={previousStep}>Previous</button>	
+								<button  className="button is-link" onClick={nextStep}>Next</button>
 			        		</>
 						}
 		  			</Step>
 		  			<Step>
-			        	{({ nextStep, previousStep }) =>
+			        	{({ nextStep, previousStep, isActive }) =>
 			        		<>
 			        			<div className="card">
 				        			<div className="card-header">
@@ -306,9 +331,9 @@ export default class CreateListing extends React.Component {
 
 							          </label>
 							        </div>
-				        			<button onClick={previousStep}>Previous</button>
-				        			<button type="submit" className="button">Submit</button>	
 								</div>
+								<button className="button is-link" onClick={previousStep}>Previous</button>
+				        		{isActive ? (<button type="submit" className="button">Submit</button>) : (<button type="submit" disabled className="button">Submit</button>)}	
 			        		</>
 						}
 		  			</Step>
@@ -324,9 +349,10 @@ export class Step extends React.Component {
   render() {
   	const nextStep = this.props.nextStep;
   	const previousStep = this.props.previousStep;
+  	const isActive = this.props.isActive;
     return (
       <div>
-        {this.props.children({ nextStep, previousStep })}
+        {this.props.children({ nextStep, previousStep, isActive })}
       </div>
     );
   }
