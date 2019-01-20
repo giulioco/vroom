@@ -114,7 +114,7 @@ export default class ViewListing extends React.Component {
 
         </div>
 
-        
+        <footer className="footer"></footer>
 
 
         
