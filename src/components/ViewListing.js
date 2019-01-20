@@ -78,7 +78,7 @@ export default class ViewListing extends React.Component {
       </div>
     );
 
-    const { amenities, description, policy, rate, size } = data;
+    const { amenities, description, policy, rate, size, listing_name, poster } = data;
 
     return (
       <div>
@@ -86,10 +86,10 @@ export default class ViewListing extends React.Component {
           <div className="hero-body">
             <div className="container">
               <h1 className="title">
-                {this.state.data.listing_name}
+                {listing_name}
               </h1>
               <h2 className="subtitle">
-                Posted by: {this.state.data.poster}
+                Posted by: {poster}
               </h2>
             </div>
           </div>

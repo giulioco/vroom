@@ -115,7 +115,6 @@ export const getListings = (lat, long, radius, dates, cb) => {
   const center = geo.point(lat, long);
 
   return geoListings.within(center, radius, 'position').subscribe((res) => {
-    console.log(res);
     if (!dates) return cb(res);
 
     const startDate = dates[0].getTime();
