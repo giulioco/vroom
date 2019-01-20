@@ -220,7 +220,6 @@ export default class CreateListing extends React.Component {
           </select>
           </div>
         </label>
-<<<<<<< HEAD
 
         <div className="field">
           <label className="label">
@@ -230,16 +229,6 @@ export default class CreateListing extends React.Component {
           </label>
             
         </div>
-=======
-        <label className="label">
-			<input type="date"/>
-        </label>
-
-        <label className="label">
-          Rate: 
-          <input type="range" min="0" max="50" value={this.state.rate} onChange={this.handleChange("rate")} step="1"/>
-        </label>
->>>>>>> 09ed2af04dddfecbacb3f071bfa0965007b8612d
 
 
         <button type="submit" className="button">Submit</button>
