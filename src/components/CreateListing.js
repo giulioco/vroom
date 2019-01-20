@@ -87,16 +87,17 @@ export default class CreateListing extends React.Component {
     return (
       <form onSubmit={this.handleSubmit} className="container">
         <h1 className="is-size-1">Make a new listing</h1>
+
         <div className="field">
           <label className="label">Listing name</label>
             <div className="control">
-              <input type="text" className="input" value={this.state.listing_name} onChange={this.handleChange("listing_name")} />
+              <input required type="text" placeholder="Text that will show up in searches" className="input" value={this.state.listing_name} onChange={this.handleChange("listing_name")} />
             </div>
         </div>
 
         <div className="field">
           <label className="label">Address</label>
-              <SearchAddress onResult={this.handleAddressChange} />
+              <SearchAddress required onResult={this.handleAddressChange} />
         </div>
 
         <div className="field">
@@ -104,6 +105,7 @@ export default class CreateListing extends React.Component {
           {this.state.listing_imgURL && <figure className="image is-128x128"><img className="is-rounded" src={this.state.listing_imgURL}/></figure>}
 
            <CustomUploadButton
+              required
               accept="image/*"
               name="listing_imgURL"
               randomizeFilename
@@ -121,7 +123,7 @@ export default class CreateListing extends React.Component {
         <div className="field">
         <label className="label"> Description</label>
           <div className="control">
-            <textarea value={this.state.description} className="textarea" onChange={this.handleChange("description")} />
+            <textarea required placeholder="What best describes your parking space?" value={this.state.description} className="textarea" onChange={this.handleChange("description")} />
           </div>
         </div>
 
@@ -167,14 +169,15 @@ export default class CreateListing extends React.Component {
             <div className="control">
               <input className="slider is-fullwidth" step="1" min="0" max="2" value={this.state.cancellation_policy} type="range"
                       onChange={this.handleChange("cancellation_policy")}></input>
-
             </div>
-            <div className="columns">
+
+            <div className="columns is-mobile">
               <div className="column has-text-centered">
                 <span className="badge is-badge-outlined" data-badge="">
                   Flexible
                 </span>
               </div>
+
               <div className="column has-text-centered">
                 <span className="badge is-badge-success is-badge-outlined" data-badge="">
                   Moderate
@@ -185,7 +188,21 @@ export default class CreateListing extends React.Component {
                   Strict
                 </span>
               </div>
+            </div>
+
+            <div className="columns is-mobile">
+              <div className="column has-text-centered">
+                  Renters can cancel up to 24 hours before the a scheduled date, and are elligible to a full-refund.
               </div>
+
+              <div className="column has-text-centered">
+                  The booker can cancel their booking up to three days before their scheduled stay and are elligible to a 50% refund.
+              </div>
+              <div className="column has-text-centered">
+                  All bookings are final, and no refunds are awarded to no-shows.
+              </div>
+            </div>
+
           </label>
         </div>
 
@@ -201,11 +218,14 @@ export default class CreateListing extends React.Component {
           </div>
         </label>
 
-
-        <label className="label">
-          Rate: 
-          <input type="range" min="0" max="50" value={this.state.rate} onChange={this.handleChange("rate")} step="1"/>
-        </label>
+        <div className="field">
+          <label className="label">
+            Rate $ 
+            <input type="number" min="0" value={this.state.rate} onChange={this.handleChange("rate")} step="0.01"/>
+            <i> per night</i>
+          </label>
+            
+        </div>
 
         <button type="submit" className="button">Submit</button>
       </form>
