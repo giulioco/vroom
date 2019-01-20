@@ -321,17 +321,7 @@ export default class CreateListing extends React.Component {
 								</div>
 								<button type="button" className="button is-link" 
 								onClick={previousStep}>Previous</button>
-								<button type="button" className="button is-link" onClick={nextStep}>Next</button>	
-			        		</>
-						}
-		  			</Step>
-		  			<Step>
-			        	{({ nextStep, previousStep, isActive }) =>
-			        		<>
-			        			<div className="card">
-					        		{isActive ? (<button type="submit" className="button">Submit</button>) : (<button type="submit" disabled className="button">Submit</button>)}
-								</div>
-								<button type="button" className="button is-link" onClick={previousStep}>Previous</button>
+								{isActive ? (<button type="submit" className="button">Submit</button>) : (<button type="submit" disabled className="button">Submit</button>)}
 			        		</>
 						}
 		  			</Step>
