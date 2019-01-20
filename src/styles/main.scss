@@ -72,7 +72,9 @@
   width: 100%;
   max-width: 100%;
   box-shadow: none;
-
+}
+.mapboxgl-ctrl-bottom-left {
+  display: none;
 }
 
 $sizes: (0,10,15,20,25,30,50);
@@ -92,4 +94,11 @@ $positions: ('top','left','bottom','right');
   right: 20px;
   top: 20px;
   width: 300px;
+}
+
+.react-calendar__tile--active {
+  background: $link !important;
+  &:hover {
+    background: $primary !important; 
+  }
 }

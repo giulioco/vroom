@@ -90,6 +90,7 @@ export default class GeocodeMap extends Component {
         <MapGL
           ref={this.mapRef}
           {...viewport}
+          mapStyle="mapbox://styles/mapbox/dark-v9"
           onViewportChange={this.handleViewportChange}
           mapboxApiAccessToken={MAPBOX_TOKEN}>
           <Geocoder
@@ -107,11 +108,9 @@ export default class GeocodeMap extends Component {
                 ],
                 getPosition: d => d.position,
                 getRadius: radius * 1000,
-                // stroked: true,
-                getColor: [106, 174, 242, 100],
+                stroked: true,
+                getColor: [255, 255, 255, 50],
                 pickable: false,
-                // getLineColor: [255, 255, 0],
-                // getLineWidth: 20,
               }),
             ]}/>
           )}

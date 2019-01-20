@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, NavLink, withRouter } from 'react-router-dom';
 
 import * as db from '../db';
+import brandingImg from '../images/vroom-car-text.svg';
 
 // To support a fixed header, add this class to document head
 // document.documentElement.classList.add('has-navbar-fixed-top');
@@ -26,8 +27,8 @@ class Nav extends React.PureComponent {
   toggle = () => this.setState(({ open }) => ({ open: !open }))
 
   signIn = () => db.signIn()
-    .then((path) => this.props.history.push(path))
-    .catch(console.error);
+  .then((path) => this.props.history.push(path))
+  .catch(console.error);
 
   render() {
     const { open, loggedIn } = this.state;
@@ -85,7 +86,7 @@ class Nav extends React.PureComponent {
         <div className="container">
           <div className="navbar-brand">
             <Link className="navbar-item " to="/">
-              <img src="/src/images/vroom-car-text.svg" className="d-inline-block align-top" alt=""/>
+              <img src={brandingImg} className="d-inline-block align-top" alt=""/>
             </Link>
             <div className={`navbar-burger burger ${open ? 'is-active' : ''}`}
               onClick={this.toggle} role="button" tabIndex="0">

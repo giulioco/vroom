@@ -1,5 +1,7 @@
 import React from 'react';
 
+import logoImg from '../images/vroom-logo.svg';
+
 
 export default () => (
   <div className="container">
@@ -9,7 +11,7 @@ export default () => (
     <div className="content">
       <h1 align="center">
         <br />
-        <a href="#"><img src="/src/images/vroom-logo.svg" alt="VRoom" width={400} /></a>
+        <a href="#"><img src={logoImg} alt="VRoom" width={400} /></a>
         <br />
       </h1>
       <h4 align="center">A platform for people sleeping in their vehicles to find overnight parking. 🚍</h4>
