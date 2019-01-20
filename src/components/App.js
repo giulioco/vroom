@@ -17,7 +17,6 @@ import Account from './Account';
 import Setup from './Setup';
 import Listings from './Listings';
 import CreateListing from './CreateListing';
-import MapDisplay from "./MapDisplay"
 
 import ErrorBoundary from './ErrorBoundary';
 import Nav from './Nav';
@@ -46,7 +45,6 @@ const App = () => (
           <Route exact path="/" component={Home} />
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/about" component={About} />
-          <Route exact path="/map" component={MapDisplay} />
           <PrivateRoute exact path="/setup" component={Setup} />
           <PrivateRoute exact path="/account" component={Account} />
           <PrivateRoute exact path="/listings/new" component={CreateListing} />

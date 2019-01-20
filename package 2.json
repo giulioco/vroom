@@ -1,0 +1,33 @@
+{
+  "name": "vroom",
+  "version": "1.0.0",
+  "description": "A platform for people sleeping in their vehicles to find overnight parking",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack-dev-server",
+    "build": "cross-env NODE_ENV=production webpack",
+    "deploy-firebase": "firebase deploy",
+    "deploy": "echo 'TODO!'"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.12",
+    "@fortawesome/free-solid-svg-icons": "^5.6.3",
+    "@fortawesome/react-fontawesome": "^0.1.4",
+    "bulma": "^0.7.2",
+    "deck.gl": "^6.3.6",
+    "firebase": "^5.8.0",
+    "mapbox-gl": "^0.52.0",
+    "react": "^16.7.0",
+    "react-async-script-loader": "^0.3.0",
+    "react-dom": "^16.7.0",
+    "react-hot-loader": "^4.6.3",
+    "react-map-gl": "^4.0.8",
+    "react-map-gl-geocoder": "^1.6.1",
+    "react-places-autocomplete": "^7.2.0",
+    "react-router-dom": "^4.3.1"
+  },
+  "devDependencies": {
+    "webpack-boiler": "^0.2.3"
+  },
+  "private": true
+}
