@@ -71,14 +71,14 @@ export default class Listings extends React.Component {
         </div>
         
         <div style={{ position: 'absolute', top: 300, left: 0, padding: 8 }}>
-          <input className="slider is-fullwidth" step="1" min="2" max="70"
+          <input className="slider is-fullwidth is-info" step="1" min="2" max="70"
             value={radius} type="range" orient="vertical" onChange={this.changeRadius}/>
           <div className="has-text-centered"><strong>Radius</strong><br/>{radius} km</div>
         </div>
         <div className="listings">
           {listings && listings.map((listing) => (
             <Link key={listing.id} className="box" to={`/listings/${listing.id}`}>
-              <strong>{listing.address}</strong> <span>{listing.rate || 1} $/Day</span><br/>
+              <strong>{listing.address}</strong> <br/> <span>{listing.rate || 1} $/Day</span><br/>
               <p className="is-size-7">{listing.description}</p>
             </Link>
           ))}
