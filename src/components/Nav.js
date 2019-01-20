@@ -26,8 +26,8 @@ class Nav extends React.PureComponent {
   toggle = () => this.setState(({ open }) => ({ open: !open }))
 
   signIn = () => db.signIn()
-  .then((path) => this.props.history.push(path))
-  .catch(console.error);
+    .then((path) => this.props.history.push(path))
+    .catch(console.error);
 
   render() {
     const { open, loggedIn } = this.state;
@@ -61,7 +61,7 @@ class Nav extends React.PureComponent {
               <Link className="navbar-item" to="/account">
                 Account
               </Link>
-              <hr className="navbar-divider"/>
+              <hr className="navbar-divider" />
               <Link className="navbar-item" to="/logout">
                 Logout
               </Link>
@@ -81,15 +81,14 @@ class Nav extends React.PureComponent {
       <nav className={`navbar is-fixed-top ${front ? 'is-transparent' : 'is-link'}`}>
         <div className="container">
           <div className="navbar-brand">
-          <img src="/src/images/vroom-car.svg" width="64" className="d-inline-block align-top" alt=""></img>
-            <Link className="navbar-item" to="/">
-              <h1 className="is-size-4 site-title has-text-weight-bold">vroom</h1>
+            <Link className="navbar-item " to="/">
+              <img src="/src/images/vroom-car-text.svg" className="d-inline-block align-top" alt=""></img>
             </Link>
             <div className={`navbar-burger burger ${open ? 'is-active' : ''}`}
               onClick={this.toggle} role="button" tabIndex="0">
-              <span/>
-              <span/>
-              <span/>
+              <span />
+              <span />
+              <span />
             </div>
           </div>
           <div className={`navbar-menu ${open ? 'is-active' : ''}`}>

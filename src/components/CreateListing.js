@@ -8,9 +8,9 @@ export default class CreateListing extends React.Component {
  constructor(props) {
     super(props);
     this.state = {
-      listing_name: "Your listing name", 
+      listing_name: "", 
       license_verification: false,
-      description: "Your description here",
+      description: "",
       amenities: {
         bathroom: false,
         water: false,
@@ -31,6 +31,7 @@ export default class CreateListing extends React.Component {
   }
 
   handleCheckboxChange = (name) => (event) => {
+  	console.log(name + " = " + event.target.checked)
     const checkedValue = event.target.checked;
     this.setState(({ amenities }) => {
       amenities[name] = checkedValue;
@@ -67,47 +68,56 @@ export default class CreateListing extends React.Component {
         <div className="field">
           <label className="label">Listing name</label>
             <div className="control">
-              <input type="text" value={this.state.listing_name} onChange={this.handleChange("listing_name")} />
+              <input type="text" className="input" value={this.state.listing_name} onChange={this.handleChange("listing_name")} />
             </div>
         </div>
 
         <div className="field">
           <label className="label">Address</label>
-            <div className="control">
-              <input type="text" value={this.state.address} onChange={this.handleChange("address")} />
               <SearchAddress/>
-            </div>
         </div>
 
         <div className="field">
         <label className="label"> Description</label>
           <div className="control">
-            <textarea value={this.state.description} onChange={this.handleChange("description")} />
+            <textarea value={this.state.description} className="textarea" onChange={this.handleChange("description")} />
           </div>
         </div>
 
         <div className="field">
         <label className="label">Amenities</label>
-        <div className="control">
-          <label className="checklist">
+         	<div className="field">
             <input  type="checkbox" 
+            		className="is-checkradio"
                     name="bathroom"
+                    id="bathroom"
                     checked={this.state.amenities.bathroom} 
-                    onChange={this.handleCheckboxChange("bathroom")}/> Bathroom <br/>
+                    onChange={this.handleCheckboxChange("bathroom")}/> <label htmlFor="bathroom">Bathroom </label> 
+            </div>
+            <div className="field">
             <input  type="checkbox" 
+            		className="is-checkradio"
                     name="water"
+                    id="water"
                     checked={this.state.amenities.water} 
-                    onChange={this.handleCheckboxChange("water")}/> Water <br/>
+                    onChange={this.handleCheckboxChange("water")}/> <label htmlFor="water">Water </label>
+            </div>
+            <div className="field">
             <input  type="checkbox" 
+            		className="is-checkradio"
                     name="wifi"
+                    id="wifi"
                     checked={this.state.amenities.wifi} 
-                    onChange={this.handleCheckboxChange("wifi")}/> WiFi <br/>
+                    onChange={this.handleCheckboxChange("wifi")}/> <label htmlFor="wifi"> WiFi </label>
+            </div>
+            <div className="field">
             <input  type="checkbox" 
+            		className="is-checkradio"
                     name="electricity"
+                    id="electricity"
                     checked={this.state.amenities.electricity} 
-                    onChange={this.handleCheckboxChange("electricity")}/> Electricity
-          </label>
-        </div>
+                    onChange={this.handleCheckboxChange("electricity")}/> <label htmlFor="electricity"> Electricity </label>
+             </div>
         </div>
 
         <div className="field">
@@ -119,19 +129,19 @@ export default class CreateListing extends React.Component {
 
             </div>
             <div className="columns">
-              <div className="column">
+              <div className="column has-text-centered">
                 <span className="badge is-badge-outlined" data-badge="">
-                  Notifications
+                  Flexible
                 </span>
               </div>
-              <div className="column">
+              <div className="column has-text-centered">
                 <span className="badge is-badge-success is-badge-outlined" data-badge="">
-                  Notifications
+                  Moderate
                 </span>
               </div>
-              <div className="column">
+              <div className="column has-text-centered">
                 <span className="badge is-badge-warning is-badge-outlined" data-badge="">
-                  Notifications
+                  Strict
                 </span>
               </div>
               </div>
@@ -141,11 +151,13 @@ export default class CreateListing extends React.Component {
 
         <label className="label">
           Size: 
+          <div className="select">
           <select value={this.state.size} onChange={this.handleChange("size")}>
             <option value="small">Small</option>
             <option value="medium">Medium</option>
             <option value="Large">Large</option>
           </select>
+          </div>
         </label>
 
 
