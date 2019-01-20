@@ -4,8 +4,7 @@ import SearchAddress from './SearchAddress';
 import GeocodeMap from './GeocodeMap';
 import firebase from "firebase";
 import FileUploader from "react-firebase-file-uploader";
-import 'react-dates/initialize';
-import { DateRangePicker, SingleDatePicker, DayPickerRangeController } from 'react-dates';
+import MultiDayPicker from './MultiDayPicker'
 import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
 import StepWizard from 'react-step-wizard';
 
@@ -26,10 +25,11 @@ export default class CreateListing extends React.Component {
       house_rules: "",
       size: "",
       cancellation_policy: 0,
-      listing_img: ""
+      listing_img: "",
+      dates_unavailable: []
     };
-  }
 
+  }
 
   handleChange = (name) => (event) => {
     const target = event.target;
@@ -252,6 +252,10 @@ export default class CreateListing extends React.Component {
             <option value="Large">Large</option>
           </select>
           </div>
+        </label>
+        <label className="label">
+			Availability:
+			<MultiDayPicker/>
         </label>
 
         <div className="is-divider"></div>
