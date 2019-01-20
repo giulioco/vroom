@@ -51,6 +51,24 @@ export default class ViewListing extends React.Component {
     });
   }
 
+  deleteListing = () => {
+    // make sure the logged in user owns this listing
+    let listingID = this.props.match.params.id
+    var currentUser = db.getUser()
+
+    db.listings.doc(listingID).get().then((doc) => {
+      if (doc.exists) {
+        const data = doc.data();
+        if (data.lister_id == currentUser.uid) { //the current user is the owner if this listing
+          if (!confirm('Are you sure? This will delete your listing forever.')) return;
+          console.log("will delete (not really, this for testing) ")
+          console.log(listingID)
+          db.listings.doc(listingID).delete().then(() => this.props.history.push('/listings'))
+        }
+      }
+    });
+  }
+
   render() {
     const { data } = this.state;
 
@@ -71,15 +89,15 @@ export default class ViewListing extends React.Component {
                 {this.state.data.listing_name}
               </h1>
               <h2 className="subtitle">
-              Posted by: {this.state.data.poster}
+                Posted by: {this.state.data.poster}
               </h2>
             </div>
           </div>
         </section>
         <div class="columns">
-        <div className="column"></div>
+          <div className="column"></div>
           <div class="column is-two-thirds">
-            
+
             <h1 className="is-size-1">amenities</h1>
             <pre>{JSON.stringify(amenities)}</pre>
             <h1>description </h1>
@@ -93,31 +111,28 @@ export default class ViewListing extends React.Component {
 
             <nav className="level">
               {/* <div className="level-left"> */}
-                <div className="level-item">
+              <div className="level-item">
                 <a class="button is-medium is-fullwidth">Request Vroom</a>
                 {/* </div> */}
               </div>
 
               {/* <div className="level-right"> */}
-              <a class="button is-danger is-outlined">
+              {data.lister_id == db.getUser().uid ? (<a onClick={this.deleteListing} class="button is-danger is-outlined">
                 <span>Delete</span>
                 <span class="icon is-medium">
                   <i class="fas fa-times"></i>
                 </span>
-              </a>
+              </a>) : null}
               {/* </div> */}
             </nav>
-
           </div>
-
           <div className="column"></div>
-
         </div>
 
         <footer className="footer"></footer>
 
 
-        
+
       </div>
     );
   }
