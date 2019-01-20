@@ -117,7 +117,7 @@ export default class CreateListing extends React.Component {
 
   render() {
     return (
-    <div className = "container is-centered has-text-centered">
+    <div className="is-centered has-text-centered" id="doit">
 		      <form onSubmit={this.handleSubmit}>
 		        <StepWizard>
 			        <Step>
@@ -391,7 +391,7 @@ export default class CreateListing extends React.Component {
 												<div className="level">
 													<button type="button" className="button is-link" 
 														onClick={previousStep}>Previous</button>
-														{isActive ? (<button type="submit" className="button">Submit</button>) : (<button type="submit" disabled className="button">Submit</button>)}
+														{isActive ? (<button type="submit" className="button is-success">Submit</button>) : (<button type="submit" disabled className="button">Submit</button>)}
 												</div>
 											</div>
 									</div>
