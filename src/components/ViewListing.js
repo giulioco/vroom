@@ -9,6 +9,7 @@ export default class ViewListing extends React.Component {
   state = {
     data: null,
     dates: null,
+    imageUrl: null,
   }
 
   componentDidMount() {
@@ -18,9 +19,15 @@ export default class ViewListing extends React.Component {
       dates: [db.bookingDates.start, db.bookingDates.end],
     });
 
+
     db.listings.doc(this.id).get().then((doc) => {
       if (doc.exists) {
         const data = doc.data();
+
+        db.listingImages.child(data.listing_img).getDownloadURL()
+        .then((imageUrl) => this.setState({ imageUrl }))
+        .catch(console.error);
+
 
         // amenities is stored as a map,
         // find the amenities the listing has,
@@ -71,13 +78,27 @@ export default class ViewListing extends React.Component {
         };
 
         db.bookings.add(bookingData);
-        console.log("added booking to db");
 
-        // add dates in between to listing.dates_unavailable
+        const ref = db.listings.doc(data.listing_id);
+        db.transaction((trans) => {
+          return trans.get(ref).then((docc) => {
+            const dataa = docc.data();
+            
+            const dates_unavailable = dataa.dates_unavailable || [];
+            
+            const [start, end] = this.state.dates;
+            
+            while (start.getDate() <= end.getDate()) {
+              dates_unavailable.push(new Date(start.getTime()));
+              start.setDate(start.getDate() + 1);
+            }
 
-        // db.listings.doc(data.listing_id).({
-
-        // });
+            return trans.update(ref, {
+              dates_unavailable,
+            });
+          });
+        });
+  
       }
     });
   }
@@ -104,7 +125,7 @@ export default class ViewListing extends React.Component {
   }
 
   render() {
-    const { data, dates } = this.state;
+    const { data, dates, imageUrl } = this.state;
 
     if (data === false) throw { code: 404 };
 
@@ -120,7 +141,7 @@ export default class ViewListing extends React.Component {
               <h1 className="title">
                 {listing_name}
               </h1>
-              <h2 className="subtitle">
+              <h2 className="subtitle has-text-link">
                 Posted by: {poster}
               </h2>
             </div>
@@ -128,29 +149,48 @@ export default class ViewListing extends React.Component {
         </section>
 
         <div className="container">
-          <h1 className="is-size-4 has-text-weight-bold">Amenities</h1>
-          <p>{amenities}</p>
-          <h1 className="is-size-4 has-text-weight-bold">Description</h1>
-          <p>{description}</p>
-          <h1 className="is-size-4 has-text-weight-bold">Policy</h1>
-          <p>{policy || 'N/A'}</p>
-          <h1 className="is-size-4 has-text-weight-bold">Rate</h1>
-          <p>{rate || 1} $/Day</p>
-          <h1 className="is-size-4 has-text-weight-bold">Size</h1>
-          <p>{size || 'Medium'}</p>
+          <div className="columns">
+            <div className="column is-half">
+              { imageUrl && <figure className="image">
+                <img src={imageUrl}/>
+              </figure> }
+            </div>
+            <div className="column is-half">
+            <Calender selectRange onChange={this.onChange} value={dates} />
+            <br/>
+            <div>
+              <a className="button is-medium is-link" onClick={this.createBooking}>Request Vroom</a>
 
-          <br/>
-
-          <Calender selectRange onChange={this.onChange} value={dates} />
-          <br/>
-          <div>
-            <a className="button is-medium is-link" onClick={this.createBooking}>Request Vroom</a>
-
-            {/* <div className="level-right"> */}
-            {data.lister_id === db.getUser().uid ? (<a onClick={this.deleteListing} style={{ marginLeft: 16}} className="button is-danger is-medium">
-              <span>Delete</span>
-            </a>) : null}
+              {/* <div className="level-right"> */}
+              {data.lister_id === db.getUser().uid ? (<a onClick={this.deleteListing} style={{ marginLeft: 16}} className="button is-danger is-medium">
+                <span>Delete</span>
+              </a>) : null}
+            </div>
+            
           </div>
+          </div>
+          <div>
+          <div className="columns">
+            <div className="column is-4">
+              <h1 className="is-size-4 has-text-weight-bold">Amenities</h1>
+              <p>{amenities}</p>
+              <h1 className="is-size-4 has-text-weight-bold">Policy</h1>
+              <p>{policy || 'N/A'}</p>
+            </div>
+            <div className="column is-4">
+              <h1 className="is-size-4 has-text-weight-bold">Rate</h1>
+              <p>{rate || 1} $/Day</p>
+              <h1 className="is-size-4 has-text-weight-bold">Size</h1>
+              <p>{size || 'Medium'}</p>
+              </div>
+              <div className="column is-4">
+              <h1 className="is-size-4 has-text-weight-bold">Description</h1>
+                <pre>{description}</pre>
+              </div>
+            </div>
+            
+            </div>
+          <br/>
         </div>
       </div>
     );

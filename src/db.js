@@ -46,6 +46,8 @@ export let bookings;
 /** @type geofirex.GeoFireCollectionRef */
 export let geoListings;
 
+export const transaction = (fn) => firestore.runTransaction(fn);
+
 export const getUser = () => auth.currentUser;
 
 let _userData = null;
