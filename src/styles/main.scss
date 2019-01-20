@@ -37,12 +37,37 @@
   cursor: pointer;
 }
 
-.mymarker {
-  width: 100px;
-  height: 100px;
+.map-user {
+  display: block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50% 50% 50% 0;
+  background: #89849b;
+  position: absolute;
+  transform: rotate(-45deg);
+  left: 50%;
+  top: 50%;
+  margin: -20px 0 0 -20px;
+  animation-name: bounce;
+  animation-fill-mode: both;
+  animation-duration: 1s;
+}
+.map-user:after {
+  content: '';
+  width: 14px;
+  height: 14px;
+  margin: 8px 0 0 8px;
+  background: #2f2f2f;
+  position: absolute;
   border-radius: 50%;
-  border: 1px solid red;
-  background: rgba(255, 95, 95, 0.425);
+}
+
+.search-address .mapboxgl-ctrl-geocoder.mapboxgl-ctrl, .mapboxgl-ctrl-top-left {
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  box-shadow: none;
+
 }
 
 $sizes: (0,10,15,20,25,30,50);
@@ -57,19 +82,9 @@ $positions: ('top','left','bottom','right');
   }
 }
 
-.search-address {
-
-//   .mapboxgl-canvas-container, .mapboxgl-ctrl-bottom-left, .mapboxgl-ctrl-bottom-right {
-//     display: none;
-//   }
-  .mapboxgl-ctrl-geocoder.mapboxgl-ctrl, .mapboxgl-ctrl-top-left {
-    margin: 0;
-    width: 100%;
-    max-width: 100%;
-    box-shadow: none;
-    // display: block;
-    // position: relative;
-  }
-
+.listings {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 300px;
 }
-
