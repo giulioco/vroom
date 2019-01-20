@@ -24,6 +24,7 @@ const firestore = firebase.firestore();
 const storage = firebase.storage();
 
 export const images = storage.ref('user_images');
+export const listingImages = storage.ref('listing_images');
 
 export const Helpers = firebase.firestore;
 
@@ -32,6 +33,8 @@ export const Helpers = firebase.firestore;
 export let users;
 /** @type firebase.firestore.CollectionReference */
 export let listings;
+/** @type firebase.firestore.CollectionReference */
+export let bookings;
 /** @type geofirex.GeoFireCollectionRef */
 export let geoListings;
 
@@ -75,6 +78,7 @@ export const init = () => firestore.enablePersistence()
 .then(() => {
   users = firestore.collection('users');
   listings = firestore.collection('listings');
+  bookings = firestore.collection('bookings');
   geoListings = geo.collection('listings');
 
   return fetchInfo();

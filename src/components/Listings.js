@@ -88,7 +88,7 @@ export default class Listings extends React.Component {
         <div className="listings">
           {listings && listings.map((listing) => {
 
-            let desc = listing.description;
+            let desc = listing.name;
             if (desc.length > 64) desc = desc.substring(0, 64) + '...';
 
             return (
