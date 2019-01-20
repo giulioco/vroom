@@ -21,9 +21,9 @@ const Bl = ({ user, listing, dates, title, buttons }) => (
         {dates}
       </div>
       <div className="column is-6 is-mobile">
-        {listing.name}
         <strong>{listing.address}</strong>
         <hr/>
+        {listing.listing_name}<br/>
         <p className="has-text-link">{listing.description}</p>
       </div>
     </div>

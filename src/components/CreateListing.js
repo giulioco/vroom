@@ -23,7 +23,7 @@ export default class CreateListing extends React.Component {
       },
       house_rules: "",
       size: "",
-      cancellation_policy: 0,
+      cancellation_policy: "0",
       listing_img: "",
       dates_unavailable: []
     };
@@ -127,8 +127,8 @@ export default class CreateListing extends React.Component {
 			        		<>
 			        			<div className="hero is-medium is-light is-bold">
 				        			<div className="hero-body">
-												<div class="container">
-													<h1 class="title">
+												<div className="container">
+													<h1 className="title">
 													Where?
 													</h1>
 					        			</div>
@@ -149,15 +149,15 @@ export default class CreateListing extends React.Component {
 			        		<>	
 										<div className="hero is-medium is-light is-bold">
 											<div className="hero-body">
-												<div class="container">
-													<h1 class="title">
+												<div className="container">
+													<h1 className="title">
 													What?
 													</h1>
 													</div>
 													<div className="is-divider"></div>
 
-													<div class="columns">
-														<div class="column">
+													<div className="columns">
+														<div className="column">
 
 															<div className="field">
 																<label className="label">Listing name</label>
@@ -167,7 +167,7 @@ export default class CreateListing extends React.Component {
 															</div>
 
 														</div>
-														<div class="column">
+														<div className="column">
 															
 														<div className="field">
 															{this.state.isUploading && <p> <progress className="progress is-success" value={this.state.progress} max="100">{this.state.progress}%</progress></p>}
@@ -189,7 +189,7 @@ export default class CreateListing extends React.Component {
 														</div>
 
 														</div>
-														<div class="column">
+														<div className="column">
 															
 														<div className="field">
 															<label className="label"> Description</label>
@@ -215,8 +215,8 @@ export default class CreateListing extends React.Component {
 			        		<>
 										<div className="hero is-medium is-light is-bold">
 				        			<div className="hero-body">
-												<div class="container">
-													<h1 class="title">
+												<div className="container">
+													<h1 className="title">
 					        					When?
 													</h1>
 					        			</div>
@@ -247,8 +247,8 @@ export default class CreateListing extends React.Component {
 
 									{/* <div className="hero is-medium is-light is-bold">
 				        			<div className="hero-body">
-												<div class="container">
-													<h1 class="title">
+												<div className="container">
+													<h1 className="title">
 													Where?
 													</h1>
 					        			</div>
@@ -262,10 +262,10 @@ export default class CreateListing extends React.Component {
 										</div> */}
 
 
-<div className="hero is-medium is-light is-bold">
+										<div className="hero is-medium is-light is-bold">
 				        			<div className="hero-body">
-												<div class="container">
-													<h1 class="title">
+												<div className="container">
+													<h1 className="title">
 					        				How?
 													</h1>
 													<div className="is-divider"></div>
@@ -349,17 +349,17 @@ export default class CreateListing extends React.Component {
 
 							            <div className="columns is-mobile">
 							              <div className="column has-text-centered">
-							                <span className="badge is-badge-outlined" data-badge="">
+							                <span className="badge has-text-weight-bold is-badge-outlined" data-badge="">
 							                  Flexible
 							                </span>
 							              </div>
 
-							              <div className="column has-text-centered">
+							              <div className="column has-text-weight-bold has-text-centered">
 							                <span className="badge is-badge-success is-badge-outlined" data-badge="">
 							                  Moderate
 							                </span>
 							              </div>
-							              <div className="column has-text-centered">
+							              <div className="column has-text-weight-bold has-text-centered">
 							                <span className="badge is-badge-warning is-badge-outlined" data-badge="">
 							                  Strict
 							                </span>
@@ -367,14 +367,14 @@ export default class CreateListing extends React.Component {
 							            </div>
 
 							            <div className="columns is-mobile">
-							              <div className="column has-text-centered">
+							              <div className="column has-text-weight-light has-text-centered">
 							                  Renters can cancel up to 24 hours before the a scheduled date, and are elligible to a full-refund.
 							              </div>
 
-							              <div className="column has-text-centered">
+							              <div className="column has-text-weight-light has-text-centered">
 							                  The booker can cancel their booking up to three days before their scheduled stay and are elligible to a 50% refund.
 							              </div>
-							              <div className="column has-text-centered">
+							              <div className="column has-text-weight-light has-text-centered">
 							                  All bookings are final, and no refunds are awarded to no-shows.
 							              </div>
 							            </div>

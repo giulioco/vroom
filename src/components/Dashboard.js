@@ -58,7 +58,9 @@ export default class Dashboard extends React.Component {
           {theirs.map((entry) => <BookingEntry {...entry} key={entry.id}/>)}
         </> : null}
 
-        { (!mine || !mine.length) && (!theirs || !theirs.length) && (<p className="is-size-3 has-text-link"><br/>No booked times yet!</p>) }
+        { (!mine || !mine.length) && (!theirs || !theirs.length) && (
+          <p className="is-size-3 has-text-link"><br/>No booked times yet!</p>
+        )}
 
       </div>
     );

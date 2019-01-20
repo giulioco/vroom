@@ -102,3 +102,14 @@ $positions: ('top','left','bottom','right');
     background: $primary !important; 
   }
 }
+
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside){
+  background: $link !important;
+    &:hover {
+    background: $primary !important; 
+  }
+
+.DayPicker-Caption.label{
+  color: $link !important;
+}
+}

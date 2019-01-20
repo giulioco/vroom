@@ -51,6 +51,38 @@ export default class ViewListing extends React.Component {
     });
   }
 
+  createBooking = () => {
+    // make sure the logged in user owns this listing
+    console.log("in create booking")
+    let listingID = this.props.match.params.id
+    var bookerID = db.getUser().uid
+
+    console.log(db.bookingDates)
+
+    db.listings.doc(listingID).get().then((doc) => {
+      if (doc.exists) {
+        const data = doc.data();
+
+        var bookingData = {
+          lister_id: data.lister_id,
+          booker_id: bookerID,
+          start_date: db.bookingDates.start,
+          end_date: db.bookingDates.end,
+          status: "pending",
+          listing_id: listingID
+        }
+
+        db.bookings.add(bookingData);
+        console.log("added booking to db")
+
+        //add dates in between to listing.dates_unavailable
+
+
+      }
+    });
+  }
+
+
   deleteListing = () => {
     // make sure the logged in user owns this listing
     let listingID = this.props.match.params.id
@@ -78,7 +110,7 @@ export default class ViewListing extends React.Component {
       </div>
     );
 
-    const { amenities, description, policy, rate, size } = data;
+    const { amenities, description, policy, rate, size, listing_name, poster } = data;
 
     return (
       <div>
@@ -86,10 +118,10 @@ export default class ViewListing extends React.Component {
           <div className="hero-body">
             <div className="container">
               <h1 className="title">
-                {this.state.data.listing_name}
+                {listing_name}
               </h1>
               <h2 className="subtitle">
-                Posted by: {this.state.data.poster}
+                Posted by: {poster}
               </h2>
             </div>
           </div>
@@ -112,7 +144,7 @@ export default class ViewListing extends React.Component {
             <nav className="level">
               {/* <div className="level-left"> */}
               <div className="level-item">
-                <a class="button is-medium is-fullwidth">Request Vroom</a>
+                <a onClick={this.createBooking} class="button is-medium is-fullwidth">Request Vroom</a>
                 {/* </div> */}
               </div>
 
