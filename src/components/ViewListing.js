@@ -78,7 +78,7 @@ export default class ViewListing extends React.Component {
         </section>
         <div class="columns">
         <div className="column"></div>
-          <div class="column">
+          <div class="column is-two-thirds">
             
         <h1 className="is-size-1">amenities</h1>
         <pre>{JSON.stringify(amenities)}</pre>
