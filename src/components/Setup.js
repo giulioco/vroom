@@ -3,7 +3,6 @@ import React from 'react';
 import * as db from '../db';
 import firebase from "firebase";
 import FileUploader from "react-firebase-file-uploader";
-import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
 
 
 export default class Setup extends React.Component {
