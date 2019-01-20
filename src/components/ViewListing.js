@@ -15,6 +15,7 @@ export default class ViewListing extends React.Component {
     db.listings.doc(this.id).get().then((doc) => {
       if (doc.exists) {
         const data = doc.data();
+        data.poster = "Poster"
 
         //amenities is stored as a map,
         // find the amenities the listing has,
@@ -26,10 +27,23 @@ export default class ViewListing extends React.Component {
             amenitiesArray.push(key)
           }
         }
-        data.amenities = amenitiesArray.join(" ")
+        data.amenities = amenitiesArray.join(", ")
 
-        console.log(data);
-        this.setState({ data });
+        //find the poster using the id
+
+        db.users.doc(data.lister_id).get().then((user) => {
+          const userData = user.data();
+          if (user.exists) {
+            console.log(userData)
+            data.poster = userData.name
+          } else {
+            data.poster = "Poster"
+          }
+
+          console.log(data);
+          this.setState({ data });
+        });
+
 
       } else {
         console.log("The Listing you are looking for does not exist");
@@ -48,10 +62,14 @@ export default class ViewListing extends React.Component {
     );
 
     const { amenities, description, policy, rate, size } = data;
-    
+
     return (
       <div>
         {/* <h1>View listing {this.props.match.params.id}</h1> */}
+
+
+        <h1 className="is-size-1">Poster</h1>
+        <p>{this.state.data.poster}</p>
         <h1 className="is-size-1">amenities</h1>
         <pre>{JSON.stringify(amenities)}</pre>
         <h1>description </h1>
