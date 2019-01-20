@@ -64,11 +64,22 @@ export default class ViewListing extends React.Component {
 
     return (
       <div>
-        {/* <h1>View listing {this.props.match.params.id}</h1> */}
-
-
-        <h1 className="is-size-1">Poster</h1>
-        <p>{this.state.data.poster}</p>
+        <section className="hero is-light">
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="title">
+                {this.state.data.listing_name}
+              </h1>
+              <h2 className="subtitle">
+              Posted by: {this.state.data.poster}
+              </h2>
+            </div>
+          </div>
+        </section>
+        <div class="columns">
+        <div className="column"></div>
+          <div class="column">
+            
         <h1 className="is-size-1">amenities</h1>
         <pre>{JSON.stringify(amenities)}</pre>
         <h1>description </h1>
@@ -79,6 +90,15 @@ export default class ViewListing extends React.Component {
         <p>{rate}</p>
         <h1>size</h1>
         <p>{size}</p>
+
+          </div>
+
+          <div className="column"></div>
+
+        </div>
+
+
+        
       </div>
     );
   }
