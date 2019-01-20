@@ -135,7 +135,7 @@ export default class CreateListing extends React.Component {
 							              <SearchAddress required onResult={this.handleAddressChange} />
 							        </div>
 								</div>
-								<button className="button is-link" onClick={nextStep}>Next</button>
+								<button type="button" className="button is-link" onClick={nextStep}>Next</button>
 							</>
 						}
 		  			</Step>
@@ -179,8 +179,8 @@ export default class CreateListing extends React.Component {
 							          </div>
 							        </div>
 							   	</div>
-							   	<button className="button is-link" onClick={previousStep}>Previous</button>
-							    <button className="button is-link" onClick={nextStep}>Next</button>
+							   	<button type="button" className="button is-link" onClick={previousStep}>Previous</button>
+							    <button type="button" className="button is-link" onClick={nextStep}>Next</button>
 						   </>
 						}
 		  			</Step>
@@ -199,8 +199,8 @@ export default class CreateListing extends React.Component {
 								        />
 							        </label>
 								</div>
-								<button className="button is-link" onClick={previousStep}>Previous</button>	
-								<button className="button is-link" onClick={nextStep}>Next</button>
+								<button type="button" className="button is-link" onClick={previousStep}>Previous</button>	
+								<button type="button" className="button is-link" onClick={nextStep}>Next</button>
 			        		</>
 						}
 		  			</Step>
@@ -279,8 +279,8 @@ export default class CreateListing extends React.Component {
 					        		</div>
 							        
 								</div>
-				        		<button className="button is-link" onClick={previousStep}>Previous</button>	
-								<button  className="button is-link" onClick={nextStep}>Next</button>
+				        		<button type="button" className="button is-link" onClick={previousStep}>Previous</button>	
+								<button type="button" className="button is-link" onClick={nextStep}>Next</button>
 			        		</>
 						}
 		  			</Step>
@@ -334,8 +334,19 @@ export default class CreateListing extends React.Component {
 							          </label>
 							        </div>
 								</div>
-								<button className="button is-link" onClick={previousStep}>Previous</button>
-				        		{isActive ? (<button type="submit" className="button">Submit</button>) : (<button type="submit" disabled className="button">Submit</button>)}	
+								<button type="button" className="button is-link" 
+								onClick={previousStep}>Previous</button>
+								<button type="button" className="button is-link" onClick={nextStep}>Next</button>	
+			        		</>
+						}
+		  			</Step>
+		  			<Step>
+			        	{({ nextStep, previousStep, isActive }) =>
+			        		<>
+			        			<div className="card">
+					        		{isActive ? (<button type="submit" className="button">Submit</button>) : (<button type="submit" disabled className="button">Submit</button>)}
+								</div>
+								<button type="button" className="button is-link" onClick={previousStep}>Previous</button>
 			        		</>
 						}
 		  			</Step>
