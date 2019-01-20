@@ -10,7 +10,7 @@ export default class MapDisplay extends React.Component {
 
     return (
       <div>
-        <h1>PUT MAP HERE</h1>
+        <h1>PUT SEARCH RESULTS HERE</h1>
       </div>
     );
   }
