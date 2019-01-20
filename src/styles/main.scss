@@ -113,3 +113,26 @@ $positions: ('top','left','bottom','right');
   color: $link !important;
 }
 }
+
+#doit .hero {
+  background: transparent;
+  padding: 0 8em;
+  height: calc(100vh - 52px);
+	opacity: 1;
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+  animation-duration: 0.4s;
+  @include mobile {
+    padding: 0;
+  }
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}

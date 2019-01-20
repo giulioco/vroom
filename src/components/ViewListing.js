@@ -73,9 +73,11 @@ export default class ViewListing extends React.Component {
         db.bookings.add(bookingData);
         console.log("added booking to db");
 
-        //add dates in between to listing.dates_unavailable
+        // add dates in between to listing.dates_unavailable
 
+        // db.listings.doc(data.listing_id).({
 
+        // });
       }
     });
   }
@@ -133,9 +135,10 @@ export default class ViewListing extends React.Component {
           <h1 className="is-size-4 has-text-weight-bold">Policy</h1>
           <p>{policy || 'N/A'}</p>
           <h1 className="is-size-4 has-text-weight-bold">Rate</h1>
-          {/* <p>{rate || 1} $/Day</p>
-          <h1 className="is-size-4 has-text-weight-bold">Size</h1> */}
+          <p>{rate || 1} $/Day</p>
+          <h1 className="is-size-4 has-text-weight-bold">Size</h1>
           <p>{size || 'Medium'}</p>
+
           <br/>
 
           <Calender selectRange onChange={this.onChange} value={dates} />
