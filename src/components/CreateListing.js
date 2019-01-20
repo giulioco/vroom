@@ -224,7 +224,7 @@ export default class CreateListing extends React.Component {
         <div className="field">
           <label className="label">
             Rate $ 
-            <input type="number" min="0" value={this.state.rate} onChange={this.handleChange("rate")} step="0.01"/>
+            <input required placeholder="0.00" type="number" min="0" value={this.state.rate} onChange={this.handleChange("rate")} step="0.01"/>
             <i> per night</i>
           </label>
             
