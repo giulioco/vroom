@@ -5,9 +5,9 @@ import logoImg from '../images/vroom-logo.svg';
 
 export default () => (
   <div className="container">
-    <br/>
+    <br />
     <h1 className="is-size-1">About</h1>
-    
+
     <div className="content">
       <h1 align="center">
         <br />
@@ -20,8 +20,6 @@ export default () => (
         <a href="#the-audience">The Audience</a> •&nbsp;
         <a href="#our-solution">Our Solution</a> •&nbsp;
         <a href="#api-used">API Used</a> •&nbsp;
-        <a href="#credits">Credits</a> •&nbsp;
-        <a href="#license">License</a>
       </p>
       <h2 id="theissue">The Issue</h2>
       <ul>
@@ -34,21 +32,22 @@ export default () => (
       <h2 id="theaudience">The Audience</h2>
       <ul>
         <li>Our app is aimed to anyone sleeping in their car or van of preference.</li>
+        <li>Our app is also used by those who have driveways, parking lots, and other space that are not being used.</li>
       </ul>
       <h2 id="oursolution">Our Solution</h2>
       <ul>
-        <li>Our goal is to make an app to connect people that have an extra parking space they would like to offer with people that need a safe place to park their vehicle overnight.</li>
+        <li>Our goal is to make an app to connect people that have an extra parking space they would like to offer with people that need a safe place to park their vehicle overnight for a low cost.</li>
+        <li>By having a centralized app, those residing in their vehicles can easily look for a parking spot that they know they will be safe at for any duration that spaces are available.</li>
       </ul>
       <h2 id="apiused">API Used</h2>
       <p>For this application, we used the following APIs :</p>
       <ul>
         <li>FireBase</li>
+        <li>FireStore</li>
+        <li>MapBox</li>
+        <li>GeoBox</li>
       </ul>
-      <h2 id="credits">Credits</h2>
-      <p>This software uses the following open source packages:</p>
-      <h2 id="license">License</h2>
-      <p>MIT</p>
-      <br/>
+      <br />
     </div>
   </div>
 );
