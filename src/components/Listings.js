@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Calender from 'react-calendar';
 
 import * as db from '../db';
 import GeocodeMap from './GeocodeMap';
@@ -11,6 +12,7 @@ export default class Listings extends React.Component {
     listings: null,
     radius: 5,
     coords: null,
+    dates: null,
   }
 
   componentDidMount() {
@@ -53,12 +55,21 @@ export default class Listings extends React.Component {
     this.setState({ radius: Number.parseInt(e.target.value, 10) });
   }
 
+  changeDate = (dates) => {
+    this.setState({ dates });
+  }
+
   render() {
-    const { listings, radius, coords } = this.state;
+    const { listings, radius, coords, dates } = this.state;
 
     return (
       <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'stretch' }}>
         <GeocodeMap onResult={this.onResult} listings={listings || []} radius={radius} center={coords}/>
+        
+        <div style={{ position: 'absolute', left: 0 }}>
+          <Calender selectRange onChange={this.changeData} value={dates}/>
+        </div>
+        
         <div style={{ position: 'absolute', top: 300, left: 0, padding: 8 }}>
           <input className="slider is-fullwidth is-info" step="1" min="2" max="70"
             value={radius} type="range" orient="vertical" onChange={this.changeRadius}/>

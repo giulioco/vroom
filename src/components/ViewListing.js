@@ -11,10 +11,23 @@ export default class ViewListing extends React.Component {
 
   componentDidMount() {
     this.id = this.props.match.params.id;
-    
+
     db.listings.doc(this.id).get().then((doc) => {
       if (doc.exists) {
         const data = doc.data();
+
+        //amenities is stored as a map,
+        // find the amenities the listing has,
+        // make it into a string that can be displayed
+        var amenitiesArray = []
+        const keys = Object.keys(data.amenities)
+        for (const key of keys) {
+          if (data.amenities[key]) {
+            amenitiesArray.push(key)
+          }
+        }
+        data.amenities = amenitiesArray.join(" ")
+
         console.log(data);
         this.setState({ data });
 
@@ -26,28 +39,30 @@ export default class ViewListing extends React.Component {
   }
 
   render() {
-    if (this.state.data != null) {
-      return (
-        <div>
-          {/* <h1>View listing {this.props.match.params.id}</h1> */}
-          <h1 className="is-size-1">amenities</h1>
-          <p>{this.state.data.amenities}</p>
-          <h1>description </h1>
-          <p>{this.state.data.description}</p>
-          <h1>policy</h1>
-          <p>{this.state.data.policy}</p>
-          <h1>rate</h1>
-          <p>{this.state.data.rate}</p>
-          <h1>size</h1>
-          <p>{this.state.data.size}</p>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <h1>The listing you are looking for does not exist</h1>
-        </div>
-      );
-    }
+    const { data } = this.state;
+
+    if (!data) return (
+      <div>
+        <h1>The listing you are looking for does not exist</h1>
+      </div>
+    );
+
+    const { amenities, description, policy, rate, size } = data;
+    
+    return (
+      <div>
+        {/* <h1>View listing {this.props.match.params.id}</h1> */}
+        <h1 className="is-size-1">amenities</h1>
+        <pre>{JSON.stringify(amenities)}</pre>
+        <h1>description </h1>
+        <p>{description}</p>
+        <h1>policy</h1>
+        <pre>{policy}</pre>
+        <h1>rate</h1>
+        <p>{rate}</p>
+        <h1>size</h1>
+        <p>{size}</p>
+      </div>
+    );
   }
 }
