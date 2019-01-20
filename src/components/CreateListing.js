@@ -75,7 +75,7 @@ export default class CreateListing extends React.Component {
           <label className="label">Address</label>
             <div className="control">
               <input type="text" value={this.state.address} onChange={this.handleChange("address")} />
-              <GeocodeMap/>
+              <SearchAddress/>
             </div>
         </div>
 
