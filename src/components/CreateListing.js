@@ -50,7 +50,8 @@ export default class CreateListing extends React.Component {
   }
 
   handlePolicyChange = (name) => (event) => {
-    console.log(name)
+    //console.log(name)
+    var type = "";
     const targetValue = event.target.value;
     if (targetValue <= 0) {
       type = "flexible"
@@ -88,12 +89,8 @@ export default class CreateListing extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-<<<<<<< HEAD
     const { listing_name, license_verification, description, amenities,  cancellation_policy, listing_img, rate } = this.state;
     
-=======
-    const { listing_name, license_verification, description, amenities,  cancellation_policy, listing_img, dates_unavailable } = this.state; 
->>>>>>> 665818191a9685555148e24219fff213fa0e0e01
     const location = this.coords;
     const address = this.address;
     const data = {
@@ -105,13 +102,8 @@ export default class CreateListing extends React.Component {
     	amenities: amenities,
     	cancellation_policy: cancellation_policy,
     	listing_img: listing_img,
-<<<<<<< HEAD
       lister_id: db.getUser().uid,
       rate: rate
-=======
-    	lister_id: db.getUser().uid,
-    	dates_unavailable: dates_unavailable
->>>>>>> 665818191a9685555148e24219fff213fa0e0e01
     };
     console.log(data);
     db.createListing(data)
