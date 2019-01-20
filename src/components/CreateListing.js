@@ -73,10 +73,7 @@ export default class CreateListing extends React.Component {
 
         <div className="field">
           <label className="label">Address</label>
-            <div className="control">
-              <input type="text" value={this.state.address} onChange={this.handleChange("address")} />
               <SearchAddress/>
-            </div>
         </div>
 
         <div className="field">
@@ -88,26 +85,34 @@ export default class CreateListing extends React.Component {
 
         <div className="field">
         <label className="label">Amenities</label>
-        <div className="control">
-          <label className="checklist">
+         	<div className="field">
             <input  type="checkbox" 
+            		className="is-checkradio"
                     name="bathroom"
                     checked={this.state.amenities.bathroom} 
-                    onChange={this.handleCheckboxChange("bathroom")}/> Bathroom <br/>
+                    onChange={this.handleCheckboxChange("bathroom")}/> <label>Bathroom </label>
+            </div>
+            <div className="field">
             <input  type="checkbox" 
+            		className="is-checkradio"
                     name="water"
                     checked={this.state.amenities.water} 
-                    onChange={this.handleCheckboxChange("water")}/> Water <br/>
+                    onChange={this.handleCheckboxChange("water")}/> <label>Water </label>
+            </div>
+            <div className="field">
             <input  type="checkbox" 
+            		className="is-checkradio"
                     name="wifi"
                     checked={this.state.amenities.wifi} 
-                    onChange={this.handleCheckboxChange("wifi")}/> WiFi <br/>
+                    onChange={this.handleCheckboxChange("wifi")}/> <label> WiFi </label>
+            </div>
+            <div className="field">
             <input  type="checkbox" 
+            		className="is-checkradio"
                     name="electricity"
                     checked={this.state.amenities.electricity} 
-                    onChange={this.handleCheckboxChange("electricity")}/> Electricity
-          </label>
-        </div>
+                    onChange={this.handleCheckboxChange("electricity")}/> <label> Electricity </label>
+             </div>
         </div>
 
         <div className="field">

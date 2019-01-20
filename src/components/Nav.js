@@ -81,7 +81,7 @@ class Nav extends React.PureComponent {
       <nav className={`navbar is-fixed-top ${front ? 'is-transparent' : 'is-link'}`}>
         <div className="container">
           <div className="navbar-brand">
-          <img src="/src/images/vroom-car.svg" width="64" className="d-inline-block align-top" alt=""></img>
+          <img src="/src/images/vroom-car.svg" height="64" className="d-inline-block align-top" alt=""></img>
             <Link className="navbar-item" to="/">
               <h1 className="is-size-4 site-title has-text-weight-bold">vroom</h1>
             </Link>
