@@ -123,7 +123,7 @@ export default class CreateListing extends React.Component {
 			        <Step>
 			        	{({ nextStep }) => 
 			        		<>
-			        			<div className="hero is-medium is-light is-bold">
+			        			<div className="hero is-medium is-light is-bold is-fullwidth">
 				        			<div className="hero-body">
 												<div className="container">
 													<h1 className="title">
@@ -333,11 +333,13 @@ export default class CreateListing extends React.Component {
 														</div>
 														<div className="level">
 															<div className="field">
+																<div className="control">
 																	<label className="label">
 																		Rate $ 
-																		<input required className="input" placeholder="0.00" type="number" min="0" value={this.state.rate} onChange={this.handleChange("rate")} step="0.01"/>
+																		<input required className="input" placeholder="0.00" type="number" min="0" value={this.state.rate} onChange={this.handleChange("rate")} step="0.5"/>
 																		<i> per night</i>
 																	</label>  
+																	</div>
 																</div>
 														</div>
 														</div>
