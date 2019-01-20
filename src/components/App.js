@@ -17,6 +17,7 @@ import Account from './Account';
 import Setup from './Setup';
 import Listings from './Listings';
 import CreateListing from './CreateListing';
+import ViewListing from './ViewListing';
 
 import ErrorBoundary from './ErrorBoundary';
 import Nav from './Nav';
@@ -31,7 +32,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => db.getUser() ? <Component {...props} /> : <Redirect to={{
     pathname: '/',
     search: `?from=${encodeURIComponent(props.location.pathname)}`,
-  }} />} />
+  }} />}/>
 );
 
 
@@ -48,6 +49,7 @@ const App = () => (
           <PrivateRoute exact path="/setup" component={Setup} />
           <PrivateRoute exact path="/account" component={Account} />
           <PrivateRoute exact path="/listings/new" component={CreateListing} />
+          <PrivateRoute exact path="/listings/:id" component={ViewListing} />
           <PrivateRoute path="/listings" component={Listings} />
           <Route exact path="/logout" render={() => {
             db.signOut().catch(console.error);
