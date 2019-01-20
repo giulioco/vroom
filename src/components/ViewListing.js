@@ -15,7 +15,6 @@ export default class ViewListing extends React.Component {
     db.listings.doc(this.id).get().then((doc) => {
       if (doc.exists) {
         const data = doc.data();
-        data.poster = "Poster"
 
         //amenities is stored as a map,
         // find the amenities the listing has,
@@ -37,7 +36,7 @@ export default class ViewListing extends React.Component {
             console.log(userData)
             data.poster = userData.name
           } else {
-            data.poster = "Poster"
+            data.poster = "A Vroomer"
           }
 
           console.log(data);

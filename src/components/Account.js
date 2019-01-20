@@ -41,7 +41,7 @@ export default class Account extends React.Component {
 	      	<div className= "column is-two-fifths">
 		      	<div className = "card">
 		      		<div class="card-image">
-	              		<figure className="image" width="100%"><img className="" src={this.state.avatarURL}/></figure>
+	              		<figure className="image is-128x128" width="100%"><img className="" src={this.state.avatarURL}/></figure>
 	              	</div>
 			        <label className="label">Display Name</label>
 			        	<p>{user.displayName}</p>
