@@ -47,6 +47,38 @@ export default class ViewListing extends React.Component {
     });
   }
 
+  createBooking = () => {
+    // make sure the logged in user owns this listing
+    console.log("in create booking")
+    let listingID = this.props.match.params.id
+    var bookerID = db.getUser().uid
+
+    console.log(db.bookingDates)
+
+    db.listings.doc(listingID).get().then((doc) => {
+      if (doc.exists) {
+        const data = doc.data();
+
+        var bookingData = {
+          lister_id: data.lister_id,
+          booker_id: bookerID,
+          start_date: db.bookingDates.start,
+          end_date: db.bookingDates.end,
+          status: "pending",
+          listing_id: listingID
+        }
+
+        db.bookings.add(bookingData);
+        console.log("added booking to db")
+
+        //add dates in between to listing.dates_unavailable
+
+
+      }
+    });
+  }
+
+
   deleteListing = () => {
     // make sure the logged in user owns this listing
     const listingID = this.props.match.params.id;
@@ -88,25 +120,22 @@ export default class ViewListing extends React.Component {
         </section>
 
         <div className="container">
-          <h1 className="is-size-4">Amenities</h1>
+          <h1 className="is-size-4 has-text-weight-bold">Amenities</h1>
           <p>{amenities}</p>
-          <h1 className="is-size-4">Description</h1>
+          <h1 className="is-size-4 has-text-weight-bold">Description</h1>
           <p>{description}</p>
-          <h1 className="is-size-4">Policy</h1>
+          <h1 className="is-size-4 has-text-weight-bold">Policy</h1>
           <p>{policy || 'N/A'}</p>
-          <h1 className="is-size-4">Rate</h1>
+          <h1 className="is-size-4 has-text-weight-bold">Rate</h1>
           <p>{rate || 1} $/Day</p>
-          <h1 className="is-size-4">Size</h1>
+          <h1 className="is-size-4 has-text-weight-bold">Size</h1>
           <p>{size || 'Medium'}</p>
           <br/>
           <a className="button is-medium is-link">Request Vroom</a>
 
           {/* <div className="level-right"> */}
-          {data.lister_id === db.getUser().uid ? (<a onClick={this.deleteListing} className="button is-danger is-outlined">
+          {data.lister_id === db.getUser().uid ? (<a onClick={this.deleteListing} style={{ marginLeft: 16}} className="button is-danger is-medium">
             <span>Delete</span>
-            <span className="icon is-medium">
-              <i className="fas fa-times"></i>
-            </span>
           </a>) : null}
 
         </div>

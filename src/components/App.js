@@ -18,7 +18,6 @@ import Setup from './Setup';
 import Listings from './Listings';
 import CreateListing from './CreateListing';
 import ViewListing from './ViewListing';
-
 import ErrorBoundary from './ErrorBoundary';
 import Nav from './Nav';
 import * as db from '../db';
