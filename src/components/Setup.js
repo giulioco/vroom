@@ -45,10 +45,9 @@ export default class Setup extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { location, name, avatar } = this.state;
+    const { name, avatar } = this.state;
 
     db.setupAccount({
-      location: new db.Helpers.GeoPoint(location[0], location[1]),
       name,
       image_name: avatar,
       setup: true,
@@ -56,17 +55,9 @@ export default class Setup extends React.Component {
     .then(() => this.props.history.push('/dashboard'));
   }
 
-  getLocation = () => {
-    if (navigator && navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(this.showPosition);
-    } else {
-      alert('Geolocation is not supported by this browser.');
-    }
-  }
-
-  showPosition = (position) => {
-    this.setState({ location: [position.coords.latitude, position.coords.longitude] });
-  }
+  // showPosition = (position) => {
+  //   this.setState({ location: [position.coords.latitude, position.coords.longitude] });
+  // }
 
   render() {    
     return (

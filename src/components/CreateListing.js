@@ -1,8 +1,7 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom';
 import SearchAddress from './SearchAddress';
-import GeocodeMap from './GeocodeMap';
-import firebase from "firebase";
+import firebase from "firebase/app";
 import FileUploader from "react-firebase-file-uploader";
 import DayPicker, { DateUtils } from 'react-day-picker';
 import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
