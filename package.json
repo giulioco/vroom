@@ -6,7 +6,7 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server",
     "build": "cross-env NODE_ENV=production webpack",
     "deploy-firebase": "firebase deploy",
-    "deploy": "cd dist && cp ../now.json . && now && now alias && now rm wamps -y --safe"
+    "deploy": "cd dist && cp ../now.json . && now && now alias && now rm vroom -y --safe"
   },
   "license": "MIT",
   "dependencies": {
