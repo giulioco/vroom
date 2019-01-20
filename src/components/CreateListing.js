@@ -24,7 +24,7 @@ export default class CreateListing extends React.Component {
       },
       house_rules: "",
       size: "",
-      cancellation_policy: 0,
+      cancellation_policy: "0",
       listing_img: "",
       dates_unavailable: []
     };
@@ -280,7 +280,7 @@ export default class CreateListing extends React.Component {
 							          <label className="label">
 							            Cancellation Policy 
 							            <div className="control">
-							              <input className="slider is-fullwidth is-warning" step="1" min="0" max="2" value={this.state.cancellation_policy} type="range"
+							              <input className={`slider is-fullwidth  ${this.state.cancellation_policy === '0' ? 'is-success' : (this.state.cancellation_policy === '1' ? 'is-warning' : 'is-danger')}`} step="1" min="0" max="2" value={this.state.cancellation_policy} type="range"
 							                      onChange={this.handleChange("cancellation_policy")}></input>
 							            </div>
 

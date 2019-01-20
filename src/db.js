@@ -112,8 +112,16 @@ export const getListings = (lat, long, radius, dates, cb) => {
 
   return geoListings.within(center, radius, 'position').subscribe((res) => {
     console.log(res);
-    // if (!dates || !res.unavailable) return cb(res);
-    cb(res);
-    // cb(listings.filter((listing) => listing.unavailable[]));
+    if (!dates) return cb(res);
+
+    const startDate = dates[0].getTime();
+    const endDate = dates[1].getTime();
+    cb(res.filter((listing) => {
+      for (const un of listing.dates_unavailable || []) {
+        const time = un.toDate().getTime();
+        if (startDate < time && endDate > time) return false;
+      }
+      return true;
+    }));
   }).unsubscribe;
 };
