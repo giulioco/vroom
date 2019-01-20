@@ -4,6 +4,8 @@ import SearchAddress from './SearchAddress';
 import GeocodeMap from './GeocodeMap';
 import firebase from "firebase";
 import FileUploader from "react-firebase-file-uploader";
+import 'react-dates/initialize';
+import { DateRangePicker, SingleDatePicker, DayPickerRangeController } from 'react-dates';
 import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
 
 export default class CreateListing extends React.Component {
@@ -81,7 +83,8 @@ export default class CreateListing extends React.Component {
     	description: description,
     	amenities: amenities,
     	cancellation_policy: cancellation_policy,
-    	listing_img: listing_img
+    	listing_img: listing_img,
+    	lister_id: db.getUser().uid
     };
     console.log(data);
     db.createListing(data)
@@ -211,12 +214,15 @@ export default class CreateListing extends React.Component {
           </select>
           </div>
         </label>
-
+        <label className="label">
+			<input type="date"/>
+        </label>
 
         <label className="label">
           Rate: 
           <input type="range" min="0" max="50" value={this.state.rate} onChange={this.handleChange("rate")} step="1"/>
         </label>
+
 
         <button type="submit" className="button">Submit</button>
       </form>
