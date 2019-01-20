@@ -30,8 +30,10 @@ export const Helpers = firebase.firestore;
 // Global collections
 /** @type firebase.firestore.CollectionReference */
 export let users;
-/** @type geofirex.GeoFireCollectionRef */
+/** @type firebase.firestore.CollectionReference */
 export let listings;
+/** @type geofirex.GeoFireCollectionRef */
+export let geoListings;
 
 export const getUser = () => auth.currentUser;
 
@@ -72,7 +74,8 @@ export const init = () => firestore.enablePersistence()
 }))
 .then(() => {
   users = firestore.collection('users');
-  listings = geo.collection('listings');
+  listings = firestore.collection('listings');
+  geoListings = geo.collection('listings');
 
   return fetchInfo();
 });
@@ -101,31 +104,10 @@ export const deleteProfile = () => auth.signInWithPopup(googleProvider)
 .then(() => alert('Account successfully deleted'));
 
 export const setupAccount = (data) => users.doc(getUser().uid).set(data);
-export const createListing = (data) => db.listings.add(data);
 
+export const createListing = (data) => listings.add(data);
 
 export const getListings = (lat, long, radius, cb) => {
   const center = geo.point(lat, long);
-  return listings.within(center, radius, 'position').subscribe(cb).unsubscribe;
+  return geoListings.within(center, radius, 'position').subscribe(cb).unsubscribe;
 };
-
-// sortBy can be 'distance' or 'rate'
-// export const getListings = (radius, sortBy = 'rate', fn) => {
-//   let query = listings.orderBy(sortBy);
-//   // listings.where()
-//   return query.onSnapshot((snap) => {
-//     fn(snap.docs.map((doc) => {
-//       const data = doc.data();
-//       data.id = doc.id;
-//       return data;
-//     }));
-//   }, () => fn(null));
-// };
-
-// export const getListing = (id, fn) => {
-//   return listings.doc(id).onSnapshot((doc) => {
-//     const data = doc.data();
-//     data.id = doc.id;
-//     fn(data);
-//   }, () => fn(null));
-// };

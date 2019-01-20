@@ -1,31 +1,28 @@
 import React from 'react';
-import { Route, Link } from 'react-router-dom';
 
 import * as db from '../db';
-import { thisExpression } from 'babel-types';
 
 
 export default class ViewListing extends React.Component {
 
   state = {
-    data: null
+    data: null,
   }
 
   componentDidMount() {
-    // this.props.match.params.id
-    db.listings.doc(this.props.match.params.id).get().then((doc) => {
+    this.id = this.props.match.params.id;
+    
+    db.listings.doc(this.id).get().then((doc) => {
       if (doc.exists) {
-        var docData = doc.data()
-        console.log(docData)
-        this.setState({ data: doc.data() })
+        const data = doc.data();
+        console.log(data);
+        this.setState({ data });
 
       } else {
-        console.log("The Listing you are looking for does not exist")
-        this.setState({ data: null })
-
+        console.log("The Listing you are looking for does not exist");
+        this.setState({ data: null });
       }
-
-    })
+    });
   }
 
   render() {
