@@ -26,10 +26,23 @@ export default class ViewListing extends React.Component {
             amenitiesArray.push(key)
           }
         }
-        data.amenities = amenitiesArray.join(" ")
+        data.amenities = amenitiesArray.join(", ")
 
-        console.log(data);
-        this.setState({ data });
+        //find the poster using the id
+
+        db.users.doc(data.lister_id).get().then((user) => {
+          const userData = user.data();
+          if (user.exists) {
+            console.log(userData)
+            data.poster = userData.name
+          } else {
+            data.poster = "A Vroomer"
+          }
+
+          console.log(data);
+          this.setState({ data });
+        });
+
 
       } else {
         console.log("The Listing you are looking for does not exist");
@@ -48,20 +61,63 @@ export default class ViewListing extends React.Component {
     );
 
     const { amenities, description, policy, rate, size } = data;
-    
+
     return (
       <div>
-        {/* <h1>View listing {this.props.match.params.id}</h1> */}
-        <h1 className="is-size-1">amenities</h1>
-        <pre>{JSON.stringify(amenities)}</pre>
-        <h1>description </h1>
-        <p>{description}</p>
-        <h1>policy</h1>
-        <pre>{policy}</pre>
-        <h1>rate</h1>
-        <p>{rate}</p>
-        <h1>size</h1>
-        <p>{size}</p>
+        <section className="hero is-light">
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="title">
+                {this.state.data.listing_name}
+              </h1>
+              <h2 className="subtitle">
+              Posted by: {this.state.data.poster}
+              </h2>
+            </div>
+          </div>
+        </section>
+        <div class="columns">
+        <div className="column"></div>
+          <div class="column is-two-thirds">
+            
+            <h1 className="is-size-1">amenities</h1>
+            <pre>{JSON.stringify(amenities)}</pre>
+            <h1>description </h1>
+            <p>{description}</p>
+            <h1>policy</h1>
+            <pre>{policy}</pre>
+            <h1>rate</h1>
+            <p>{rate}</p>
+            <h1>size</h1>
+            <p>{size}</p>
+
+            <nav className="level">
+              {/* <div className="level-left"> */}
+                <div className="level-item">
+                <a class="button is-medium is-fullwidth">Request Vroom</a>
+                {/* </div> */}
+              </div>
+
+              {/* <div className="level-right"> */}
+              <a class="button is-danger is-outlined">
+                <span>Delete</span>
+                <span class="icon is-medium">
+                  <i class="fas fa-times"></i>
+                </span>
+              </a>
+              {/* </div> */}
+            </nav>
+
+          </div>
+
+          <div className="column"></div>
+
+        </div>
+
+        <footer className="footer"></footer>
+
+
+        
       </div>
     );
   }

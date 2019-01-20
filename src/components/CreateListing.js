@@ -4,6 +4,7 @@ import SearchAddress from './SearchAddress';
 import GeocodeMap from './GeocodeMap';
 import firebase from "firebase";
 import FileUploader from "react-firebase-file-uploader";
+import MultiDayPicker from './MultiDayPicker'
 import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
 
 export default class CreateListing extends React.Component {
@@ -23,10 +24,11 @@ export default class CreateListing extends React.Component {
       house_rules: "",
       size: "",
       cancellation_policy: 0,
-      listing_img: ""
+      listing_img: "",
+      dates_unavailable: []
     };
-  }
 
+  }
 
   handleChange = (name) => (event) => {
     const target = event.target;
@@ -57,17 +59,6 @@ export default class CreateListing extends React.Component {
     });
   }
 
-  // handleSliderChange = (name) => (event) => {
-  //   const value = event.target.value;
-  //   const checkedValue = event.target.checked;
-  //   //this.setState({ [name]: this.state.policies[value] })
-
-  //   this.setState(({ cancellation_policy }) => {
-  //     cancellation_policy[value] = value;
-  //     return { amenities: { ...amenities } };
-  //   });
-  // }
-
   handleSubmit = (event) => {
     event.preventDefault();
     const { listing_name, license_verification, description, amenities,  cancellation_policy, listing_img } = this.state; 
@@ -81,7 +72,8 @@ export default class CreateListing extends React.Component {
     	description: description,
     	amenities: amenities,
     	cancellation_policy: cancellation_policy,
-    	listing_img: listing_img
+    	listing_img: listing_img,
+    	lister_id: db.getUser().uid
     };
     console.log(data);
     db.createListing(data)
@@ -97,24 +89,32 @@ export default class CreateListing extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit} className="container">
+        <h1 className="is-size-1">Make a new listing</h1>
+
+        <div className="is-divider"></div>
 
         <div className="field">
           <label className="label">Listing name</label>
             <div className="control">
-              <input type="text" className="input" value={this.state.listing_name} onChange={this.handleChange("listing_name")} />
+              <input required type="text" placeholder="Text that will show up in searches" className="input" value={this.state.listing_name} onChange={this.handleChange("listing_name")} />
             </div>
         </div>
 
+        <div className="is-divider"></div>
+
         <div className="field">
           <label className="label">Address</label>
-              <SearchAddress onResult={this.handleAddressChange} />
+              <SearchAddress required onResult={this.handleAddressChange} />
         </div>
+
+        <div className="is-divider"></div>
 
         <div className="field">
           {this.state.isUploading && <p> <progress className="progress is-success" value={this.state.progress} max="100">{this.state.progress}%</progress></p>}
           {this.state.listing_imgURL && <figure className="image is-128x128"><img className="is-rounded" src={this.state.listing_imgURL}/></figure>}
-
+          <p className="content">Upload a picture of your listing.</p>
            <CustomUploadButton
+              required
               accept="image/*"
               name="listing_imgURL"
               randomizeFilename
@@ -129,12 +129,16 @@ export default class CreateListing extends React.Component {
             </CustomUploadButton>
         </div>
 
+        <div className="is-divider"></div>
+
         <div className="field">
         <label className="label"> Description</label>
           <div className="control">
-            <textarea value={this.state.description} className="textarea" onChange={this.handleChange("description")} />
+            <textarea required placeholder="What best describes your parking space?" value={this.state.description} className="textarea" onChange={this.handleChange("description")} />
           </div>
         </div>
+
+        <div className="is-divider"></div>
 
         <div className="field">
         <label className="label">Amenities</label>
@@ -172,20 +176,23 @@ export default class CreateListing extends React.Component {
              </div>
         </div>
 
+        <div className="is-divider"></div>
+
         <div className="field">
           <label className="label">
             Cancellation Policy 
             <div className="control">
-              <input className="slider is-fullwidth" step="1" min="0" max="2" value={this.state.cancellation_policy} type="range"
+              <input className="slider is-fullwidth is-warning" step="1" min="0" max="2" value={this.state.cancellation_policy} type="range"
                       onChange={this.handleChange("cancellation_policy")}></input>
-
             </div>
-            <div className="columns">
+
+            <div className="columns is-mobile">
               <div className="column has-text-centered">
                 <span className="badge is-badge-outlined" data-badge="">
                   Flexible
                 </span>
               </div>
+
               <div className="column has-text-centered">
                 <span className="badge is-badge-success is-badge-outlined" data-badge="">
                   Moderate
@@ -196,10 +203,25 @@ export default class CreateListing extends React.Component {
                   Strict
                 </span>
               </div>
+            </div>
+
+            <div className="columns is-mobile">
+              <div className="column has-text-centered">
+                  Renters can cancel up to 24 hours before the a scheduled date, and are elligible to a full-refund.
               </div>
+
+              <div className="column has-text-centered">
+                  The booker can cancel their booking up to three days before their scheduled stay and are elligible to a 50% refund.
+              </div>
+              <div className="column has-text-centered">
+                  All bookings are final, and no refunds are awarded to no-shows.
+              </div>
+            </div>
+
           </label>
         </div>
 
+        <div className="is-divider"></div>
 
         <label className="label">
           Size: 
@@ -211,12 +233,22 @@ export default class CreateListing extends React.Component {
           </select>
           </div>
         </label>
-
-
         <label className="label">
-          Rate: 
-          <input type="range" min="0" max="50" value={this.state.rate} onChange={this.handleChange("rate")} step="1"/>
+			Availability:
+			<MultiDayPicker/>
         </label>
+
+        <div className="is-divider"></div>
+
+        <div className="field">
+          <label className="label">
+            Rate $ 
+            <input required placeholder="0.00" type="number" min="0" value={this.state.rate} onChange={this.handleChange("rate")} step="0.01"/>
+            <i> per night</i>
+          </label>
+            
+        </div>
+
 
         <button type="submit" className="button">Submit</button>
       </form>
