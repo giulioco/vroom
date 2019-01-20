@@ -13,13 +13,8 @@ export default class Setup extends React.Component {
     this.state = {
       name: db.getUser().displayName,
       license_verification: false,
-      location: [0, 0],
-      avatar: "",
+      avatar: '',
     };
-  }
-
-  componentDidMount() {
-    this.getLocation();
   }
 
   handleChange = (event) => {

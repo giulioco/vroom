@@ -9,6 +9,7 @@ export default class Dashboard extends React.Component {
   state = {
     mine: null,
     theirs: null,
+    // listings: null,
   }
 
   componentDidMount() {
@@ -30,11 +31,21 @@ export default class Dashboard extends React.Component {
       });
       this.setState({ theirs });
     });
+
+    // this.unsubscribe3 = db.listings.where('lister_id', '==', db.getUser().uid).onSnapshot((snap) => {
+    //   const listings = snap.docs.map((doc) => {
+    //     const data = doc.data();
+    //     data.id = doc.id;
+    //     return data;
+    //   });
+    //   this.setState({ listings });
+    // });
   }
 
   componentWillUnmount() {
     this.unsubscribe1();
     this.unsubscribe2();
+    // this.unsubscribe3();
   }
 
   render() {

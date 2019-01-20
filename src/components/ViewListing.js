@@ -1,4 +1,5 @@
 import React from 'react';
+import Calender from 'react-calendar';
 
 import * as db from '../db';
 
@@ -7,10 +8,15 @@ export default class ViewListing extends React.Component {
 
   state = {
     data: null,
+    dates: null,
   }
 
   componentDidMount() {
     this.id = this.props.match.params.id;
+
+    this.setState({
+      dates: [db.bookingDates.start, db.bookingDates.end],
+    });
 
     db.listings.doc(this.id).get().then((doc) => {
       if (doc.exists) {
@@ -48,28 +54,24 @@ export default class ViewListing extends React.Component {
   }
 
   createBooking = () => {
-    // make sure the logged in user owns this listing
-    console.log("in create booking")
-    let listingID = this.props.match.params.id
-    var bookerID = db.getUser().uid
-
-    console.log(db.bookingDates)
+    const listingID = this.props.match.params.id;
+    const bookerID = db.getUser().uid;
 
     db.listings.doc(listingID).get().then((doc) => {
       if (doc.exists) {
         const data = doc.data();
 
-        var bookingData = {
+        const bookingData = {
           lister_id: data.lister_id,
           booker_id: bookerID,
-          start_date: db.bookingDates.start,
-          end_date: db.bookingDates.end,
+          start_date: this.state.dates[0],
+          end_date: this.state.dates[1],
           status: "pending",
-          listing_id: listingID
-        }
+          listing_id: listingID,
+        };
 
         db.bookings.add(bookingData);
-        console.log("added booking to db")
+        console.log("added booking to db");
 
         //add dates in between to listing.dates_unavailable
 
@@ -95,8 +97,12 @@ export default class ViewListing extends React.Component {
     });
   }
 
+  onChange = (dates) => {
+    this.setState({ dates });
+  }
+
   render() {
-    const { data } = this.state;
+    const { data, dates } = this.state;
 
     if (data === false) throw { code: 404 };
 
@@ -127,17 +133,21 @@ export default class ViewListing extends React.Component {
           <h1 className="is-size-4 has-text-weight-bold">Policy</h1>
           <p>{policy || 'N/A'}</p>
           <h1 className="is-size-4 has-text-weight-bold">Rate</h1>
-          <p>{rate || 1} $/Day</p>
-          <h1 className="is-size-4 has-text-weight-bold">Size</h1>
+          {/* <p>{rate || 1} $/Day</p>
+          <h1 className="is-size-4 has-text-weight-bold">Size</h1> */}
           <p>{size || 'Medium'}</p>
           <br/>
-          <a className="button is-medium is-link">Request Vroom</a>
 
-          {/* <div className="level-right"> */}
-          {data.lister_id === db.getUser().uid ? (<a onClick={this.deleteListing} style={{ marginLeft: 16}} className="button is-danger is-medium">
-            <span>Delete</span>
-          </a>) : null}
+          <Calender selectRange onChange={this.onChange} value={dates} />
+          <br/>
+          <div>
+            <a className="button is-medium is-link" onClick={this.createBooking}>Request Vroom</a>
 
+            {/* <div className="level-right"> */}
+            {data.lister_id === db.getUser().uid ? (<a onClick={this.deleteListing} style={{ marginLeft: 16}} className="button is-danger is-medium">
+              <span>Delete</span>
+            </a>) : null}
+          </div>
         </div>
       </div>
     );
