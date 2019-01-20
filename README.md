@@ -1,11 +1,11 @@
 
 <h1 align="center">
   <br>
-  <a href="#"><img src="https://raw.githubusercontent.com/gcollelu/vroom/master/resources/logo.png" alt="VRoom" width="100"></a>
+  <a href="#"><img src="/src/images/vroom-logo.svg" alt="VRoom" width="100"></a>
   <br>
 </h1>
 
-<h4 align="center">A platform for people sleeping in their vehicles to find overnight parking. 🚍</h4>
+<h4 align="center">A platform for people sleeping in their vehicles to find overnight parking. </h4>
 
 <p align="center">
 <a href="https://forthebadge.com">

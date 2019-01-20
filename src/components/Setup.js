@@ -1,6 +1,9 @@
 import React from 'react';
 
 import * as db from '../db';
+import firebase from "firebase";
+import FileUploader from "react-firebase-file-uploader";
+import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
 
 
 export default class Setup extends React.Component {
@@ -12,6 +15,7 @@ export default class Setup extends React.Component {
       name: db.getUser().displayName,
       license_verification: false,
       location: [0,0],
+      avatar: ""
     };
   }
 
@@ -23,14 +27,30 @@ export default class Setup extends React.Component {
     this.setState({ name: event.target.value });
   }
 
+  handleUploadStart = () => this.setState({ isUploading: true, progress: 0 });
+  handleProgress = progress => this.setState({ progress });
+  handleUploadError = error => {
+    this.setState({ isUploading: false });
+    console.error(error);
+  };
+
+  handleUploadSuccess = filename => {
+    this.setState({ avatar: filename, progress: 100, isUploading: false });
+    firebase.storage().ref("user_images")
+      .child(filename)
+      .getDownloadURL()
+      .then(url => this.setState({ avatarURL: url }));
+  };
+
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { location, name } = this.state;
+    const { location, name, avatar } = this.state;
 
     db.setupAccount({
       location: new db.Helpers.GeoPoint(location[0], location[1]),
       name,
+      image_name: avatar,
       setup: true,
     })
     .then(() => this.props.history.push('/dashboard'));
@@ -61,15 +81,24 @@ export default class Setup extends React.Component {
             <input className="input" type="text" value={this.state.name} onChange={this.handleChange} />
           </div>
         </div>
-        
-        <div className="field">{}
-          <label className="label">Location</label>
-          <div className="control">
-            <input className="input" type="text" value={this.state.location[0] + ',' + this.state.location[1]} onChange={this.handleChange} />
-          </div>
+        <div className="field">
+          {this.state.isUploading && <p> <progress className="progress is-success" value={this.state.progress} max="100">{this.state.progress}%</progress></p>}
+          {this.state.avatarURL && <figure className="image is-128x128"><img className="is-rounded" src={this.state.avatarURL}/></figure>}
+
+           <CustomUploadButton
+              accept="image/*"
+              name="avatar"
+              randomizeFilename
+              storageRef={firebase.storage().ref('user_images')}
+              onUploadStart={this.handleUploadStart}
+              onUploadError={this.handleUploadError}
+              onUploadSuccess={this.handleUploadSuccess}
+              onProgress={this.handleProgress}
+              className="button is-link"
+              >
+              Select Image
+            </CustomUploadButton>
         </div>
-
-
         <div className="field">
           <label className="label">How will you be using this service?</label>
           <div className="control">
@@ -91,3 +120,4 @@ export default class Setup extends React.Component {
     );
   }
 }
+

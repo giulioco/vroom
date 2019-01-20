@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import 'firebase/storage';
 import * as geofirex from 'geofirex';
 
 import { decodeQuery } from './utils';
@@ -20,8 +21,9 @@ export const geo = geofirex.init(firebase);
 
 const auth = firebase.auth();
 const firestore = firebase.firestore();
-// const storage = firebase.storage().ref('/profile_pics');
-// storage.child().
+const storage = firebase.storage();
+
+export const images = storage.ref('user_images');
 
 export const Helpers = firebase.firestore;
 
