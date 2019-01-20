@@ -129,17 +129,17 @@ export default class CreateListing extends React.Component {
 
             </div>
             <div className="columns">
-              <div className="column">
+              <div className="column has-text-centered">
                 <span className="badge is-badge-outlined" data-badge="">
                   Flexible
                 </span>
               </div>
-              <div className="column">
+              <div className="column has-text-centered">
                 <span className="badge is-badge-success is-badge-outlined" data-badge="">
                   Moderate
                 </span>
               </div>
-              <div className="column">
+              <div className="column has-text-centered">
                 <span className="badge is-badge-warning is-badge-outlined" data-badge="">
                   Strict
                 </span>
