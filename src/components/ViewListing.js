@@ -13,45 +13,44 @@ export default class ViewListing extends React.Component {
 
   componentDidMount() {
     // this.props.match.params.id
-    db.listings.doc('Bld0KE7qwR6a4Eq1DhAC').get().then((doc) => {
+    db.listings.doc(this.props.match.params.id).get().then((doc) => {
       if (doc.exists) {
         var docData = doc.data()
         console.log(docData)
-        this.setState({ data: docData })
-        // this.state = {
-        //   docExist: true,
-        //   docData
-        // }
+        this.setState({ data: doc.data() })
 
       } else {
         console.log("The Listing you are looking for does not exist")
         this.setState({ data: null })
-        // this.state = {
-        //   docExist: false
-        // }
+
       }
 
     })
   }
 
   render() {
-    // const { name } = this.props.data;
-
-
     if (this.state.data != null) {
       return (
         <div>
-          <h1>View listing {this.props.match.params.id}</h1>
+          {/* <h1>View listing {this.props.match.params.id}</h1> */}
+          <h1>amenities</h1>
+          <p>{this.state.data.amenities}</p>
+          <h1>description </h1>
+          <p>{this.state.data.description}</p>
+          <h1>policy</h1>
+          <p>{this.state.data.policy}</p>
+          <h1>rate</h1>
+          <p>{this.state.data.rate}</p>
+          <h1>size</h1>
+          <p>{this.state.data.size}</p>
         </div>
       );
     } else {
       return (
         <div>
           <h1>The listing you are looking for does not exist</h1>
-
         </div>
       );
     }
-
   }
 }
