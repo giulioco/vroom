@@ -27,6 +27,7 @@ $input-border-color: transparent;
 $input-shadow: none;
 $navbar-item-color: $pink;
 // $navbar-item-color
+$modal-content-width: auto;
 
 // Import only what you need from Bulma
 @import "~bulma/sass/utilities/_all.sass";
@@ -41,6 +42,7 @@ $navbar-item-color: $pink;
 @import "~bulma/sass/elements/form.sass";
 @import "~bulma/sass/elements/title.sass";
 @import "~bulma/sass/elements/content.sass";
+@import "~bulma/sass/components/modal.sass";
 @import "~bulma/sass/elements/image.sass";
 @import "~bulma/sass/elements/progress.sass";
 @import "bulma/sass/components/card.sass";

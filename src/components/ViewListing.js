@@ -129,9 +129,9 @@ export default class ViewListing extends React.Component {
 
     if (data === false) throw { code: 404 };
 
-    if (!data) return null;
+    // if (!data) return null;
 
-    const { amenities, description, policy, rate, size, listing_name, poster } = data;
+    const { amenities, description, policy, rate, size, listing_name, poster, lister_id } = data || {};
 
     return (
       <div>
@@ -146,50 +146,52 @@ export default class ViewListing extends React.Component {
               </h2>
             </div>
           </div>
-        </section>
 
+        </section>
         <div className="container">
           <div className="columns">
             <div className="column is-half">
-              { imageUrl && <figure className="image">
-                <img src={imageUrl}/>
-              </figure> }
+              { imageUrl ? (
+                <figure className="image">
+                  <img src={imageUrl} style={{ maxHeight: 282, height: 'auto', maxWidth: '100%' }}/>
+                </figure>
+              ) : null}
             </div>
             <div className="column is-half">
-            <Calender selectRange onChange={this.onChange} value={dates} />
-            <br/>
-            <div>
-              <a className="button is-medium is-link" onClick={this.createBooking}>Request Vroom</a>
-
-              {/* <div className="level-right"> */}
-              {data.lister_id === db.getUser().uid ? (<a onClick={this.deleteListing} style={{ marginLeft: 16}} className="button is-danger is-medium">
-                <span>Delete</span>
-              </a>) : null}
+              <Calender selectRange onChange={this.onChange} value={dates} />
             </div>
-            
           </div>
-          </div>
+          <br/>
           <div>
-          <div className="columns">
-            <div className="column is-4">
-              <h1 className="is-size-4 has-text-weight-bold">Amenities</h1>
-              <p>{amenities}</p>
-              <h1 className="is-size-4 has-text-weight-bold">Policy</h1>
-              <p>{policy || 'N/A'}</p>
-            </div>
-            <div className="column is-4">
-              <h1 className="is-size-4 has-text-weight-bold">Rate</h1>
-              <p>{rate || 1} $/Day</p>
-              <h1 className="is-size-4 has-text-weight-bold">Size</h1>
-              <p>{size || 'Medium'}</p>
+            <div className="columns">
+              <div className="column is-4">
+                <h1 className="is-size-4 has-text-weight-bold">Amenities</h1>
+                <p>{amenities}</p>
+                <h1 className="is-size-4 has-text-weight-bold">Policy</h1>
+                <p>{policy || 'N/A'}</p>
               </div>
               <div className="column is-4">
-              <h1 className="is-size-4 has-text-weight-bold">Description</h1>
+                <h1 className="is-size-4 has-text-weight-bold">Rate</h1>
+                <p>{rate || 1} $/Day</p>
+                <h1 className="is-size-4 has-text-weight-bold">Size</h1>
+                <p>{size || 'Medium'}</p>
+              </div>
+              <div className="column is-4">
+                <h1 className="is-size-4 has-text-weight-bold">Description</h1>
                 <pre>{description}</pre>
               </div>
             </div>
-            
-            </div>
+          </div>
+          <br/>
+          <div>
+            {lister_id === db.getUser().uid ? (
+              <button onClick={this.deleteListing} className="button is-danger is-medium">
+                <span>Delete this Listing</span>
+              </button>
+            ) : (
+              <button className="button is-medium is-link" onClick={this.createBooking}>Request Vroom</button>
+            )}
+          </div>
           <br/>
         </div>
       </div>

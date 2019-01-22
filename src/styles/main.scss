@@ -1,5 +1,9 @@
 // General styling goes here
 
+html {
+  overflow-y: auto;
+}
+
 #root {
   min-height: 100vh;
   display: flex;
@@ -90,10 +94,8 @@ $positions: ('top','left','bottom','right');
 }
 
 .listings {
-  position: absolute;
-  right: 20px;
-  top: 20px;
-  width: 300px;
+  max-height: calc(100vh - 52px);
+  overflow-y: auto;
 }
 
 .react-calendar__tile--active {
@@ -105,13 +107,13 @@ $positions: ('top','left','bottom','right');
 
 .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside){
   background: $link !important;
-    &:hover {
+  &:hover {
     background: $primary !important; 
   }
 
-.DayPicker-Caption.label{
-  color: $link !important;
-}
+  .DayPicker-Caption.label{
+    color: $link !important;
+  }
 }
 
 #doit .hero {
@@ -135,4 +137,47 @@ $positions: ('top','left','bottom','right');
 	100% {
 		opacity: 1;
 	}
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.through-click {
+  pointer-events: none;
+  > * {
+    pointer-events: all;
+  }
+}
+
+.has-text-truncated {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.layer {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 12px;
+  bottom: 12px;
+  @include mobile {
+    position: relative;
+    padding: 12px;
+  }
+}
+
+.input-hidden{
+  border: none;
+  background: none;
+  height: 1px;
+  width: 100%;
+  outline: none;
+  // visibility: hidden;
+  padding: 0;
+  margin: 0;
+  float: right;
 }

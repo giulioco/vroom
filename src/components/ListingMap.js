@@ -13,6 +13,8 @@ export default class GeocodeMap extends Component {
     viewport: {
       width: 400,
       height: 400,
+      latitude: 37.774929,
+      longitude: -122.419418,
       zoom: 11,
     },
   }
@@ -20,43 +22,40 @@ export default class GeocodeMap extends Component {
   componentDidMount() {
     window.addEventListener('resize', this.resize);
     this.resize();
+
+    if (navigator && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(({ coords: { longitude, latitude } }) => this.setCoords(latitude, longitude), console.error);
+    }
   }
 
   componentDidCatch(error) {
-    console.error(error);
+    console.error('MapError', error);
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.resize);
   }
 
-  // static getDerivedStateFromProps(props, state) {
-  //   if (props.center && (props.center[0] !== state.viewport.latitude || props.center[1] !== state.viewport.longitude)) {
-  //     return {
-  //       viewport: {
-  //         ...state.viewport,
-  //         latitude: props.center[0],
-  //         longitude: props.center[1],
-  //       },
-  //     };
-  //   }
-  //   return null;
-  // }
-
   mapRef = React.createRef();
   containerRef = React.createRef();
+
+  setCoords(latitude, longitude) {
+    this.setState(({ viewport }) => ({ viewport: { ...viewport, longitude, latitude } }), () => {
+      this.props.onResult({ coords: [latitude, longitude] });
+    });
+  }
 
   resize = () => {
     this.handleViewportChange({
       width: this.containerRef.current.offsetWidth,
-      height: this.containerRef.current.offsetHeight - 2, // just got to
+      height: this.containerRef.current.offsetHeight - 1, // just got to
     });
   }
 
   handleViewportChange = viewport => {
     this.setState(({ viewport: pastViewport }) => ({
       viewport: { ...pastViewport, ...viewport },
-    }));
+    }), () => this.props.onResult({ coords: [this.state.viewport.latitude, this.state.viewport.longitude] }));
   };
 
   handleGeocoderViewportChange = viewport => {
@@ -69,21 +68,17 @@ export default class GeocodeMap extends Component {
   };
 
   handleOnResult = (event) => {
+    this.address = event.result.place_name;
+
     const [long, lat] = event.result.center;
-    this.props.onResult({
-      coords: [lat, long],
-      name: event.result.place_name,
-    });
+    this.setCoords(lat, long);
   };
 
   render() {
     const { viewport } = this.state;
-    const { listings, radius, center } = this.props;
+    const { listings, radius } = this.props;
 
-    if (center) {
-      viewport.latitude = center[0];
-      viewport.longitude = center[1];
-    }
+    const { latitude, longitude } = viewport;
 
     return (
       <div ref={this.containerRef} style={{ flex: 1 }}>
@@ -100,26 +95,23 @@ export default class GeocodeMap extends Component {
             mapboxApiAccessToken={MAPBOX_TOKEN}
             position="top-left"
           />
-          { center && (
-            <DeckGL {...viewport} layers={[
-              new ScatterplotLayer({
-                data: [
-                  { position: [center[1], center[0]] },
-                ],
-                getPosition: d => d.position,
-                getRadius: radius * 1000,
-                stroked: true,
-                getColor: [255, 255, 255, 50],
-                pickable: false,
-              }),
-            ]}/>
-          )}
+          <DeckGL {...viewport} layers={[
+            new ScatterplotLayer({
+              data: [
+                { position: [longitude, latitude] },
+              ],
+              getPosition: d => d.position,
+              getRadius: radius * 1000,
+              stroked: true,
+              getColor: [255, 255, 255, 50],
+              pickable: false,
+            }),
+          ]}/>
           {listings.map((listing) => {
             const pos = listing.position.geopoint;
             return (
               <Marker key={listing.id} latitude={pos.latitude} longitude={pos.longitude}>
-                <span>TEST</span>
-                <Link className="map-user" to={`/listings/${listing.id}`}/>
+                <Link className="map-user" to={`/listings/${listing.id}`} title={listing.rate + ' $/day'}/>
               </Marker>
             );
           })}

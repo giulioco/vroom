@@ -8,8 +8,8 @@ export default class Home extends React.PureComponent {
 
   signIn = () => {
     db.signIn()
-      .then((path) => this.props.history.push(path))
-      .catch(console.error);
+    .then((path) => this.props.history.push(path))
+    .catch(console.error);
   }
 
   render() {
@@ -23,7 +23,8 @@ export default class Home extends React.PureComponent {
             <h2 className="subtitle is-size-4 has-text-weight-bold">
               A platform for people sleeping in their vehicles to find overnight parking
             </h2>
-            <img src={signinButton} width="200" onClick={this.signIn} className="is-clickable" />
+            <img src={signinButton} width="200" onClick={this.signIn}
+              className="is-clickable" role="button" alt="Sign In"/>
           </div>
         </div>
       </section>

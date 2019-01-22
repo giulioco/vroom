@@ -10,9 +10,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.12",
-    "@fortawesome/free-solid-svg-icons": "^5.6.3",
-    "@fortawesome/react-fontawesome": "^0.1.4",
     "bulma": "^0.7.2",
     "bulma-extensions": "^4.0.1",
     "bulma-slider": "^2.0.0",
@@ -29,13 +26,12 @@
     "react-firebase-file-uploader": "^2.4.2",
     "react-hot-loader": "^4.6.3",
     "react-map-gl": "^4.0.8",
-    "react-map-gl-geocoder": "^1.6.1",
+    "react-map-gl-geocoder": "^1.6.3",
     "react-router-dom": "^4.3.1",
     "react-step-wizard": "^5.0.0",
     "rxjs": "^6.3.3"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "^5.6.3",
     "webpack-boiler": "^0.2.3"
   },
   "private": true

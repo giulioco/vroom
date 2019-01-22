@@ -12,7 +12,7 @@ export default class Setup extends React.Component {
 
     this.state = {
       name: db.getUser().displayName,
-      license_verification: false,
+      // license_verification: false,
       avatar: '',
     };
   }
@@ -23,7 +23,8 @@ export default class Setup extends React.Component {
       db.images
       .child(image)
       .getDownloadURL()
-      .then(url => this.setState({ avatarURL: url }));
+      .then(url => this.setState({ avatarURL: url }))
+      .catch(console.error);
     }
   }
 
@@ -32,7 +33,9 @@ export default class Setup extends React.Component {
   }
 
   handleUploadStart = () => this.setState({ isUploading: true, progress: 0 });
+
   handleProgress = progress => this.setState({ progress });
+
   handleUploadError = error => {
     this.setState({ isUploading: false });
     console.error(error);
@@ -61,7 +64,9 @@ export default class Setup extends React.Component {
     .then(() => this.props.history.push('/dashboard'));
   }
 
-  render() {    
+  render() {
+    const { isUploading, avatarURL, progress } = this.state;
+    
     return (
       <form onSubmit={this.handleSubmit} className="container">
 
@@ -75,22 +80,21 @@ export default class Setup extends React.Component {
           </div>
         </div>
         <div className="field">
-          {this.state.isUploading && <p> <progress className="progress is-success" value={this.state.progress} max="100">{this.state.progress}%</progress></p>}
-          {this.state.avatarURL && <figure className="image is-128x128"><img className="is-rounded" src={this.state.avatarURL}/></figure>}
+          {isUploading && <p> <progress className="progress is-success" value={progress} max="100">{progress}%</progress></p>}
+          {avatarURL && <figure className="image is-128x128"><img src={avatarURL}/></figure>}
 
-           <CustomUploadButton
-              accept="image/*"
-              name="avatar"
-              randomizeFilename
-              storageRef={db.images}
-              onUploadStart={this.handleUploadStart}
-              onUploadError={this.handleUploadError}
-              onUploadSuccess={this.handleUploadSuccess}
-              onProgress={this.handleProgress}
-              className="button is-link"
-              >
-              Select Image
-            </CustomUploadButton>
+          <CustomUploadButton
+            accept="image/*"
+            name="avatar"
+            randomizeFilename
+            storageRef={db.images}
+            onUploadStart={this.handleUploadStart}
+            onUploadError={this.handleUploadError}
+            onUploadSuccess={this.handleUploadSuccess}
+            onProgress={this.handleProgress}
+            className="button is-link">
+            Select Image
+          </CustomUploadButton>
         </div>
         
         <br/>

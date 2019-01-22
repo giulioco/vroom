@@ -47,11 +47,14 @@ export default class BookingEntry extends React.Component {
     const userId = db.getUser().uid;
     const mine = userId === lister_id;
 
-    db.users.doc(mine ? booker_id : lister_id).get().then((doc) => {
+    db.users.doc(mine ? booker_id : lister_id).get()
+    .then((doc) => {
       this.setState({ user: doc.data() });
-    }).catch(console.error);
+    })
+    .catch(console.error);
 
-    db.listings.doc(listing_id).get().then((doc) => {
+    db.listings.doc(listing_id).get()
+    .then((doc) => {
 
       const listing = doc.data();
 
@@ -61,7 +64,8 @@ export default class BookingEntry extends React.Component {
       .then(image_url => this.setState({ listing: { ...listing, image_url } }));
 
       this.setState({ listing });
-    }).catch(console.error);
+    })
+    .catch(console.error);
   }
 
   cancel = () => {
