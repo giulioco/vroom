@@ -2,6 +2,7 @@ import React from 'react';
 import Calender from 'react-calendar';
 
 import * as db from '../db';
+import LazyImg from './LazyImg';
 
 
 export default class ViewListing extends React.Component {
@@ -151,11 +152,9 @@ export default class ViewListing extends React.Component {
         <div className="container">
           <div className="columns">
             <div className="column is-half">
-              { imageUrl ? (
-                <figure className="image">
-                  <img src={imageUrl} style={{ maxHeight: 282, height: 'auto', maxWidth: '100%' }}/>
-                </figure>
-              ) : null}
+              <figure className="image shadowed">
+                <LazyImg src={imageUrl} style={{ height: 282, width: '100%' }} placeholder="#eee"/>
+              </figure>
             </div>
             <div className="column is-half">
               <Calender selectRange onChange={this.onChange} value={dates} />
@@ -170,15 +169,15 @@ export default class ViewListing extends React.Component {
                 <h1 className="is-size-4 has-text-weight-bold">Policy</h1>
                 <p>{policy || 'N/A'}</p>
               </div>
-              <div className="column is-4">
+              <div className="column is-2">
                 <h1 className="is-size-4 has-text-weight-bold">Rate</h1>
                 <p>{rate || 1} $/Day</p>
                 <h1 className="is-size-4 has-text-weight-bold">Size</h1>
                 <p>{size || 'Medium'}</p>
               </div>
-              <div className="column is-4">
+              <div className="column is-6">
                 <h1 className="is-size-4 has-text-weight-bold">Description</h1>
-                <pre>{description}</pre>
+                <p>{description}</p>
               </div>
             </div>
           </div>

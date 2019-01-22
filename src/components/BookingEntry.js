@@ -1,6 +1,7 @@
 import React from 'react';
 
 import * as db from '../db';
+import LazyImg from './LazyImg';
 
 
 const Bl = ({ user, listing, dates, title, buttons }) => (
@@ -9,8 +10,8 @@ const Bl = ({ user, listing, dates, title, buttons }) => (
     <br/>
     <div className="columns">
       <div className="column is-3 is-mobile">
-        <figure className="image is-128x128">
-          { listing.image_url && <img src={listing.image_url}/> }
+        <figure className="image" style={{ height: 128 }}>
+          <LazyImg src={listing.image_url} style={{ height: '100%', width: '100%' }} placeholder="#eee"/>
         </figure>
       </div>
       <div className="column is-3 is-mobile">

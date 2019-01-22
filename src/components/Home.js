@@ -1,7 +1,10 @@
 import React from 'react';
 
 import * as db from '../db';
+
 import signinButton from '../images/signin.png';
+import landing from '../images/landing.jpg';
+import LazyImg from './LazyImg';
 
 
 export default class Home extends React.PureComponent {
@@ -14,20 +17,22 @@ export default class Home extends React.PureComponent {
 
   render() {
     return (
-      <section className="hero is-success is-fullheight" id="landing">
-        <div className="hero-body">
-          <div className="container">
-            <h1 className="title is-size-1">
-              vroom
-            </h1>
-            <h2 className="subtitle is-size-4 has-text-weight-bold">
-              A platform for people sleeping in their vehicles to find overnight parking
-            </h2>
-            <img src={signinButton} width="200" onClick={this.signIn}
-              className="is-clickable" role="button" alt="Sign In"/>
+      <LazyImg src={landing} placeholder="#888888" className="home">
+        <section className="hero is-fullheight">
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="title is-size-1 has-text-white ">
+                vroom
+              </h1>
+              <h2 className="subtitle is-size-4 has-text-weight-bold has-text-white ">
+                A platform for people sleeping in their vehicles to find overnight parking
+              </h2>
+              <img src={signinButton} width="200" onClick={this.signIn}
+                className="is-clickable" role="button" alt="Sign In"/>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </LazyImg>
     );
   }
 }

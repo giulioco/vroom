@@ -27,18 +27,33 @@ html {
 	height:200px;
 	overflow: hidden;
 }
-// .navbar-brand {
-// 	height:50px;
-// }
-#landing {
-  background: url('../images/landing.jpg'); // TODO image placeholder???
-  // height: 500px; /* You must set a specified height */
+
+.lazy {
+  // background: url('../images/landing.jpg');
+  opacity: 0;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  transition: opacity 0.5s ease;
+  // content: '';
+  position: absolute;
+  top:0;left:0;right:0;bottom:0;
+  // &:before {
+  //   background: rgba(114, 114, 114, 0.89);
+  //   content: '';
+  //   position: absolute;
+  //   top:0;left:0;right:0;bottom:0;
+  // }
+}
+.lazy.loaded {
+  opacity: 1;
+}
+.lazy.preloaded {
+  transition: none;
+  opacity: 1;
 }
 
-#root > :not(.is-fullheight, .navbar) {
+#root > :not(.is-fullheight, .navbar, .home) {
   margin-top: $navbar-height;
 }
 
@@ -180,4 +195,8 @@ $positions: ('top','left','bottom','right');
   padding: 0;
   margin: 0;
   float: right;
+}
+
+.image.shadowed {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
