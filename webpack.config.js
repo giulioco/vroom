@@ -19,6 +19,7 @@ module.exports = require('webpack-boiler')({
     background_color: '#ffffff',
     display: 'standalone',
     start_url: '/dashboard',
+    short_name: 'vroom',
   },
   offline: process.env.NODE_ENV === 'development' ? false : {
     ServiceWorker: {
@@ -28,10 +29,10 @@ module.exports = require('webpack-boiler')({
   },
   url: 'https://vroom.now.sh',
   pages: [{
-    title: 'Vroom',
-    favicon: './src/images/favicon.png',
+    title: 'vroom',
+    favicon: './src/images/vroom-car.png',
     meta: {
-      'theme-color': '#692a2a',
+      'theme-color': '#FA7C91',
       description: 'A platform for people sleeping in their vehicles to find overnight parking',
       keywords: 'vroom,rent,sleep,vehicle,overnight,parking',
     },

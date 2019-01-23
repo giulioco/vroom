@@ -11,6 +11,7 @@ html {
 }
 
 .full-page {
+  height: 100%;
   flex: 1;
   display: flex;
   align-items: center;
@@ -20,6 +21,15 @@ html {
 .navbar.is-transparent {
   background-color: transparent;
   background-image: none;
+  a:hover {
+    text-decoration: underline;
+  }
+}
+.navbar .button{
+  @include mobile {
+    border-color: $link !important;
+    color: $link !important;
+  }
 }
 
 .profileImg {
@@ -29,21 +39,13 @@ html {
 }
 
 .lazy {
-  // background: url('../images/landing.jpg');
   opacity: 0;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   transition: opacity 0.5s ease;
-  // content: '';
   position: absolute;
   top:0;left:0;right:0;bottom:0;
-  // &:before {
-  //   background: rgba(114, 114, 114, 0.89);
-  //   content: '';
-  //   position: absolute;
-  //   top:0;left:0;right:0;bottom:0;
-  // }
 }
 .lazy.loaded {
   opacity: 1;
