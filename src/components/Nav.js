@@ -27,8 +27,8 @@ class Nav extends React.PureComponent {
   toggle = () => this.setState(({ open }) => ({ open: !open }))
 
   signIn = () => db.signIn()
-  .then((path) => this.props.history.push(path))
-  .catch(console.error);
+    .then((path) => this.props.history.push(path))
+    .catch(console.error);
 
   render() {
     const { open, loggedIn } = this.state;
@@ -49,10 +49,10 @@ class Nav extends React.PureComponent {
       NavBarEnd = (
         <>
           <NavLink className="navbar-item" exact to="/dashboard">
-          Dashboard
+            Dashboard
           </NavLink>
           <NavLink className="navbar-item" exact to="/listings">
-          Listings
+            Listings
           </NavLink>
           <NavLink className="navbar-item" exact to="/listings/new">
             Create Listing
@@ -62,6 +62,10 @@ class Nav extends React.PureComponent {
               {userData.name}
             </NavLink>
             <div className="navbar-dropdown is-right is-boxed">
+              <Link className="navbar-item" to={`/mylistings/${db.getUser().uid}`}>
+                My Listings
+              </Link>
+              <hr className="navbar-divider" />
               <Link className="navbar-item" to="/account">
                 Account
               </Link>
@@ -86,7 +90,7 @@ class Nav extends React.PureComponent {
         <div className="container">
           <div className="navbar-brand">
             <Link className="navbar-item " to="/">
-              <img src={brandingImg} className="d-inline-block align-top" alt=""/>
+              <img src={brandingImg} className="d-inline-block align-top" alt="" />
             </Link>
             <div className={`navbar-burger burger ${open ? 'is-active' : ''}`}
               onClick={this.toggle} role="button" tabIndex="0">

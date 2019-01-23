@@ -9,13 +9,13 @@ import ViewListing from './ViewListing';
 
 const _ViewListing = (props) => (
   <div className="modal is-active">
-    <Link className="modal-background" to="/listings"/>
+    <Link className="modal-background" to="/listings" />
     <div className="modal-content">
       <div className="box">
-        <ViewListing {...props}/>
+        <ViewListing {...props} />
       </div>
     </div>
-    <Link className="modal-close is-large" aria-label="close" to="/listings"/>
+    <Link className="modal-close is-large" aria-label="close" to="/listings" />
   </div>
 );
 
@@ -85,7 +85,7 @@ export default class Listings extends React.Component {
     return (
       <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'stretch' }}>
 
-        <ListingMap onResult={this.onResult} listings={listings || []} radius={radius}/>
+        <ListingMap onResult={this.onResult} listings={listings || []} radius={radius} />
 
         <div className="columns through-click layer">
           <div className="column is-4" style={{ justifyContent: 'flex-end', display: 'flex', flexDirection: 'column' }}>
@@ -121,7 +121,7 @@ export default class Listings extends React.Component {
             })}
           </div>
         </div>
-        <Route exact path="/listings/:id" component={_ViewListing}/>
+        <Route exact path="/listings/:id" component={_ViewListing} />
       </div>
     );
   }
