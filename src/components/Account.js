@@ -1,27 +1,10 @@
 import React from 'react';
 
 import * as db from '../db';
+import Setup from './Setup';
 
 
 export default class Account extends React.Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      avatarURL: '',
-    };
-  }
-
-  componentDidMount() {
-    const image = db.userData().image_name;
-    if (image) {
-      db.images
-      .child(image)
-      .getDownloadURL()
-      .then(url => this.setState({ avatarURL: url }));
-    }
-  }
 
   deleteProfile = () => {
     if (!confirm('Are you sure? This will delete your data forever.')) return;
@@ -32,33 +15,22 @@ export default class Account extends React.Component {
   }
 
   render() {
-    const { avatarURL } = this.state;
-
-    const user = db.getUser();
-    
-    return (
-      <div className="columns is-centered has-text-centered">
-        <div className="column is-two-fifths">
-          <br/>
-          <div className="card">
-            <div className="card-content">
-            { avatarURL && (
-              <div className="card-image">
-                <figure className="image" width="100%">
-                  <img src={avatarURL}/>
-                </figure>
-              </div>
-            )}
-            </div>
-            <label className="label">Display Name</label>
-            <p>{user.displayName}</p>
-            <br/>
-
+    return <>
+      <Setup title="Account" {...this.props}/>
+      <br/>
+      <div className="container">
+        <article className="message is-danger">
+          <div className="message-header">
+            <p>Danger Zone</p>
           </div>
-          <br/>
-          <button onClick={this.deleteProfile} className="button is-danger">Delete your Account</button>
-        </div>
+          <div className="message-body" style={{ display: 'flex', alignItems: 'center' }}>
+            <button className="button is-danger is-outlined" onClick={this.deleteProfile}>Delete Account</button>
+            <span className="has-text-dark" style={{ marginLeft: 8 }}>
+              Permanently delete your account and all of your listings
+            </span>
+          </div>
+        </article>
       </div>
-    );
+    </>;
   }
 }

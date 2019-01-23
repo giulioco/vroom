@@ -5,6 +5,7 @@ import 'firebase/storage';
 import * as geofirex from 'geofirex';
 
 import { decodeQuery } from './utils';
+import { EventEmitter } from 'events';
 
 
 firebase.initializeApp({
@@ -31,7 +32,7 @@ export const Helpers = firebase.firestore;
 // hacky global start end dates for bookings
 // export var bookingStart;
 // export var bookingEnd;
-export let bookingDates = {
+export const bookingDates = {
   start: new Date(),
   end: new Date(),
 };
@@ -50,72 +51,76 @@ export const transaction = (fn) => firestore.runTransaction(fn);
 
 export const getUser = () => auth.currentUser;
 
+// export const userEE = new EventEmitter();
+
+
 let _userData = null;
 export const userData = () => _userData;
 
 const fetchInfo = () => new Promise((resolve) => {
-  if (!getUser()) return resolve('/');
+  if (!getUser()) return resolve();
 
   const unsub = users.doc(getUser().uid).onSnapshot((doc) => {
     _userData = doc.data() || {};
 
-    if (!_userData.setup) resolve('/setup');
-    else resolve('/dashboard');
+    // userEE.emit('update', _userData);
+
+    resolve();
   }, () => {
     unsub();
-    resolve('/');
+    resolve();
   });
 });
 
 export const init = () => firestore.enablePersistence()
-  .catch((err) => {
-    if (err.code === 'failed-precondition')
-      console.warn('Failed to initialize caching because multiple sessions are open');
-    else
-      console.error(err);
-  })
-  .then(new Promise((resolve) => {
-    const unsubscribe = auth.onAuthStateChanged(() => {
-      console.log('Signed in:', !!auth.currentUser);
-      unsubscribe();
-      resolve();
-    }, (err) => {
-      console.error('Sign in error:', err);
-      unsubscribe();
-      resolve();
-    });
-  }))
-  .then(() => {
-    users = firestore.collection('users');
-    listings = firestore.collection('listings');
-    bookings = firestore.collection('bookings');
-    geoListings = geo.collection('listings');
-
-    return fetchInfo();
+.catch((err) => {
+  if (err.code === 'failed-precondition')
+    console.warn('Failed to initialize caching because multiple sessions are open');
+  else
+    console.error(err);
+})
+.then(new Promise((resolve) => {
+  const unsubscribe = auth.onAuthStateChanged(() => {
+    console.log('Signed in:', !!auth.currentUser);
+    unsubscribe();
+    resolve();
+  }, (err) => {
+    console.error('Sign in error:', err);
+    unsubscribe();
+    resolve();
   });
+}))
+.then(() => {
+  users = firestore.collection('users');
+  listings = firestore.collection('listings');
+  bookings = firestore.collection('bookings');
+  geoListings = geo.collection('listings');
+
+  return fetchInfo();
+});
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 export const signIn = () => auth.signInWithPopup(googleProvider)
-  .then(() => new Promise(resolve => setTimeout(() => resolve(), 1500)))
-  .then(() => fetchInfo())
-  .then((path) => {
-    if (path) return path;
+.then(() => new Promise(resolve => setTimeout(() => resolve(), 1500)))
+.then(() => fetchInfo())
+.then(() => {
+  if (_userData && !_userData.setup) return '/setup';
 
-    const { from } = decodeQuery(window.location.search);
-    if (from && from.startsWith('/')) return from;
-    else if (window.location.pathname === '/') return '/dashboard';
-    else return window.location.pathname;
-  });
+  const { from } = decodeQuery(window.location.search);
+  if (from && from.startsWith('/')) return from;
+  else if (window.location.pathname === '/') return '/dashboard';
+  else return window.location.pathname;
+});
 
 export const authChange = (fn) => auth.onAuthStateChanged(fn);
 
 export const signOut = () => auth.signOut();
 
 export const deleteProfile = () => auth.signInWithPopup(googleProvider)
-  .then(() => auth.currentUser.delete())
-  .then(() => auth.signOut())
-  .then(() => alert('Account successfully deleted'));
+.then(() => auth.currentUser.delete())
+.then(() => auth.signOut())
+.then(() => alert('Account successfully deleted'));
 
 export const setupAccount = (data) => users.doc(getUser().uid).set(data);
 

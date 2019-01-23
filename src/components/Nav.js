@@ -86,7 +86,7 @@ class Nav extends React.PureComponent {
         <div className="container">
           <div className="navbar-brand">
             <Link className="navbar-item " to="/">
-              <img src={brandingImg} className="d-inline-block align-top" alt=""/>
+              <img src={brandingImg} alt="Logo"/>
             </Link>
             <div className={`navbar-burger burger ${open ? 'is-active' : ''}`}
               onClick={this.toggle} role="button" tabIndex="0">

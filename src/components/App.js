@@ -14,7 +14,7 @@ import Home from './Home';
 import About from './About';
 import Dashboard from './Dashboard';
 import Account from './Account';
-import Setup from './Setup' ;
+import Setup from './Setup';
 import Listings from './Listings';
 import CreateListing from './CreateListing';
 // import ViewListing from './ViewListing';
