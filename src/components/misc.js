@@ -41,6 +41,7 @@ export class LazyImg extends React.Component {
     this.$img = document.createElement('img');
     this.$img.src = this.props.src;
     if (this.$img.complete) {
+      this.$img.remove();
       this.setState({ loaded: forceAnimate ? 'loaded' : 'preloaded', src: this.props.src });
     } else {
       this.$img.onload = this.onLoad;
