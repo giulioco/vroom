@@ -2,7 +2,7 @@ import React from 'react';
 import Calender from 'react-calendar';
 
 import * as db from '../db';
-import LazyImg from './LazyImg';
+import { LazyImg } from './misc';
 
 
 export default class ViewListing extends React.Component {

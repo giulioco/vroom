@@ -3,7 +3,7 @@ import "react-firebase-file-uploader";
 import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
 
 import * as db from '../db';
-import LazyImg from './LazyImg';
+import { LazyImg } from './misc';
 import { Spinner } from './misc';
 
 

@@ -4,7 +4,7 @@ import * as db from '../db';
 
 import signinButton from '../images/signin.png';
 import landing from '../images/landing.jpg';
-import LazyImg from './LazyImg';
+import { LazyImg } from './misc';
 
 
 export default class Home extends React.PureComponent {
