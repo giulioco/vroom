@@ -138,7 +138,7 @@ export default class CreateListing extends React.Component {
                     <div className="">
                       <h1 className="title">Where?</h1>
                     </div>
-                    <div className="is-divider" />
+                    <hr/>
                     <div className="field">
                       <label className="label">Address</label>
                       <SearchAddress
@@ -161,7 +161,7 @@ export default class CreateListing extends React.Component {
                       <div className="">
                         <h1 className="title">What?</h1>
                       </div>
-                      <div className="is-divider" />
+                      <hr/>
     
                       <div className="columns">
                         <div className="column">
@@ -263,7 +263,7 @@ export default class CreateListing extends React.Component {
                       <div className="">
                         <h1 className="title">When are you busy?</h1>
                       </div>
-                      <div className="is-divider" />
+                      <hr/>
                       <div className="field">
                         <label className="label">
                           <DayPicker
@@ -301,7 +301,7 @@ export default class CreateListing extends React.Component {
                     <div className="hero-body">
                       <div className="container">
                         <h1 className="title">How?</h1>
-                        <div className="is-divider" />
+                        <hr/>
                       </div>
                       <div className="level" />
                       <div className="columns has-text-left">
