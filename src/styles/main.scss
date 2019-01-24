@@ -68,11 +68,15 @@ html {
   border-radius: 50%;
 }
 
-.search-address .mapboxgl-ctrl-geocoder.mapboxgl-ctrl, .mapboxgl-ctrl-top-left {
-  margin: 0;
-  width: 100%;
-  max-width: 100%;
-  box-shadow: none;
+.search-address {
+  max-width: 600px;
+  margin: 0 auto;
+  .mapboxgl-ctrl-geocoder.mapboxgl-ctrl, .mapboxgl-ctrl-top-left {
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    box-shadow: none;
+  }
 }
 .mapboxgl-ctrl-bottom-left {
   display: none;
@@ -83,6 +87,9 @@ html {
   overflow-y: auto;
 }
 
+.react-calendar {
+  width: 100% !important;
+}
 .react-calendar__tile--active {
   background: $link !important;
   &:hover {
@@ -152,6 +159,16 @@ html {
       top: 0;
       bottom: 0;
       margin: 0 !important; // fix .columns
+    }
+  }
+}
+
+// HACK
+@include mobile {
+  .layers .columns {
+    padding: 12px;
+    .has-text-white {
+      color: $text !important;
     }
   }
 }

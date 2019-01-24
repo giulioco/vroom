@@ -38,6 +38,9 @@ $d: 175.6449737548828;
   align-items: center;
   justify-content: center;
 }
+#root > .full-page {
+	height: calc(100vh - 150px);
+}
 
 @keyframes strokeanim {
 	0% {

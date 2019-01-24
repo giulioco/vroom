@@ -88,12 +88,12 @@ export default class Listings extends React.Component {
         <ListingMap onResult={this.onResult} listings={listings || []} radius={radius} />
 
         <div className="columns through-click">
-          <div className="column is-4"
-            style={{ justifyContent: 'flex-end', display: 'flex', flexDirection: 'column', paddingRight: 90 }}>
+          <div className="column is-3"
+            style={{ justifyContent: 'flex-end', display: 'flex', flexDirection: 'column' }}>
             {!dates && (
               <p className="has-text-danger has-text-weight-bold">Please select a date range</p>
             )}
-            <Calender selectRange onChange={this.changeDate} value={dates} style={{ width: '100%' }}/>
+            <Calender selectRange onChange={this.changeDate} value={dates}/>
             <div className="flex-row" style={{ marginTop: 12 }}>
               <span className="has-text-centered has-text-white">
                 <strong className="has-text-white">Radius</strong><br />{radius} km
@@ -103,7 +103,7 @@ export default class Listings extends React.Component {
             </div>
           </div>
 
-          <div className="column is-3 is-offset-5 listings">
+          <div className="column is-3 is-offset-6 listings">
             {listings && listings.map((listing) => {
 
               let desc = listing.listing_name || '';
