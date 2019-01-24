@@ -130,8 +130,8 @@ export default class ViewListing extends React.Component {
 
     if (data === false) throw { code: 404 };
 
-    // if (!data) return null;
-
+    //if (!data) return null;
+    const mappedUnavailable = data && data.dates_unavailable ? data.dates_unavailable.map(date => date.toDate().getDay()) : [];
     const { amenities, description, policy, rate, size, listing_name, poster, lister_id } = data || {};
 
     return (
@@ -157,7 +157,9 @@ export default class ViewListing extends React.Component {
               </figure>
             </div>
             <div className="column is-half">
-              <Calender selectRange onChange={this.onChange} value={dates} />
+              <Calender
+               tileDisabled = {({activeStartDate, date, view }) => mappedUnavailable.includes(date.getDay())}
+               selectRange onChange={this.onChange} value={dates} />
             </div>
           </div>
           <br/>
