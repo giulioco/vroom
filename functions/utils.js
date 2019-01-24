@@ -1,28 +1,28 @@
 
-const deleteQueryBatch = (query, batchSize, resolve, reject) => {
+const deleteQueryBatch = (query, resolve, reject) => {
   query.get()
   .then((snap) => {
     // When there are no documents left, we are done
     if (!snap.size)
-      return 0;
+      return true;
 
     // Delete documents in a batch
     const batch = query.firestore.batch();
     for (const doc of snap.docs) batch.delete(doc.ref);
 
     return batch.commit()
-    .then(() => snap.size);
+    .then(() => false);
 
   })
-  .then((numDeleted) => {
-    if (numDeleted === 0) {
+  .then((done) => {
+    if (done) {
       resolve();
       return;
     }
 
     // Recurse on the next process tick, to avoid exploding the stack.
     process.nextTick(() => {
-      deleteQueryBatch(query, batchSize, resolve, reject);
+      deleteQueryBatch(query, resolve, reject);
     });
   })
   .catch(reject);
@@ -30,5 +30,16 @@ const deleteQueryBatch = (query, batchSize, resolve, reject) => {
 
 // Max docs for batch write is 500
 exports.deleteCollection = (collectionRef, batchSize = 300) => new Promise((resolve, reject) => {
-  deleteQueryBatch(collectionRef.orderBy('__name__').limit(batchSize), batchSize, resolve, reject);
+  deleteQueryBatch(collectionRef.orderBy('__name__').limit(batchSize), resolve, reject);
 });
+
+// This only works if collectionRef has less than 500 docs
+exports.updateCollection = async (collectionRef, updateData) => {
+  const snap = await collectionRef.get();
+  const batch = collectionRef.firestore.batch();
+
+  for (const doc of snap.docs) batch.update(doc.ref, updateData);
+
+  await batch.commit();
+};
+// updateQueryBatch(collectionRef.orderBy('__name__').limit(batchSize), updateData, batchSize, resolve, reject);
