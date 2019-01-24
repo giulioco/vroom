@@ -1,7 +1,7 @@
 import React from 'react';
 
 import * as db from '../db';
-import LazyImg from './LazyImg';
+import { LazyImg } from './misc';
 
 
 
@@ -51,29 +51,29 @@ export default class MyListings extends React.Component {
   render() {
     const { listings, totalListings } = this.state;
 
-    if (totalListings == 0) {
+    if (totalListings > 0) {
+      var listingList = listings.map((l) =>
+        <div>
+          <div>{l.listing_name}</div>
+          {/* <LazyImg src={l.listing_img} style={{ height: 282, width: '100%' }} placeholder="#eee" />
+          <div>{l.amenities}</div>
+          <div>{l.policy || 'N/A'}</div>
+          <div>{l.size || 'Medium'}</div>
+          <div>{l.description}</div> */}
+        </div>
+      )
+      return (
+        <div>
+          {/* <div> my listings ---  under construction ---</div> */}
+          <div> {listingList}</div>
+        </div>
+
+        // display the contents/listings from this.listing
+      );
+    } else {
       return (
         <div>You have no published listings</div>
       )
     }
-
-    var listingList = listings.map((l) =>
-      <div>
-        <div>{l.listing_name}</div>
-        {/* <LazyImg src={l.listing_img} style={{ height: 282, width: '100%' }} placeholder="#eee" />
-        <div>{l.amenities}</div>
-        <div>{l.policy || 'N/A'}</div>
-        <div>{l.size || 'Medium'}</div>
-        <div>{l.description}</div> */}
-      </div>
-    )
-    return (
-      <div>
-        {/* <div> my listings ---  under construction ---</div> */}
-        <div> {listingList}</div>
-      </div>
-
-      // display the contents/listings from this.listing
-    );
   }
 }
