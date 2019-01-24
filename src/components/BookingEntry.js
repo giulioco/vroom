@@ -4,6 +4,40 @@ import * as db from '../db';
 import { LazyImg } from './misc';
 
 
+export const ListingEntry = ({ title = '', listing, user, dates, buttons }) => (
+  <div className="box">
+    <p className="is-size-3">{title}</p>
+    <br/>
+    <div className="columns">
+      <div className="column is-3 is-mobile">
+        <figure className="image" style={{ height: 128 }}>
+          <LazyImg src={listing.image_url} style={{ height: '100%', width: '100%' }} placeholder="#eee"/>
+        </figure>
+      </div>
+      { user && (
+        <div className="column is-3 is-mobile">
+          <p className="has-text-grey">User:</p>
+          <a className="link" href={`mailto:${user.email}`}>{user.name}</a>
+          <br/><br/>
+          <p className="has-text-grey">Booked Dates:</p>
+          {dates}
+        </div>
+      )}
+      <div className="column is-6 is-mobile">
+        <strong>{listing.address}</strong>
+        <hr/>
+        {listing.listing_name}<br/>
+        <p className="has-text-link">{listing.description}</p>
+      </div>
+    </div>
+    { buttons && (
+      <div className="buttons">
+        {buttons}
+      </div>
+    )}
+  </div>
+);
+
 export default class BookingEntry extends React.Component {
 
   state = {
@@ -51,8 +85,7 @@ export default class BookingEntry extends React.Component {
 
   render() {
     const { status, lister_id, start_date, end_date } = this.props;
-    const user = this.state.user || {};
-    const listing = this.state.listing || {};
+    const { user, listing } = this.state;
 
     const userId = db.getUser().uid;
     const mine = lister_id ? userId === lister_id : true;
@@ -82,33 +115,7 @@ export default class BookingEntry extends React.Component {
     }
 
     return (
-      <div className="box">
-        <p className="is-size-3">{title}</p>
-        <br/>
-        <div className="columns">
-          <div className="column is-3 is-mobile">
-            <figure className="image" style={{ height: 128 }}>
-              <LazyImg src={listing.image_url} style={{ height: '100%', width: '100%' }} placeholder="#eee"/>
-            </figure>
-          </div>
-          <div className="column is-3 is-mobile">
-            <p className="has-text-grey">User:</p>
-            <a className="link" href={`mailto:${user.email}`}>{user.name}</a>
-            <br/><br/>
-            <p className="has-text-grey">Booked Dates:</p>
-            {dates}
-          </div>
-          <div className="column is-6 is-mobile">
-            <strong>{listing.address}</strong>
-            <hr/>
-            {listing.listing_name}<br/>
-            <p className="has-text-link">{listing.description}</p>
-          </div>
-        </div>
-        <div className="buttons">
-          {buttons}
-        </div>
-      </div>
+      <ListingEntry user={user} dates={dates} listing={listing || {}} buttons={buttons} title={title}/>
     );
   }
 }

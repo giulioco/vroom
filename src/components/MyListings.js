@@ -1,79 +1,78 @@
 import React from 'react';
 
 import * as db from '../db';
-import LazyImg from './LazyImg';
+import { ListingEntry } from './BookingEntry';
 
 
+class _ListingEntry extends React.Component {
+
+  state = {
+    image_url: null,
+  }
+
+  componentDidMount() {
+    const img = this.props.listing.listing_img;
+    if (img) {
+      db.listingImages.child(img).getDownloadURL()
+      .then(image_url => this.setState({ image_url }))
+      .catch(console.error);
+    }
+  }
+
+  render() {
+    const { image_url } = this.state;
+    return <ListingEntry {...this.props} listing={{ ...this.props.listing, image_url }}/>;
+  }
+}
 
 export default class MyListings extends React.Component {
 
   state = {
-    listings: [],
-    totalListings: 0
+    listings: null,
   }
 
   componentDidMount() {
-    this.userID = this.props.match.params.id;
+    this.userId = db.getUser().uid;
 
-    db.users.doc(this.userID).get().then((user) => {
-      const userData = user.data();
-      var numberListings = 0;
-      if (user.exists) {
-        // console.log(userData);
-        db.listings.where("lister_id", "==", this.userID).get()
-          .then((listing) => {
-            var mylistings = []
-            // const listingData = listing.data();
-            listing.forEach(function (doc) {
-              // console.log(doc.id, " => ", doc.data());
-              mylistings.push(doc.data());
-              numberListings++;
-            });
+    db.listings.where('lister_id', '==', this.userId).onSnapshot((snap) => {
+      const listings = snap.docs.map((doc) => {
+        const data = doc.data();
+        data.id = doc.id;
+        return data;
+      });
 
-            this.setState({ listings: mylistings, totalListings: numberListings })
-            console.log(this.state)
-          })
-      }
+      this.setState({ listings });
     });
   }
 
-  createList() {
-    var list = [];
-
-    for (var i = 0; i < this.state.totalListings; i++) {
-      thisListing = this.state.listings[i];
-      list.push(<div> {thisListing.address}</div>)
-    }
-    console.log(list)
-    return list;
+  removeListing = (id) => () => {
+    db.listings.doc(id).delete();
   }
 
   render() {
-    const { listings, totalListings } = this.state;
+    const { listings } = this.state;
 
-    if (totalListings == 0) {
-      return (
-        <div>You have no published listings</div>
-      )
+    let Content = null;
+    if (listings) {
+      if (listings.length) Content = listings.map((listing) => (
+        <_ListingEntry listing={listing} key={listing.id}
+          buttons={<button className="button is-danger" onClick={this.removeListing(listing.id)}>Remove</button>}/>
+      ));
+      else Content = (
+        <div className="box">
+          <p className="is-size-4 has-text-link has-text-centered">Nothing here</p>
+        </div>
+      );
     }
 
-    var listingList = listings.map((l) =>
-      <div>
-        <div>{l.listing_name}</div>
-        {/* <LazyImg src={l.listing_img} style={{ height: 282, width: '100%' }} placeholder="#eee" />
-        <div>{l.amenities}</div>
-        <div>{l.policy || 'N/A'}</div>
-        <div>{l.size || 'Medium'}</div>
-        <div>{l.description}</div> */}
-      </div>
-    )
     return (
-      <div>
-        {/* <div> my listings ---  under construction ---</div> */}
-        <div> {listingList}</div>
-      </div>
-
-      // display the contents/listings from this.listing
+      <section className="section">
+        <div className="container">
+          <h1 className="is-size-1">My Listings</h1>
+          <br/>
+          {Content}
+        </div>
+      </section>
     );
   }
 }
