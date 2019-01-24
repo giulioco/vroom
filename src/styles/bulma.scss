@@ -2,7 +2,6 @@
 // Set your brand colors
 $purple: #692a2a;
 $pink: #FA7C91;
-// $brown: #b5b5b5;
 $beige-light: #D0D1CD;
 $beige-lighter: #EFF0EB;
 $blue: #7289da;
@@ -12,7 +11,6 @@ $black: #16171a;
 
 // Update Bulma's global variables
 $family-sans-serif: "Nunito", sans-serif;
-// $grey-dark: $brown;
 $grey-dark: #282b30;
 $grey-light: $beige-light;
 $primary: $purple;
@@ -26,17 +24,12 @@ $control-border-width: 2px;
 $input-border-color: transparent;
 $input-shadow: none;
 $navbar-item-color: $pink;
-// $navbar-item-color
 $modal-content-width: auto;
 
 // Import only what you need from Bulma
 @import "~bulma/sass/utilities/_all.sass";
 @import "~bulma/sass/base/_all.sass";
 @import "~bulma/sass/elements/box.sass";
-@import "~bulma-slider/dist/css/bulma-slider.sass";
-@import "~bulma-extensions/bulma-checkradio/dist/css/bulma-checkradio.sass";
-// @import "~bulma-extensions/bulma-calendar/dist/css/bulma-calendar.sass";
-// @import "~bulma-extensions/bulma-divider/dist/css/bulma-divider.sass";
 @import "~bulma/sass/elements/button.sass";
 @import "~bulma/sass/elements/container.sass";
 @import "~bulma/sass/elements/form.sass";
@@ -45,13 +38,12 @@ $modal-content-width: auto;
 @import "~bulma/sass/components/modal.sass";
 @import "~bulma/sass/components/message.sass";
 @import "~bulma/sass/elements/image.sass";
-@import "~bulma/sass/elements/progress.sass";
 @import "~bulma/sass/components/card.sass";
 @import "~bulma/sass/components/navbar.sass";
+@import "~bulma/sass/components/tabs.sass";
 @import "~bulma/sass/layout/hero.sass";
 @import "~bulma/sass/components/level.sass";
-@import "~bulma/sass/layout/footer.sass";
 @import "~bulma/sass/grid/columns.sass";
-@import "~bulma/sass/layout/section.sass";
 
-
+@import '~bulma-slider/dist/css/bulma-slider.sass';
+@import '~bulma-extensions/bulma-checkradio/dist/css/bulma-checkradio.sass';
