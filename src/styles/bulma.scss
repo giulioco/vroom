@@ -10,7 +10,7 @@ $black: #16171a;
 
 
 // Update Bulma's global variables
-$family-sans-serif: "Nunito", sans-serif;
+$family-sans-serif: 'Nunito', sans-serif;
 $grey-dark: #282b30;
 $grey-light: $beige-light;
 $primary: $purple;
@@ -27,23 +27,24 @@ $navbar-item-color: $pink;
 $modal-content-width: auto;
 
 // Import only what you need from Bulma
-@import "~bulma/sass/utilities/_all.sass";
-@import "~bulma/sass/base/_all.sass";
-@import "~bulma/sass/elements/box.sass";
-@import "~bulma/sass/elements/button.sass";
-@import "~bulma/sass/elements/container.sass";
-@import "~bulma/sass/elements/form.sass";
-@import "~bulma/sass/elements/title.sass";
-@import "~bulma/sass/elements/content.sass";
-@import "~bulma/sass/components/modal.sass";
-@import "~bulma/sass/components/message.sass";
-@import "~bulma/sass/elements/image.sass";
-@import "~bulma/sass/components/card.sass";
-@import "~bulma/sass/components/navbar.sass";
-@import "~bulma/sass/components/tabs.sass";
-@import "~bulma/sass/layout/hero.sass";
-@import "~bulma/sass/components/level.sass";
-@import "~bulma/sass/grid/columns.sass";
+@import '~bulma/sass/utilities/_all.sass';
+@import '~bulma/sass/base/_all.sass';
+@import '~bulma/sass/elements/box.sass';
+@import '~bulma/sass/elements/button.sass';
+@import '~bulma/sass/elements/container.sass';
+@import '~bulma/sass/elements/form.sass';
+@import '~bulma/sass/elements/title.sass';
+@import '~bulma/sass/elements/content.sass';
+@import '~bulma/sass/components/modal.sass';
+@import '~bulma/sass/components/message.sass';
+@import '~bulma/sass/elements/image.sass';
+@import '~bulma/sass/components/card.sass';
+@import '~bulma/sass/components/navbar.sass';
+@import '~bulma/sass/components/tabs.sass';
+@import '~bulma/sass/layout/hero.sass';
+@import '~bulma/sass/components/level.sass';
+@import '~bulma/sass/grid/columns.sass';
+@import '~bulma/sass/layout/section.sass';
 
 @import '~bulma-slider/dist/css/bulma-slider.sass';
 @import '~bulma-extensions/bulma-checkradio/dist/css/bulma-checkradio.sass';

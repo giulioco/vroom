@@ -82,23 +82,24 @@ export default class Listings extends React.Component {
   render() {
     const { listings, radius, dates } = this.state;
 
-    return (
-      <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'stretch' }}>
+    return <>
+      <div className="layers">
 
         <ListingMap onResult={this.onResult} listings={listings || []} radius={radius} />
 
-        <div className="columns through-click layer">
-          <div className="column is-4" style={{ justifyContent: 'flex-end', display: 'flex', flexDirection: 'column' }}>
+        <div className="columns through-click">
+          <div className="column is-4"
+            style={{ justifyContent: 'flex-end', display: 'flex', flexDirection: 'column', paddingRight: 90 }}>
             {!dates && (
               <p className="has-text-danger has-text-weight-bold">Please select a date range</p>
             )}
-            <Calender selectRange onChange={this.changeDate} value={dates} />
+            <Calender selectRange onChange={this.changeDate} value={dates} style={{ width: '100%' }}/>
             <div className="flex-row" style={{ marginTop: 12 }}>
               <span className="has-text-centered has-text-white">
                 <strong className="has-text-white">Radius</strong><br />{radius} km
               </span>
               <input className="slider is-fullwidth is-link" step="1" min="2" max="70"
-                value={radius} type="range" onChange={this.changeRadius} style={{ marginLeft: 16, width: 290 }} />
+                value={radius} type="range" onChange={this.changeRadius} style={{ marginLeft: 16 }} />
             </div>
           </div>
 
@@ -121,8 +122,8 @@ export default class Listings extends React.Component {
             })}
           </div>
         </div>
-        <Route exact path="/listings/:id" component={_ViewListing} />
       </div>
-    );
+      <Route exact path="/listings/:id" component={_ViewListing} />
+    </>;
   }
 }

@@ -4,18 +4,8 @@ html {
   overflow-y: auto;
 }
 
-#root {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.full-page {
-  height: 100%;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+#root > :not(.is-fullheight, .navbar, .home) {
+  margin-top: $navbar-height;
 }
 
 .navbar.is-transparent {
@@ -30,12 +20,6 @@ html {
     border-color: $link !important;
     color: $link !important;
   }
-}
-
-.profileImg {
-	width:200px;
-	height:200px;
-	overflow: hidden;
 }
 
 .lazy {
@@ -53,10 +37,6 @@ html {
 .lazy.preloaded {
   transition: none;
   opacity: 1;
-}
-
-#root > :not(.is-fullheight, .navbar, .home) {
-  margin-top: $navbar-height;
 }
 
 .is-clickable {
@@ -98,20 +78,8 @@ html {
   display: none;
 }
 
-$sizes: (0,10,15,20,25,30,50);
-$positions: ('top','left','bottom','right');
-
-@each $size in $sizes {
-  .u-m-#{$size} {
-    margin: $size + px;
-  }
-  .u-p-#{$size} {
-    padding: $size + px;
-  }
-}
-
 .listings {
-  max-height: calc(100vh - 52px);
+  // max-height: calc(100vh - 52px);
   overflow-y: auto;
 }
 
@@ -146,7 +114,6 @@ $positions: ('top','left','bottom','right');
     padding: 0;
   }
 }
-
 @keyframes fadeInOpacity {
 	0% {
 		opacity: 0;
@@ -175,15 +142,17 @@ $positions: ('top','left','bottom','right');
   min-width: 0;
 }
 
-.layer {
-  position: absolute;
-  left: 12px;
-  right: 12px;
-  top: 12px;
-  bottom: 12px;
-  @include mobile {
+@include tablet {
+  .layers {
     position: relative;
-    padding: 12px;
+    > * {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: 0 !important; // fix .columns
+    }
   }
 }
 
@@ -193,7 +162,6 @@ $positions: ('top','left','bottom','right');
   height: 1px;
   width: 100%;
   outline: none;
-  // visibility: hidden;
   padding: 0;
   margin: 0;
   float: right;

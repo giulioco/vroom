@@ -31,6 +31,14 @@ $d: 175.6449737548828;
 	}
 }
 
+.full-page {
+  height: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @keyframes strokeanim {
 	0% {
     stroke-dasharray: 1, 300;

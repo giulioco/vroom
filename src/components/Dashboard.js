@@ -133,36 +133,35 @@ export default class Dashboard extends React.Component {
     const tabId = match ? match.params.path : '';
 
     return (
-      <div className="container">
-        <br/>
-        <h1 className="is-size-1">Dashboard</h1>
-        <br/>
+      <section className="section">
+        <div className="container">
+          <h1 className="is-size-1">Dashboard</h1>
+          <br/>
+          <div className="tabs is-centered is-toggle">
+            <ul>
+              {pages.map(({ id, name, icon }) => (
+                <li className={id === tabId ? 'is-active' : ''} key={id}>
+                  <Link to={`/dashboard/${id}`}>
+                    { icon && (
+                      <span className="icon is-small"><i className={`fas fa-${icon}`} aria-hidden="true"/></span>
+                    )}
+                    <span>{name}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        <div className="tabs is-centered is-toggle">
-          <ul>
-            {pages.map(({ id, name, icon }) => (
-              <li className={id === tabId ? 'is-active' : ''} key={id}>
-                <Link to={`/dashboard/${id}`}>
-                  { icon && (
-                    <span className="icon is-small"><i className={`fas fa-${icon}`} aria-hidden="true"/></span>
-                  )}
-                  <span>{name}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          { loading ? <Spinner fullPage/> : (
+            <Switch>
+              {pages.map((page) => (
+                <Route key={page.id} exact path={`/dashboard/${page.id}`} render={renderPage(page, data)}/>
+              ))}
+              <Route render={() => { throw { code: 404 }; }}/>
+            </Switch>
+          )}
         </div>
-
-        { loading ? <Spinner fullPage/> : (
-          <Switch>
-            {pages.map((page) => (
-              <Route key={page.id} exact path={`/dashboard/${page.id}`} render={renderPage(page, data)}/>
-            ))}
-            <Route render={() => { throw { code: 404 }; }}/>
-          </Switch>
-        )}
-        <br/>
-      </div>
+      </section>
     );
   }
 

@@ -17,20 +17,21 @@ export default class Account extends React.Component {
   render() {
     return <>
       <Setup title="Account" {...this.props}/>
-      <br/>
-      <div className="container">
-        <article className="message is-danger">
-          <div className="message-header">
-            <p>Danger Zone</p>
-          </div>
-          <div className="message-body" style={{ display: 'flex', alignItems: 'center' }}>
-            <button className="button is-danger is-outlined" onClick={this.deleteProfile}>Delete Account</button>
-            <span className="has-text-dark" style={{ marginLeft: 8 }}>
-              Permanently delete your account and all of your listings
-            </span>
-          </div>
-        </article>
-      </div>
+      <section className="section" style={{ marginTop: 0 }}>
+        <div className="container">
+          <article className="message is-danger">
+            <div className="message-header">
+              <p>Danger Zone</p>
+            </div>
+            <div className="message-body" style={{ display: 'flex', alignItems: 'center' }}>
+              <button className="button is-danger is-outlined" onClick={this.deleteProfile}>Delete Account</button>
+              <span className="has-text-dark" style={{ marginLeft: 8 }}>
+                Permanently delete your account and all of your listings
+              </span>
+            </div>
+          </article>
+        </div>
+      </section>
     </>;
   }
 }

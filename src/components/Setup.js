@@ -77,59 +77,60 @@ export default class Setup extends React.Component {
     const { setup } = this.props;
 
     return (
-      <form onSubmit={this.handleSubmit} className="container">
-        <br/>
-        <h1 className="is-size-1">{setup ? 'Account Setup' : 'Account'}</h1>
-        <br/>
+      <section className="section">
+        <form onSubmit={this.handleSubmit} className="container">
+          <h1 className="is-size-1">{setup ? 'Account Setup' : 'Account'}</h1>
+          <br/>
 
-        <div className="columns">
-          <div className="column is-6">
-            <div className="field">
-              <label className="label">Display Name</label>
-              <div className="control">
-                <input className="input" type="text" value={name} required onChange={this.handleChange} />
+          <div className="columns">
+            <div className="column is-6">
+              <div className="field">
+                <label className="label">Display Name</label>
+                <div className="control">
+                  <input className="input" type="text" value={name} required onChange={this.handleChange} />
+                </div>
+              </div>
+
+              <div className="field">
+                <label className="label">ID Verification</label>
+                <div className="control">
+                  <input className="input" type="text" defaultValue="N/A" />
+                </div>
+              </div>            
+            </div>
+            <div className="column is-5 is-offset-1">
+              <div className="field">
+                <label className="label">Profile Picture</label>
+                <figure className="image shadowed" style={{ height: 256, width: 256, background: 'white' }}>
+                  { isUploading ? (
+                    <Spinner fullPage/>
+                  ) : (
+                    <LazyImg src={avatarURL}/>
+                  )}
+                </figure>
+                <br/>
+                <CustomUploadButton
+                  accept="image/*"
+                  name="avatar"
+                  randomizeFilename
+                  storageRef={db.images}
+                  onUploadStart={this.handleUploadStart}
+                  onUploadError={this.handleUploadError}
+                  onUploadSuccess={this.handleUploadSuccess}
+                  // onProgress={this.handleProgress}
+                  className="button">
+                  Select Image
+                </CustomUploadButton>
               </div>
             </div>
-
-            <div className="field">
-              <label className="label">ID Verification</label>
-              <div className="control">
-                <input className="input" type="text" defaultValue="N/A" />
-              </div>
-            </div>            
           </div>
-          <div className="column is-5 is-offset-1">
-            <div className="field">
-              <label className="label">Profile Picture</label>
-              <figure className="image shadowed" style={{ height: 256, width: 256, background: 'white' }}>
-                { isUploading ? (
-                  <Spinner fullPage/>
-                ) : (
-                  <LazyImg src={avatarURL}/>
-                )}
-              </figure>
-              <br/>
-              <CustomUploadButton
-                accept="image/*"
-                name="avatar"
-                randomizeFilename
-                storageRef={db.images}
-                onUploadStart={this.handleUploadStart}
-                onUploadError={this.handleUploadError}
-                onUploadSuccess={this.handleUploadSuccess}
-                // onProgress={this.handleProgress}
-                className="button">
-                Select Image
-              </CustomUploadButton>
+          <div className="field">
+            <div className="control">
+              <button type="submit" className="button is-success" disabled={!change}>Save</button>
             </div>
           </div>
-        </div>
-        <div className="field">
-          <div className="control">
-            <button type="submit" className="button is-success" disabled={!change}>Save</button>
-          </div>
-        </div>
-      </form>
+        </form>
+      </section>
     );
   }
 }
