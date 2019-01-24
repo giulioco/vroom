@@ -20,6 +20,12 @@ class Nav extends React.PureComponent {
     });
   }
 
+  // This method will eventually be deprecated
+  componentWillReceiveProps(props) {
+    if (this.props.location !== props.location)
+      this.setState({ open: false });
+  }
+
   componentWillUnmount() {
     this.unsubscribe();
   }
@@ -27,8 +33,8 @@ class Nav extends React.PureComponent {
   toggle = () => this.setState(({ open }) => ({ open: !open }))
 
   signIn = () => db.signIn()
-    .then((path) => this.props.history.push(path))
-    .catch(console.error);
+  .then((path) => this.props.history.push(path))
+  .catch(console.error);
 
   render() {
     const { open, loggedIn } = this.state;
@@ -62,7 +68,7 @@ class Nav extends React.PureComponent {
               {userData.name}
             </NavLink>
             <div className="navbar-dropdown is-right is-boxed">
-              <Link className="navbar-item" to={`/mylistings/${db.getUser().uid}`}>
+              <Link className="navbar-item" to="/mylistings">
                 My Listings
               </Link>
               <hr className="navbar-divider" />
