@@ -6,7 +6,7 @@ import logoImg from '../images/vroom-logo.svg';
 export default () => (
   <section className="section">
     <div className="container">
-      <h1 className="is-size-1">About</h1>
+      <h1 className="is-size-1">About <strong className="has-text-link">vroom</strong></h1>
 
       <div className="content">
         <h1 align="center">
@@ -14,7 +14,9 @@ export default () => (
           <a href="#"><img src={logoImg} alt="VRoom" width={400} /></a>
           <br />
         </h1>
-        <h4 align="center">A platform for people sleeping in their vehicles to find overnight parking. 🚍</h4>
+        <h4 className="has-text-centered">
+          A platform for people sleeping in their vehicles to find overnight parking. 🚍
+        </h4>
         <p align="center">
           <a href="#the-issue">The Issue</a> •&nbsp;
           <a href="#the-audience">The Audience</a> •&nbsp;
