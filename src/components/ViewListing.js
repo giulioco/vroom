@@ -65,6 +65,7 @@ export default class ViewListing extends React.Component {
     const listingID = this.props.match.params.id;
     const bookerID = db.getUser().uid;
 
+    // TODO clean this up, does it need this first db fetch?
     db.listings.doc(listingID).get().then((doc) => {
       if (doc.exists) {
         const data = doc.data();
@@ -76,6 +77,7 @@ export default class ViewListing extends React.Component {
           end_date: this.state.dates[1],
           status: "pending",
           listing_id: listingID,
+          created: db.Helpers.Timestamp.now(),
         };
 
         db.bookings.add(bookingData);

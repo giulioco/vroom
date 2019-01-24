@@ -114,10 +114,11 @@ export default class CreateListing extends React.Component {
       listing_img,
       lister_id: db.getUser().uid,
       rate,
+      created: db.Helpers.Timestamp.now(),
     };
 
     db.createListing(data)
-    .then(() => this.props.history.push('/dashboard'))
+    .then(() => this.props.history.push('/mylistings'))
     .catch(console.error);
   }
 

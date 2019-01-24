@@ -34,7 +34,8 @@ export default class MyListings extends React.Component {
   componentDidMount() {
     this.userId = db.getUser().uid;
 
-    db.listings.where('lister_id', '==', this.userId).onSnapshot((snap) => {
+    db.listings.where('lister_id', '==', this.userId).orderBy('created', 'desc')
+    .onSnapshot((snap) => {
       const listings = snap.docs.map((doc) => {
         const data = doc.data();
         data.id = doc.id;

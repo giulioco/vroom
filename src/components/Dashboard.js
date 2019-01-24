@@ -60,7 +60,8 @@ export default class Dashboard extends React.Component {
 
     const userId = db.getUser().uid;
 
-    this.unsubscribe1 = db.bookings.where('lister_id', '==', userId).onSnapshot((snap) => {
+    this.unsubscribe1 = db.bookings.where('lister_id', '==', userId).orderBy('created', 'desc')
+    .onSnapshot((snap) => {
       this.mine = snap.docs.map((doc) => {
         const data = doc.data();
         data.id = doc.id;
@@ -69,7 +70,8 @@ export default class Dashboard extends React.Component {
       this.load();
     });
 
-    this.unsubscribe2 = db.bookings.where('booker_id', '==', userId).onSnapshot((snap) => {
+    this.unsubscribe2 = db.bookings.where('booker_id', '==', userId).orderBy('created', 'desc')
+    .onSnapshot((snap) => {
       this.theirs = snap.docs.map((doc) => {
         const data = doc.data();
         data.id = doc.id;
