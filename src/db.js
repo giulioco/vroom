@@ -5,7 +5,6 @@ import 'firebase/storage';
 import * as geofirex from 'geofirex';
 
 import { decodeQuery } from './utils';
-import { EventEmitter } from 'events';
 
 
 firebase.initializeApp({
@@ -95,6 +94,7 @@ export const init = () => firestore.enablePersistence()
   listings = firestore.collection('listings');
   bookings = firestore.collection('bookings');
   geoListings = geo.collection('listings');
+  // geoListings = geo.collection('listings', ref => ref.where('status', '==', 'online'));
 
   return fetchInfo();
 });

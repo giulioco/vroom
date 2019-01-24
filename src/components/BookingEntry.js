@@ -1,39 +1,8 @@
 import React from 'react';
 
 import * as db from '../db';
-import LazyImg from './LazyImg';
+import { LazyImg } from './misc';
 
-
-const Bl = ({ user, listing, dates, title, buttons }) => (
-  <div className="box">
-    <p className="is-size-3">{title}</p>
-    <br/>
-    <div className="columns">
-      <div className="column is-3 is-mobile">
-        <figure className="image" style={{ height: 128 }}>
-          <LazyImg src={listing.image_url} style={{ height: '100%', width: '100%' }} placeholder="#eee"/>
-        </figure>
-      </div>
-      <div className="column is-3 is-mobile">
-        {/* <strong>For: </strong> */}
-        <p className="has-text-grey">User:</p>
-        <a className="link" href={`mailto:${user.email}`}>{user.name}</a>
-        <br/><br/>
-        <p className="has-text-grey">Booked Dates:</p>
-        {dates}
-      </div>
-      <div className="column is-6 is-mobile">
-        <strong>{listing.address}</strong>
-        <hr/>
-        {listing.listing_name}<br/>
-        <p className="has-text-link">{listing.description}</p>
-      </div>
-    </div>
-    <div className="buttons">
-      {buttons}
-    </div>
-  </div>
-);
 
 export default class BookingEntry extends React.Component {
 
@@ -62,7 +31,8 @@ export default class BookingEntry extends React.Component {
       db.listingImages
       .child(listing.listing_img)
       .getDownloadURL()
-      .then(image_url => this.setState({ listing: { ...listing, image_url } }));
+      .then(image_url => this.setState({ listing: { ...listing, image_url } }))
+      .catch(console.error);
 
       this.setState({ listing });
     })
@@ -81,42 +51,64 @@ export default class BookingEntry extends React.Component {
 
   render() {
     const { status, lister_id, start_date, end_date } = this.props;
-    const { user, listing } = this.state;
+    const user = this.state.user || {};
+    const listing = this.state.listing || {};
 
     const userId = db.getUser().uid;
-    const mine = userId === lister_id;
+    const mine = lister_id ? userId === lister_id : true;
 
-    const range = start_date.toDate().toLocaleDateString() + ' - ' + end_date.toDate().toLocaleDateString();
+    const dates = (start_date && end_date)
+      ? start_date.toDate().toLocaleDateString() + ' - ' + end_date.toDate().toLocaleDateString()
+      : '';
 
-    let Inner = null;
-    if (!user || !listing) Inner = null;
-    else if (status === 'pending' && !mine)
-      Inner = (
-        <Bl user={user} listing={listing} dates={range} title="Pending Invite" buttons={<>
-          <button onClick={this.cancel} className="button is-danger">Cancel</button>
-        </>}/>
-      );
-    else if (status === 'pending' && mine)
-      Inner = (
-        <Bl user={user} listing={listing} dates={range} title="Pending Invite" buttons={<>
-          <button onClick={this.accept} className="button is-success">Accept</button>
-          <button onClick={this.cancel} className="button is-danger">Deny</button>
-        </>}/>
-      );
-    else if (status === 'active')
-      Inner = (
-        <Bl user={user} listing={listing} dates={range} title="Active Booking" buttons={<>
-          <button onClick={this.cancel} className="button is-danger">Cancel</button>
-        </>}/>
-      );
-    else if (status === 'canceled')
-      Inner = (
-        <Bl user={user} listing={listing} dates={range} title="Canceled Booking" buttons={null}/>
-      );
-    else if (status === 'done')
-      Inner = (
-        <Bl user={user} listing={listing} dates={range} title="Past Booking" buttons={null}/>
-      );
-    return Inner;
+    let buttons = null;
+    let title = '';
+    if (status === 'pending' && !mine) {
+      title = 'Pending Invite';
+      buttons = <button onClick={this.cancel} className="button is-danger">Cancel</button>;
+    } else if (status === 'pending' && mine) {
+      title = 'Pending Request';
+      buttons = <>
+        <button onClick={this.accept} className="button is-success">Accept</button>
+        <button onClick={this.cancel} className="button is-danger">Deny</button>
+      </>;
+    } else if (status === 'active') {
+      title = 'Active Booking';
+      buttons = <button onClick={this.cancel} className="button is-danger">Cancel</button>;
+    } else if (status === 'canceled') {
+      title = 'Canceled Booking';
+    } else if (status === 'done') {
+      title = 'Past Booking';
+    }
+
+    return (
+      <div className="box">
+        <p className="is-size-3">{title}</p>
+        <br/>
+        <div className="columns">
+          <div className="column is-3 is-mobile">
+            <figure className="image" style={{ height: 128 }}>
+              <LazyImg src={listing.image_url} style={{ height: '100%', width: '100%' }} placeholder="#eee"/>
+            </figure>
+          </div>
+          <div className="column is-3 is-mobile">
+            <p className="has-text-grey">User:</p>
+            <a className="link" href={`mailto:${user.email}`}>{user.name}</a>
+            <br/><br/>
+            <p className="has-text-grey">Booked Dates:</p>
+            {dates}
+          </div>
+          <div className="column is-6 is-mobile">
+            <strong>{listing.address}</strong>
+            <hr/>
+            {listing.listing_name}<br/>
+            <p className="has-text-link">{listing.description}</p>
+          </div>
+        </div>
+        <div className="buttons">
+          {buttons}
+        </div>
+      </div>
+    );
   }
 }

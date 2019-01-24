@@ -48,7 +48,7 @@ class Nav extends React.PureComponent {
     } else if (userData && userData.setup) {
       NavBarEnd = (
         <>
-          <NavLink className="navbar-item" exact to="/dashboard">
+          <NavLink className="navbar-item" to="/dashboard">
             Dashboard
           </NavLink>
           <NavLink className="navbar-item" exact to="/listings">
