@@ -2,6 +2,7 @@ import React from 'react';
 
 import * as db from '../db';
 import { LazyImg } from './misc';
+import getDates from '../utils'
 
 
 export const ListingEntry = ({ title = '', listing, user, dates, buttons, onChat }) => (
@@ -22,7 +23,7 @@ export const ListingEntry = ({ title = '', listing, user, dates, buttons, onChat
             {user.name}
           </button>
           <br/><br/>
-          <p className="has-text-grey">Booked Dates:</p>
+          <p className="has-text-grey">Requested Dates:</p>
           {dates}
         </div>
       )}
@@ -82,9 +83,28 @@ export default class BookingEntry extends React.PureComponent {
   }
 
   accept = () => {
-    db.bookings.doc(this.props.id).update({ status: 'active' })
-    .catch(console.error);
-  }
+    const listing_id = this.props.listing_id
+    const start_date = this.props.start_date
+    const end_date = this.props.end_date
+    db.bookings.doc(this.props.id).update({ status: 'active' }).catch(console.error);
+    db.listings.doc(listing_id).get().then((doc) => {
+      if (doc.exists) {
+        const data = doc.data();
+        const ref = db.listings.doc(data.listing_id);
+        db.transaction((trans) => {
+          return trans.get(ref).then((docc) => {
+            const data = docc.data();
+            const dates_unavailable = data.dates_unavailable || [];
+            dates_unavailable = [...dates_unavailable, ...getDates(start_date.toDate(), end_date.toDate())]
+
+            return trans.update(ref, 
+              { dates_unavailable: dates_unavailable }
+            );
+          });
+        });
+      } 
+    })
+}
 
   onChat = () => {
     const { lister_id, booker_id } = this.props;

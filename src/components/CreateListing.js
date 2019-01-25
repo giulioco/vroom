@@ -99,7 +99,7 @@ export default class CreateListing extends React.Component {
   }
 
   handleSubmit = () => {
-    const { listing_name, license_verification, description, amenities, cancellation_policy, listing_img, rate } = this.state;
+    const { listing_name, license_verification, description, amenities, cancellation_policy, listing_img, rate, dates_unavailable } = this.state;
     
     const location = this.coords;
     const address = this.address;
@@ -113,6 +113,7 @@ export default class CreateListing extends React.Component {
       cancellation_policy,
       listing_img,
       lister_id: db.getUser().uid,
+      dates_unavailable: dates_unavailable,
       rate,
       created: db.Helpers.Timestamp.now(),
     };

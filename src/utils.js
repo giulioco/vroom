@@ -26,3 +26,12 @@ export const decodeQuery = (str) => {
 
   return obj;
 };
+
+// Takes two dates objects -> returns an array of dates in between
+export const getDates = (start, end) => {
+  const oneDay = 24*3600*1000;
+  for (var d=[],ms=d1*1,last=d2*1;ms<last;ms+=oneDay){
+    d.push( new Date(ms) );
+  }
+  return d;
+}
