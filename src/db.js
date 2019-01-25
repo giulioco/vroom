@@ -43,6 +43,8 @@ export let users;
 export let listings;
 /** @type firebase.firestore.CollectionReference */
 export let bookings;
+/** @type firebase.firestore.CollectionReference */
+export let chat;
 /** @type geofirex.GeoFireCollectionRef */
 export let geoListings;
 
@@ -93,6 +95,7 @@ export const init = () => firestore.enablePersistence()
   users = firestore.collection('users');
   listings = firestore.collection('listings');
   bookings = firestore.collection('bookings');
+  chat = firestore.collection('chat');
   geoListings = geo.collection('listings');
   // geoListings = geo.collection('listings', ref => ref.where('status', '==', 'online'));
 

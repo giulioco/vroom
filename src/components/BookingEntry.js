@@ -4,7 +4,7 @@ import * as db from '../db';
 import { LazyImg } from './misc';
 
 
-export const ListingEntry = ({ title = '', listing, user, dates, buttons }) => (
+export const ListingEntry = ({ title = '', listing, user, dates, buttons, onChat }) => (
   <div className="box">
     <p className="is-size-3">{title}</p>
     <br/>
@@ -17,7 +17,10 @@ export const ListingEntry = ({ title = '', listing, user, dates, buttons }) => (
       { user && (
         <div className="column is-3 is-mobile">
           <p className="has-text-grey">User:</p>
-          <a className="link" href={`mailto:${user.email}`}>{user.name}</a>
+          <button className="button is-link is-inverted"
+            onClick={onChat} title={`Live chat with ${user.name}`}>
+            {user.name}
+          </button>
           <br/><br/>
           <p className="has-text-grey">Booked Dates:</p>
           {dates}
@@ -38,7 +41,7 @@ export const ListingEntry = ({ title = '', listing, user, dates, buttons }) => (
   </div>
 );
 
-export default class BookingEntry extends React.Component {
+export default class BookingEntry extends React.PureComponent {
 
   state = {
     user: null,
@@ -83,6 +86,40 @@ export default class BookingEntry extends React.Component {
     .catch(console.error);
   }
 
+  onChat = () => {
+    const { lister_id, booker_id } = this.props;
+
+    // const chatId = `${lister_id}_${booker_id}`;
+    // const chatRef = db.chat.doc(chatId);
+    
+    db.chat.where(`users.${lister_id}`, '==', true).where(`users.${booker_id}`, '==', true)
+    .get().then((snap) => {
+      if (snap.size > 0)
+        this.props.history.push(`/chat/${snap.docs[0].id}`);
+      else {
+        // const users = {};
+
+        // const userId = db.getUser().uid;
+        // if (userId === lister_id) {
+        //   users[booker_id] = this.props.user;
+        //   users[lister_id] = db.userData();
+        // } else {
+        //   users[lister_id] = this.props.user;
+        //   users[booker_id] = db.userData();
+        // }
+
+        db.chat.add({
+          created: db.Helpers.Timestamp.now(),
+          users: {
+            [booker_id]: true,
+            [lister_id]: true,
+          },
+        })
+        .then((doc) => this.props.history.push(`/chat/${doc.id}`));
+      }
+    });
+  }
+
   render() {
     const { status, lister_id, start_date, end_date } = this.props;
     const { user, listing } = this.state;
@@ -115,7 +152,8 @@ export default class BookingEntry extends React.Component {
     }
 
     return (
-      <ListingEntry user={user} dates={dates} listing={listing || {}} buttons={buttons} title={title}/>
+      <ListingEntry user={user} dates={dates} listing={listing || {}}
+        buttons={buttons} title={title} onChat={this.onChat}/>
     );
   }
 }

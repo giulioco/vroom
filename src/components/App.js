@@ -17,9 +17,10 @@ import Account from './Account';
 import Setup from './Setup';
 import Listings from './Listings';
 import CreateListing from './CreateListing';
-// import ViewListing from './ViewListing';
-import ErrorBoundary from './ErrorBoundary';
 import MyListings from './MyListings';
+import Messenger from './Messenger';
+
+import ErrorBoundary from './ErrorBoundary';
 import Nav from './Nav';
 import * as db from '../db';
 
@@ -50,7 +51,7 @@ const App = () => (
           <PrivateRoute path="/dashboard" component={Dashboard} />
           <PrivateRoute exact path="/listings/new" component={CreateListing} />
           <PrivateRoute exact path="/mylistings" component={MyListings} />
-          {/* <PrivateRoute exact path="/listings/:id" component={ViewListing} /> */}
+          <PrivateRoute exact path="/chat/:id" component={Messenger}/>
           <PrivateRoute path="/listings" component={Listings} />
           <Route exact path="/logout" render={() => {
             db.signOut().catch(console.error);

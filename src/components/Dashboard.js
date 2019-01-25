@@ -10,17 +10,17 @@ const pages = [{
   id: '',
   name: 'Active Bookings',
   desc: 'the active ones',
-  node: ({ active }) => active.map((entry) => <BookingEntry {...entry} key={entry.id}/>),
+  list: 'active',
 }, {
   id: 'requests',
   name: 'Booking Requests',
   desc: 'the requested ones',
-  node: ({ requests }) => requests.map((entry) => <BookingEntry {...entry} key={entry.id}/>),
+  list: 'requests',
 }, {
   id: 'past',
   name: 'Past Bookings',
   desc: 'the past ones',
-  node: ({ past }) => past.map((entry) => <BookingEntry {...entry} key={entry.id}/>),
+  list: 'past',
 },
 // {
 //   id: 'listings',
@@ -30,30 +30,21 @@ const pages = [{
 // }
 ];
 
-const renderPage = (page, data) => {
-  
-  const items = page.node(data);
-
-  return () => <>
-    <p className="has-text-centered">{page.desc}</p>
-    <br/>
-    {items.length ? items : (
-      <div className="box">
-        <p className="is-size-4 has-text-link has-text-centered">Nothing here</p>
-      </div>
-    )}
-  </>;
-};
+const renderPage = (page, items) => () => <>
+  <p className="has-text-centered">{page.desc}</p>
+  <br/>
+  {items.length ? items : (
+    <div className="box">
+      <p className="is-size-4 has-text-link has-text-centered">Nothing here</p>
+    </div>
+  )}
+</>;
 
 
-export default class Dashboard extends React.Component {
+export default class Dashboard extends React.PureComponent {
 
   state = {
-    active: null,
-    past: null,
-    request: null,
-    // listings: null,
-    loading: true,
+    lists: null,
   }
 
   componentDidMount() {
@@ -116,16 +107,16 @@ export default class Dashboard extends React.Component {
     }
 
     this.setState({
-      active,
-      past,
-      requests,
-      // listings: this.listings,
-      loading: false,
+      lists: {
+        active,
+        past,
+        requests,
+      },
     });
   }
 
   render() {
-    const { loading, ...data } = this.state;
+    const { lists } = this.state;
 
     const match = matchPath(this.props.location.pathname, {
       path: '/dashboard/:path',
@@ -154,10 +145,11 @@ export default class Dashboard extends React.Component {
             </ul>
           </div>
 
-          { loading ? <Spinner fullPage/> : (
+          { !lists ? <Spinner fullPage/> : (
             <Switch>
               {pages.map((page) => (
-                <Route key={page.id} exact path={`/dashboard/${page.id}`} render={renderPage(page, data)}/>
+                <Route key={page.id} exact path={`/dashboard/${page.id}`}
+                  render={renderPage(page, lists[page.list].map((entry) => <BookingEntry {...entry} history={this.props.history} key={entry.id}/>))}/>
               ))}
               <Route render={() => { throw { code: 404 }; }}/>
             </Switch>

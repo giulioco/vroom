@@ -187,3 +187,37 @@ html {
 .image.shadowed {
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
+
+.messenger {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 52px);
+  background: white;
+  padding: 16;
+  > * {
+    padding: 16px;
+  }
+  .messenger-body {
+    flex: 1;
+    border-top: 2px solid whitesmoke;
+    border-bottom: 2px solid whitesmoke;
+    overflow-y: auto;
+  }
+  .messenger-message {
+    margin-bottom: 4px;
+    text-align: right;
+    p:first-child {
+      display: inline-block;
+      background: $grey;
+      color: white;
+      border-radius: 999px;
+      padding: 4px 12px;
+    }
+    &.mine {
+      text-align: left;
+      p:first-child {
+        background: $link;
+      }
+    }
+  }
+}

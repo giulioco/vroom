@@ -20,7 +20,7 @@ export const Spinner = ({ fullPage }) => (
   </div>
 );
 
-export class LazyImg extends React.Component {
+export class LazyImg extends React.PureComponent {
 
   state = {
     loaded: '',
