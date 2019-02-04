@@ -22,7 +22,6 @@ export default class GeocodeMap extends Component {
   componentDidMount() {
     window.addEventListener("resize", this.resize);
     this.resize();
-    console.log(this);
 
     if (navigator && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -92,6 +91,7 @@ export default class GeocodeMap extends Component {
     const { viewport, isLoading } = this.state;
     const { listings, radius } = this.props;
     const { latitude, longitude } = viewport;
+
     return (
       <MapGL
         ref={this.mapRef}
@@ -104,13 +104,17 @@ export default class GeocodeMap extends Component {
           this.setState({ isLoading: false });
         }}
       >
-        <Geocoder
-          mapRef={this.mapRef}
-          onResult={this.handleOnResult}
-          onViewportChange={this.handleGeocoderViewportChange}
-          mapboxApiAccessToken={MAPBOX_TOKEN}
-          position="top-left"
-        />
+        {this.state.isLoading ? (
+          <Spinner fullPage />
+        ) : (
+          <Geocoder
+            mapRef={this.mapRef}
+            onResult={this.handleOnResult}
+            onViewportChange={this.handleGeocoderViewportChange}
+            mapboxApiAccessToken={MAPBOX_TOKEN}
+            position="top-left"
+          />
+        )}
         <DeckGL
           {...viewport}
           layers={[
