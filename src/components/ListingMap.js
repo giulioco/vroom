@@ -110,6 +110,7 @@ export default class GeocodeMap extends Component {
           <Geocoder
             mapRef={this.mapRef}
             onResult={this.handleOnResult}
+            proximity={viewport}
             onViewportChange={this.handleGeocoderViewportChange}
             mapboxApiAccessToken={MAPBOX_TOKEN}
             position="top-left"
