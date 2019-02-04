@@ -28,7 +28,10 @@ export default class Messenger extends Component {
     this.messagesRef = this.chatRef.collection('messages');
 
     this.chatRef.get().then((doc) => {
-      if (!doc.exists) throw { code: 404 };
+      if (!doc.exists) {
+        this.setState({ error: 404 });
+        return;
+      }
 
       const data = doc.data();
       const otherUser = Object.keys(data.users).filter(u => u !== this.userId)[0];
@@ -99,6 +102,8 @@ export default class Messenger extends Component {
 
   render() {
     const { messages, message, sending, error, users } = this.state;
+
+    if (typeof error === 'number') throw { code: error };
 
     const otherUsers = [];
     for (const id in users) {
