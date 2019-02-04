@@ -5,6 +5,7 @@ import Calender from 'react-calendar';
 import * as db from '../db';
 import ListingMap from './ListingMap';
 import ViewListing from './ViewListing';
+import StreetView from './StreetView';
 
 
 const _ViewListing = (props) => (
@@ -111,6 +112,7 @@ export default class Listings extends React.Component {
 
               return (
                 <Link key={listing.id} className="box" to={`/listings/${listing.id}`}>
+                  <StreetView listing={listing}></StreetView>
                   <strong>{listing.address}</strong><br />
                   <div className="has-text-truncated">
                     <span>{listing.rate || 1} <span className="is-size-7 has-text-grey">$/Day</span></span>
