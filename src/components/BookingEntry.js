@@ -2,23 +2,21 @@ import React from 'react';
 
 import * as db from '../db';
 import { LazyImg } from './misc';
-import getDates from '../utils'
+import { dateToDay } from '../utils';
 
 
-export const ListingEntry = ({ title = '', listing, user, dates, buttons, onChat }) => (
+export const ListingEntry = ({ title = '', listing, user, dates, buttons, onChat, loadingChat }) => (
   <div className="box">
     <p className="is-size-3">{title}</p>
     <br/>
     <div className="columns">
       <div className="column is-3 is-mobile">
-        <figure className="image" style={{ height: 128 }}>
-          <LazyImg src={listing.image_url} style={{ height: '100%', width: '100%' }} placeholder="#eee"/>
-        </figure>
+        <LazyImg src={listing.image_url} style={{ height: 128, background: '#eee' }}/>
       </div>
       { user && (
         <div className="column is-3 is-mobile">
           <p className="has-text-grey">User:</p>
-          <button className="button is-link is-inverted"
+          <button className="button is-link is-inverted" disabled={loadingChat}
             onClick={onChat} title={`Live chat with ${user.name}`}>
             {user.name}
           </button>
@@ -47,6 +45,7 @@ export default class BookingEntry extends React.PureComponent {
   state = {
     user: null,
     listing: null,
+    loadingChat: false,
   }
 
   componentDidMount() {
@@ -83,51 +82,38 @@ export default class BookingEntry extends React.PureComponent {
   }
 
   accept = () => {
-    const listing_id = this.props.listing_id
-    const start_date = this.props.start_date
-    const end_date = this.props.end_date
-    db.bookings.doc(this.props.id).update({ status: 'active' }).catch(console.error);
-    db.listings.doc(listing_id).get().then((doc) => {
-      if (doc.exists) {
-        const data = doc.data();
-        const ref = db.listings.doc(data.listing_id);
-        db.transaction((trans) => {
-          return trans.get(ref).then((docc) => {
-            const data = docc.data();
-            const dates_unavailable = data.dates_unavailable || [];
-            dates_unavailable = [...dates_unavailable, ...getDates(start_date.toDate(), end_date.toDate())]
+    const listing_id = this.props.listing_id;
+    const start_date = this.props.start_date;
+    const end_date = this.props.end_date;
 
-            return trans.update(ref, 
-              { dates_unavailable: dates_unavailable }
-            );
-          });
-        });
-      } 
-    })
-}
+    const ref = db.listings.doc(listing_id);
+    db.transaction((trans) => trans.get(ref).then((docc) => {
+      const dataa = docc.data();
+      
+      const dates_unavailable = dataa.dates_unavailable || {};
+
+      const end = dateToDay(end_date);
+      for (let day = dateToDay(start_date); day <= end; day++)
+        dates_unavailable[day] = true;
+
+      return trans.update(ref, {
+        dates_unavailable,
+      });
+    }))
+    .then(() => db.bookings.doc(this.props.id).update({ status: 'active' }))
+    .catch(console.error);
+  }
 
   onChat = () => {
     const { lister_id, booker_id } = this.props;
 
-    // const chatId = `${lister_id}_${booker_id}`;
-    // const chatRef = db.chat.doc(chatId);
+    this.setState({ loadingChat: true });
     
     db.chat.where(`users.${lister_id}`, '==', true).where(`users.${booker_id}`, '==', true)
     .get().then((snap) => {
       if (snap.size > 0)
         this.props.history.push(`/chat/${snap.docs[0].id}`);
       else {
-        // const users = {};
-
-        // const userId = db.getUser().uid;
-        // if (userId === lister_id) {
-        //   users[booker_id] = this.props.user;
-        //   users[lister_id] = db.userData();
-        // } else {
-        //   users[lister_id] = this.props.user;
-        //   users[booker_id] = db.userData();
-        // }
-
         db.chat.add({
           created: db.Helpers.Timestamp.now(),
           users: {
@@ -135,20 +121,22 @@ export default class BookingEntry extends React.PureComponent {
             [lister_id]: true,
           },
         })
-        .then((doc) => this.props.history.push(`/chat/${doc.id}`));
+        .then((doc) => {
+          this.props.history.push(`/chat/${doc.id}`);
+        });
       }
     });
   }
 
   render() {
     const { status, lister_id, start_date, end_date } = this.props;
-    const { user, listing } = this.state;
+    const { user, listing, loadingChat } = this.state;
 
     const userId = db.getUser().uid;
     const mine = lister_id ? userId === lister_id : true;
 
     const dates = (start_date && end_date)
-      ? start_date.toDate().toLocaleDateString() + ' - ' + end_date.toDate().toLocaleDateString()
+      ? `${start_date.toDate().toLocaleDateString()} - ${end_date.toDate().toLocaleDateString()}`
       : '';
 
     let buttons = null;
@@ -158,10 +146,12 @@ export default class BookingEntry extends React.PureComponent {
       buttons = <button onClick={this.cancel} className="button is-danger">Cancel</button>;
     } else if (status === 'pending' && mine) {
       title = 'Pending Request';
-      buttons = <>
-        <button onClick={this.accept} className="button is-success">Accept</button>
-        <button onClick={this.cancel} className="button is-danger">Deny</button>
-      </>;
+      buttons = (
+        <>
+          <button onClick={this.accept} className="button is-success">Accept</button>
+          <button onClick={this.cancel} className="button is-danger">Deny</button>
+        </>
+      );
     } else if (status === 'active') {
       title = 'Active Booking';
       buttons = <button onClick={this.cancel} className="button is-danger">Cancel</button>;
@@ -173,7 +163,7 @@ export default class BookingEntry extends React.PureComponent {
 
     return (
       <ListingEntry user={user} dates={dates} listing={listing || {}}
-        buttons={buttons} title={title} onChat={this.onChat}/>
+        buttons={buttons} title={title} onChat={this.onChat} loadingChat={loadingChat}/>
     );
   }
 }

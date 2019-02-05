@@ -3,6 +3,7 @@ import Calender from 'react-calendar';
 
 import * as db from '../db';
 import { LazyImg } from './misc';
+import { dateToDay } from '../utils';
 
 
 export default class ViewListing extends React.Component {
@@ -75,52 +76,22 @@ export default class ViewListing extends React.Component {
           booker_id: bookerID,
           start_date: this.state.dates[0],
           end_date: this.state.dates[1],
-          status: "pending",
+          status: 'pending',
           listing_id: listingID,
           created: db.Helpers.Timestamp.now(),
         };
 
         db.bookings.add(bookingData);
-
-        const ref = db.listings.doc(data.listing_id);
-        db.transaction((trans) => {
-          return trans.get(ref).then((docc) => {
-            const dataa = docc.data();
-            
-            const dates_unavailable = dataa.dates_unavailable || [];
-            
-            const [start, end] = this.state.dates;
-            
-            while (start.getDate() <= end.getDate()) {
-              dates_unavailable.push(new Date(start.getTime()));
-              start.setDate(start.getDate() + 1);
-            }
-
-            return trans.update(ref, {
-              dates_unavailable,
-            });
-          });
-        });
-  
       }
     });
   }
 
 
   deleteListing = () => {
-    // make sure the logged in user owns this listing
-    const listingID = this.props.match.params.id;
-    const currentUser = db.getUser();
+    const listing_id = this.props.match.params.id;
 
-    db.listings.doc(listingID).get().then((doc) => {
-      if (doc.exists) {
-        const data = doc.data();
-        if (data.lister_id === currentUser.uid) { // the current user is the owner if this listing
-          if (!confirm('Are you sure? This will delete your listing forever.')) return;
-          db.listings.doc(listingID).delete().then(() => this.props.history.push('/listings'));
-        }
-      }
-    });
+    if (!window.confirm('Are you sure? This will delete your listing forever.')) return;
+    db.listings.doc(listing_id).delete().then(() => this.props.history.push('/listings'));
   }
 
   onChange = (dates) => {
@@ -132,10 +103,7 @@ export default class ViewListing extends React.Component {
 
     if (data === false) throw { code: 404 };
 
-    //if (!data) return null;
-    const mappedUnavailable = data && data.dates_unavailable ? data.dates_unavailable.map(date => date.toDate().setHours(0,0,0,0)) : [];
-    console.log(mappedUnavailable)
-    const { amenities, description, policy, rate, size, listing_name, poster, lister_id } = data || {};
+    const { amenities, description, policy, rate, size, listing_name, poster, lister_id, dates_unavailable } = data || {};
 
     return (
       <div>
@@ -155,14 +123,13 @@ export default class ViewListing extends React.Component {
         <div className="container">
           <div className="columns">
             <div className="column is-half">
-              <figure className="image shadowed">
-                <LazyImg src={imageUrl} style={{ height: 282, width: '100%' }} placeholder="#eee"/>
-              </figure>
+              <LazyImg src={imageUrl} className="shadowed" style={{ height: 282, background: '#eee' }}/>
             </div>
             <div className="column is-half">
               <Calender
-               tileDisabled = {({date, view }) => mappedUnavailable.includes(date.setHours(0,0,0,0))}
-               selectRange onChange={this.onChange} value={dates} />
+                selectRange
+                tileDisabled={({ date, view }) => (dateToDay(date) in (dates_unavailable || {}))}
+                onChange={this.onChange} value={dates} />
             </div>
           </div>
           <br/>
@@ -202,4 +169,3 @@ export default class ViewListing extends React.Component {
     );
   }
 }
-

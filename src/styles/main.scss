@@ -38,6 +38,10 @@ html {
   transition: none;
   opacity: 1;
 }
+.lazy.failed {
+  opacity: 1;
+  
+}
 
 .is-clickable {
   cursor: pointer;

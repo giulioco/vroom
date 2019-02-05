@@ -10,8 +10,8 @@
     "update-config": "firebase functions:config:set `node -e \"var r=require('./.runtimeconfig.json'),k,l;for(k in r)for(l in r[k])process.stdout.write(k+'.'+l+'='+r[k][l]+' ')\"`"
   },
   "dependencies": {
-    "firebase-admin": "^6.5.0",
-    "firebase-functions": "^2.1.0"
+    "firebase-admin": "^7.0.0",
+    "firebase-functions": "^2.2.0"
   },
   "engines": {
     "node": "8"

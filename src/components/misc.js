@@ -1,4 +1,5 @@
 import React from 'react';
+import { matchPath } from 'react-router-dom';
 
 
 export const Spinner = ({ fullPage }) => (
@@ -32,8 +33,11 @@ export class LazyImg extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.src !== prevProps.src && this.props.src) {
-      this.loadImage(true);
+    if (this.props.src !== prevProps.src) {
+      if (this.props.src)
+        this.loadImage(true);
+      else
+        this.setState({ src: '', loaded: '' });
     }
   }
 
@@ -45,6 +49,7 @@ export class LazyImg extends React.PureComponent {
       this.setState({ loaded: forceAnimate ? 'loaded' : 'preloaded', src: this.props.src });
     } else {
       this.$img.onload = this.onLoad;
+      this.$img.onerror = this.onError;
     }
   }
 
@@ -53,15 +58,78 @@ export class LazyImg extends React.PureComponent {
     this.setState({ loaded: 'loaded', src: this.props.src });
   }
 
+  onError = () => {
+    this.$img.remove();
+    this.setState({ loaded: 'failed' });
+  }
+
   render() {
-    const { children = null, style = {}, className = '', placeholder = '' } = this.props;
+    const { children = null, style = {}, className = '', placeholder = null } = this.props;
     const { loaded, src } = this.state;
 
     return (
-      <div style={{ background: placeholder, ...style }} className={className}>
+      <figure style={style} className={`image ${className}`}>
         <div className={`lazy ${loaded}`} style={{ backgroundImage: `url('${src}')` }}/>
+        {loaded ? null : placeholder}
         {children}
-      </div>
+      </figure>
     );
+  }
+}
+
+// Similar to react-router Switch component, but keeps routes
+// rendered in background after they have been visited
+const UNVISITED = 0;
+const VISITED = 1;
+const CURRENT = 2;
+export class LiveSwitch extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = this.updateRoutes(props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.location.pathname !== nextProps.location.pathname) {
+      this.setState(this.updateRoutes(nextProps));
+    }
+  }
+
+  updateRoutes = ({ routes, match: prevMatch, location }) => {
+
+    let routeFound = false;
+    
+    const routeStates = routes.map(({ path, exact, strict, sensitive }, i) => {
+      const match = !routeFound && matchPath(
+        location.pathname,
+        { path, exact, strict, sensitive },
+        prevMatch,
+      );
+
+      if (match) {
+        routeFound = true;
+        return CURRENT;
+      } else if (this.state && this.state.routeStates[i] !== UNVISITED) return VISITED;
+      else return UNVISITED;
+
+    });
+
+    return {
+      routeStates,
+      routeFound,
+    };
+  }
+
+  render() {
+    const { routeStates, routeFound } = this.state;
+
+    if (!routeFound) throw { code: 404 };
+
+    return this.props.routes.map(({ element }, i) => {
+      const status = routeStates[i];
+      const style = status !== CURRENT ? { display: 'none' } : {};
+
+      return status !== UNVISITED ? <div key={i} style={style}>{element}</div> : null;
+    });
   }
 }

@@ -20,9 +20,9 @@ class Nav extends React.PureComponent {
     });
   }
 
-  // This method will eventually be deprecated
-  componentWillReceiveProps(props) {
+  componentDidUpdate(props) {
     if (this.props.location !== props.location)
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ open: false });
   }
 

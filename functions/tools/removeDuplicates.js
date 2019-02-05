@@ -9,6 +9,7 @@ admin.initializeApp({
 
 const firestore = admin.firestore();
 const bookings = firestore.collection('bookings');
+const listings = firestore.collection('listings');
 
 
 // This only works because our database is so small
@@ -19,15 +20,14 @@ const bookings = firestore.collection('bookings');
   const batch = firestore.batch();
   for (const doc of snap.docs) {
     const data = doc.data();
-    if (data.booker_id === data.lister_id) {
+    if (!(await listings.doc(data.listing_id).get()).exists) {
       batch.delete(doc.ref);
-      // console.log(data);
     }
   }
 
   await batch.commit();
 
-  console.log('Removed duplicates.');
+  console.log('Removed items.');
 
 })()
 .catch(console.error);

@@ -17,7 +17,7 @@ export default class Home extends React.PureComponent {
 
   render() {
     return (
-      <LazyImg src={landing} placeholder="#888888" className="home">
+      <LazyImg src={landing} style={{ background: '#888888' }} className="home">
         <section className="hero is-fullheight">
           <div className="hero-body">
             <div className="container">
@@ -27,8 +27,9 @@ export default class Home extends React.PureComponent {
               <h2 className="subtitle is-size-4 has-text-weight-bold has-text-white ">
                 A platform for people sleeping in their vehicles to find overnight parking
               </h2>
-              <img src={signinButton} width="200" onClick={this.signIn}
-                className="is-clickable" role="button" alt="Sign In"/>
+              <button style={{ background: `url("${signinButton}")`, backgroundSize: 'cover',
+                width: 196, height: 46, border: 'none' }}
+                className="button" onClick={this.signIn} title="Sign In"/>
             </div>
           </div>
         </section>

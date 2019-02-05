@@ -24,3 +24,10 @@ exports.deleteUser = functions.auth.user().onDelete((user) => {
   .then(() => updateCollection(bookings.where('lister_id', '==', user.uid), { status: 'canceled' }))
   .then(() => updateCollection(bookings.where('booker_id', '==', user.uid), { status: 'canceled' }));
 });
+
+exports.deleteListing = functions.firestore.document('listings/:listing_id').onUpdate(({ before, after }) => {
+  if (before.get('status') !== 'canceled' && after.get('status') === 'canceled')
+    return updateCollection(bookings.where('listing_id', '==', after.id), { status: 'canceled' });
+  else
+    return Promise.resolve();
+});

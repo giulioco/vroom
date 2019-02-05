@@ -20,7 +20,7 @@
     "react/destructuring-assignment": 0,
     "jsx-a11y/no-static-element-interactions": 1,
     "jsx-a11y/click-events-have-key-events": 0,
-    "quotes": 0,
+    "jsx-a11y/label-has-associated-control": 0,
     "prefer-promise-reject-errors": 0,
     "curly": 0,
     "prefer-destructuring": 0,
@@ -87,10 +87,7 @@
     "no-prototype-builtins": 0,
     "linebreak-style": 0,
     "jsx-a11y/anchor-is-valid": 0,
-    "jsx-a11y/label-has-for": [ 2, {
-      "required": {
-        "every": [ "id" ]
-      }
-    }]
+    "jsx-a11y/label-has-for": 0,
+    "react/no-did-update-set-state": 1
   }
 }

@@ -4,7 +4,7 @@ import 'firebase/firestore';
 import 'firebase/storage';
 import * as geofirex from 'geofirex';
 
-import { decodeQuery } from './utils';
+import { decodeQuery, dateToDay } from './utils';
 
 
 firebase.initializeApp({
@@ -135,12 +135,11 @@ export const getListings = (lat, long, radius, dates, cb) => {
   return geoListings.within(center, radius, 'position').subscribe((res) => {
     if (!dates) return cb(res);
 
-    const startDate = dates[0].getTime();
-    const endDate = dates[1].getTime();
+    const startDate = dateToDay(dates[0]);
+    const endDate = dateToDay(dates[1]);
     cb(res.filter((listing) => {
-      for (const un of listing.dates_unavailable || []) {
-        const time = un.toDate().getTime();
-        if (startDate < time && endDate > time) return false;
+      for (const day in listing.dates_unavailable || {}) {
+        if (startDate <= day && endDate >= day) return false;
       }
       return true;
     }));

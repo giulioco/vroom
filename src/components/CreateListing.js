@@ -1,11 +1,12 @@
 import React from 'react';
 import firebase from "firebase/app";
-import DayPicker, { DateUtils } from 'react-day-picker';
+import DayPicker from 'react-day-picker';
 import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
 import StepWizard from 'react-step-wizard';
 
 import SearchAddress from './SearchAddress';
 import * as db from '../db';
+import { dateToDay } from '../utils';
 
 
 const Step = ({ nextStep, previousStep, children, onSubmit }) => (
@@ -36,22 +37,20 @@ export default class CreateListing extends React.Component {
       size: '',
       cancellation_policy: '0',
       listing_img: '',
-      dates_unavailable: [],
+      dates_unavailable: {},
     };
 
   }
 
-  handleDayClick = (day, { selected }) => {    
+  handleDayClick = (day, { selected }) => {
+    const dayNum = dateToDay(day);
     this.setState(({ dates_unavailable }) => {
       if (selected) {
-        const selectedIndex = dates_unavailable.findIndex(selectedDay => (
-          DateUtils.isSameDay(selectedDay, day)
-        ));
-        dates_unavailable.splice(selectedIndex, 1);
+        delete dates_unavailable[dayNum];
       } else {
-        dates_unavailable.push(day);
+        dates_unavailable[dayNum] = true;
       }
-      return { dates_unavailable: [ ...dates_unavailable ] };
+      return { dates_unavailable: { ...dates_unavailable } };
     });
   }
 
@@ -99,7 +98,10 @@ export default class CreateListing extends React.Component {
   }
 
   handleSubmit = () => {
-    const { listing_name, license_verification, description, amenities, cancellation_policy, listing_img, rate, dates_unavailable } = this.state;
+    const {
+      listing_name, license_verification, description, amenities,
+      cancellation_policy, listing_img, rate, dates_unavailable,
+    } = this.state;
     
     const location = this.coords;
     const address = this.address;
@@ -113,9 +115,10 @@ export default class CreateListing extends React.Component {
       cancellation_policy,
       listing_img,
       lister_id: db.getUser().uid,
-      dates_unavailable: dates_unavailable,
+      dates_unavailable,
       rate,
       created: db.Helpers.Timestamp.now(),
+      status: 'active',
     };
 
     db.createListing(data)

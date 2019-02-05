@@ -13,26 +13,25 @@
     "bulma": "^0.7.2",
     "bulma-extensions": "^4.0.1",
     "bulma-slider": "^2.0.0",
-    "deck.gl": "^6.3.6",
-    "firebase": "^5.8.0",
+    "deck.gl": "^6.4.0",
+    "firebase": "^5.8.2",
     "geofirex": "0.0.6",
-    "moment": "^2.23.0",
     "react": "^16.7.0",
     "react-bulma-components": "^2.3.0",
-    "react-calendar": "^2.17.5",
+    "react-calendar": "^2.18.1",
     "react-day-picker": "^7.2.4",
     "react-dom": "^16.7.0",
     "react-firebase-file-uploader": "^2.4.2",
-    "react-hot-loader": "^4.6.3",
-    "react-map-gl": "^4.0.8",
+    "react-hot-loader": "^4.6.5",
+    "react-map-gl": "^4.0.10",
     "react-map-gl-geocoder": "^1.6.3",
     "react-router-dom": "^4.3.1",
     "react-step-wizard": "^5.0.0",
     "react-streetview": "^1.1.1",
-    "rxjs": "^6.3.3"
+    "rxjs": "^6.4.0"
   },
   "devDependencies": {
-    "webpack-boiler": "^0.2.3"
+    "webpack-boiler": "^0.3.0"
   },
   "private": true
 }

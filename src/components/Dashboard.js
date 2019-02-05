@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link, Route, Switch, matchPath } from 'react-router-dom';
+import { Link, matchPath } from 'react-router-dom';
 
 import * as db from '../db';
 import BookingEntry from './BookingEntry';
-import { Spinner } from './misc';
+import { Spinner, LiveSwitch } from './misc';
 
 
 const pages = [{
@@ -29,17 +29,6 @@ const pages = [{
 //   node: ({ listings }) => listings.map((listing) => <div key={listing.id}>{listing.listing_name}</div>),
 // }
 ];
-
-const renderPage = (page, items) => () => <>
-  <p className="has-text-centered">{page.desc}</p>
-  <br/>
-  {items.length ? items : (
-    <div className="box">
-      <p className="is-size-4 has-text-link has-text-centered">Nothing here</p>
-    </div>
-  )}
-</>;
-
 
 export default class Dashboard extends React.PureComponent {
 
@@ -115,6 +104,27 @@ export default class Dashboard extends React.PureComponent {
     });
   }
 
+  renderPage(page) {
+    const { history } = this.props;
+    const { lists } = this.state;
+
+    const items = lists[page.list].map((entry) => (
+      <BookingEntry {...entry} history={history} key={entry.id}/>
+    ));
+
+    return (
+      <>
+        <p className="has-text-centered">{page.desc}</p>
+        <br/>
+        {items.length ? items : (
+          <div className="box">
+            <p className="is-size-4 has-text-link has-text-centered">Nothing here</p>
+          </div>
+        )}
+      </>
+    );
+  }
+
   render() {
     const { lists } = this.state;
 
@@ -146,13 +156,11 @@ export default class Dashboard extends React.PureComponent {
           </div>
 
           { !lists ? <Spinner fullPage/> : (
-            <Switch>
-              {pages.map((page) => (
-                <Route key={page.id} exact path={`/dashboard/${page.id}`}
-                  render={renderPage(page, lists[page.list].map((entry) => <BookingEntry {...entry} history={this.props.history} key={entry.id}/>))}/>
-              ))}
-              <Route render={() => { throw { code: 404 }; }}/>
-            </Switch>
+            <LiveSwitch location={this.props.location} match={this.props.match} routes={pages.map((page) => ({
+              exact: true,
+              path: `/dashboard/${page.id}`,
+              element: this.renderPage(page),
+            }))}/>
           )}
         </div>
       </section>

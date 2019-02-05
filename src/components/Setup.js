@@ -1,10 +1,9 @@
 import React from 'react';
-import "react-firebase-file-uploader";
+import 'react-firebase-file-uploader';
 import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
 
 import * as db from '../db';
-import { LazyImg } from './misc';
-import { Spinner } from './misc';
+import { LazyImg, Spinner } from './misc';
 
 
 export default class Setup extends React.Component {
@@ -21,6 +20,8 @@ export default class Setup extends React.Component {
   }
 
   componentDidMount() {
+    this.userId = db.getUser().uid;
+
     this.image_name = db.userData().image_name;
     if (this.image_name) {
       db.images
@@ -94,30 +95,25 @@ export default class Setup extends React.Component {
               <div className="field">
                 <label className="label">ID Verification</label>
                 <div className="control">
-                  <input className="input" type="text" defaultValue="N/A" />
+                  <input className="input" type="text" defaultValue="This feature is not yet implemented" disabled/>
                 </div>
-              </div>            
+              </div>
             </div>
             <div className="column is-5 is-offset-1">
               <div className="field">
                 <label className="label">Profile Picture</label>
-                <figure className="image shadowed" style={{ height: 256, width: 256, background: 'white' }}>
-                  { isUploading ? (
-                    <Spinner fullPage/>
-                  ) : (
-                    <LazyImg src={avatarURL}/>
-                  )}
-                </figure>
+                <LazyImg src={isUploading ? null : avatarURL} className="shadowed"
+                  style={{ height: 256, width: 256, background: 'white' }} placeholder={<Spinner fullPage/>}/>
                 <br/>
                 <CustomUploadButton
                   accept="image/*"
                   name="avatar"
-                  randomizeFilename
+                  filename={this.userId}
                   storageRef={db.images}
                   onUploadStart={this.handleUploadStart}
                   onUploadError={this.handleUploadError}
                   onUploadSuccess={this.handleUploadSuccess}
-                  // onProgress={this.handleProgress}
+                  disabled={isUploading}
                   className="button">
                   Select Image
                 </CustomUploadButton>

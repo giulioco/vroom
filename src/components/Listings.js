@@ -83,49 +83,51 @@ export default class Listings extends React.Component {
   render() {
     const { listings, radius, dates } = this.state;
 
-    return <>
-      <div className="layers">
+    return (
+      <>
+        <div className="layers">
 
-        <ListingMap onResult={this.onResult} listings={listings || []} radius={radius} />
+          <ListingMap onResult={this.onResult} listings={listings || []} radius={radius} />
 
-        <div className="columns through-click">
-          <div className="column is-3"
-            style={{ justifyContent: 'flex-end', display: 'flex', flexDirection: 'column' }}>
-            {!dates && (
-              <p className="has-text-danger has-text-weight-bold">Please select a date range</p>
-            )}
-            <Calender selectRange onChange={this.changeDate} value={dates}/>
-            <div className="flex-row" style={{ marginTop: 12 }}>
-              <span className="has-text-centered has-text-white">
-                <strong className="has-text-white">Radius</strong><br />{radius} km
-              </span>
-              <input className="slider is-fullwidth is-link" step="1" min="2" max="70"
-                value={radius} type="range" onChange={this.changeRadius} style={{ marginLeft: 16 }} />
+          <div className="columns through-click">
+            <div className="column is-3"
+              style={{ justifyContent: 'flex-end', display: 'flex', flexDirection: 'column' }}>
+              {!dates && (
+                <p className="has-text-danger has-text-weight-bold">Please select a date range</p>
+              )}
+              <Calender selectRange onChange={this.changeDate} value={dates}/>
+              <div className="flex-row" style={{ marginTop: 12 }}>
+                <span className="has-text-centered has-text-white">
+                  <strong className="has-text-white">Radius</strong><br />{radius} km
+                </span>
+                <input className="slider is-fullwidth is-link" step="1" min="2" max="70"
+                  value={radius} type="range" onChange={this.changeRadius} style={{ marginLeft: 16 }} />
+              </div>
+            </div>
+
+            <div className="column is-3 is-offset-6 listings">
+              {listings && listings.map((listing) => {
+
+                let desc = listing.listing_name || '';
+                if (desc.length > 64) desc = desc.substring(0, 64) + '...';
+
+                return (
+                  <Link key={listing.id} className="box" to={`/listings/${listing.id}`}>
+                    <StreetView listing={listing}/><br/>
+                    <strong>{listing.address}</strong><br/>
+                    <div className="has-text-truncated">
+                      <span>{listing.rate || 1} <span className="is-size-7 has-text-grey">$/Day</span></span>
+                      &nbsp;
+                      <span className="is-size-7 has-text-link">{desc}</span>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </div>
-
-          <div className="column is-3 is-offset-6 listings">
-            {listings && listings.map((listing) => {
-
-              let desc = listing.listing_name || '';
-              if (desc.length > 64) desc = desc.substring(0, 64) + '...';
-
-              return (
-                <Link key={listing.id} className="box" to={`/listings/${listing.id}`}>
-                  <StreetView listing={listing}></StreetView>
-                  <strong>{listing.address}</strong><br />
-                  <div className="has-text-truncated">
-                    <span>{listing.rate || 1} <span className="is-size-7 has-text-grey">$/Day</span></span>
-                    &nbsp;
-                    <span className="is-size-7 has-text-link">{desc}</span>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
         </div>
-      </div>
-      <Route exact path="/listings/:id" component={_ViewListing} />
-    </>;
+        <Route exact path="/listings/:id" component={_ViewListing} />
+      </>
+    );
   }
 }

@@ -29,6 +29,7 @@ export default class MyListings extends React.Component {
 
   state = {
     listings: null,
+    canceled: null,
   }
 
   componentDidMount() {
@@ -36,22 +37,28 @@ export default class MyListings extends React.Component {
 
     db.listings.where('lister_id', '==', this.userId).orderBy('created', 'desc')
     .onSnapshot((snap) => {
-      const listings = snap.docs.map((doc) => {
+      const listings = [];
+      const canceled = [];
+      
+      for (const doc of snap.docs) {
         const data = doc.data();
         data.id = doc.id;
-        return data;
-      });
+        if (data.status === 'canceled')
+          canceled.push(data);
+        else
+          listings.push(data);
+      }
 
-      this.setState({ listings });
+      this.setState({ listings, canceled });
     });
   }
 
   removeListing = (id) => () => {
-    db.listings.doc(id).delete();
+    db.listings.doc(id).update({ status: 'canceled' });
   }
 
   render() {
-    const { listings } = this.state;
+    const { listings, canceled } = this.state;
 
     let Content = null;
     if (listings) {
@@ -72,6 +79,7 @@ export default class MyListings extends React.Component {
           <h1 className="is-size-1">My Listings</h1>
           <br/>
           {Content}
+          {/* <h1 className="is-size-1">Canceled Listings</h1> */}
         </div>
       </section>
     );

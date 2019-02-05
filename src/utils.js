@@ -1,3 +1,5 @@
+import firebase from 'firebase/app';
+
 
 // check if object is empty
 export const isEmpty = (obj) => {
@@ -28,10 +30,13 @@ export const decodeQuery = (str) => {
 };
 
 // Takes two dates objects -> returns an array of dates in between
-export const getDates = (start, end) => {
-  const oneDay = 24*3600*1000;
-  for (var d=[],ms=d1*1,last=d2*1;ms<last;ms+=oneDay){
-    d.push( new Date(ms) );
-  }
-  return d;
-}
+const ONE_DAY = 24 * 3600 * 1000;
+export const dateToDay = (date) => {
+  let millis;
+  if (typeof date === 'number') millis = date;
+  else if (date instanceof Date) millis = date.getTime();
+  else if (date instanceof firebase.firestore.Timestamp) millis = date.toMillis();
+  else millis = Date.now();
+
+  return Math.floor(millis / ONE_DAY);
+};

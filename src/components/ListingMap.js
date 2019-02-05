@@ -1,11 +1,12 @@
-import React, { Component } from "react";
-import MapGL, { Marker } from "react-map-gl";
-import Geocoder from "react-map-gl-geocoder";
-import DeckGL, { ScatterplotLayer } from "deck.gl";
-import { Link } from "react-router-dom";
-import { Spinner } from "./misc";
-const MAPBOX_TOKEN =
-  "pk.eyJ1Ijoia2Fpb2JhcmIiLCJhIjoiY2pyM3pqamwyMThsaTQ2cWxrNjlvMm9tbSJ9.JrUUH2OmqsbmlKedxW-l2g";
+import React, { Component } from 'react';
+import MapGL, { Marker } from 'react-map-gl';
+import Geocoder from 'react-map-gl-geocoder';
+import DeckGL, { ScatterplotLayer } from 'deck.gl';
+import { Link } from 'react-router-dom';
+import { Spinner } from './misc';
+
+
+const MAPBOX_TOKEN = 'pk.eyJ1Ijoia2Fpb2JhcmIiLCJhIjoiY2pyM3pqamwyMThsaTQ2cWxrNjlvMm9tbSJ9.JrUUH2OmqsbmlKedxW-l2g';
 
 export default class GeocodeMap extends Component {
   state = {
@@ -14,13 +15,13 @@ export default class GeocodeMap extends Component {
       height: 400,
       latitude: 37.774929,
       longitude: -122.419418,
-      zoom: 11
+      zoom: 11,
     },
-    isLoading: true
+    isLoading: true,
   };
 
   componentDidMount() {
-    window.addEventListener("resize", this.resize);
+    window.addEventListener('resize', this.resize);
     this.resize();
 
     if (navigator && navigator.geolocation) {
@@ -28,17 +29,16 @@ export default class GeocodeMap extends Component {
         ({ coords: { longitude, latitude } }) => {
           this.setCoords(latitude, longitude);
         },
-        console.error
       );
     }
   }
 
   componentDidCatch(error) {
-    console.error("MapError", error);
+    console.error('MapError', error);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("resize", this.resize);
+    window.removeEventListener('resize', this.resize);
   }
 
   mapRef = React.createRef();
@@ -48,7 +48,7 @@ export default class GeocodeMap extends Component {
       ({ viewport }) => ({ viewport: { ...viewport, longitude, latitude } }),
       () => {
         this.props.onResult({ coords: [latitude, longitude] });
-      }
+      },
     );
   }
 
@@ -57,7 +57,7 @@ export default class GeocodeMap extends Component {
     const height = document.documentElement.clientHeight;
     this.handleViewportChange({
       width,
-      height: height - (width < 770 ? 200 : 52)
+      height: height - (width < 770 ? 200 : 52),
     });
   };
 
@@ -66,10 +66,9 @@ export default class GeocodeMap extends Component {
       ({ viewport: pastViewport }) => ({
         viewport: { ...pastViewport, ...viewport }
       }),
-      () =>
-        this.props.onResult({
-          coords: [this.state.viewport.latitude, this.state.viewport.longitude]
-        })
+      () => this.props.onResult({
+        coords: [this.state.viewport.latitude, this.state.viewport.longitude],
+      }),
     );
   };
 
@@ -77,7 +76,7 @@ export default class GeocodeMap extends Component {
     const geocoderDefaultOverrides = { transitionDuration: 1000 };
     return this.handleViewportChange({
       ...viewport,
-      ...geocoderDefaultOverrides
+      ...geocoderDefaultOverrides,
     });
   };
 
@@ -100,35 +99,35 @@ export default class GeocodeMap extends Component {
         onViewportChange={this.handleViewportChange}
         mapboxApiAccessToken={MAPBOX_TOKEN}
         visible={!isLoading}
-        onLoad={() => {
-          this.setState({ isLoading: false });
-        }}
+        onLoad={() => this.setState({ isLoading: false })}
       >
-        {this.state.isLoading ? (
+        {isLoading ? (
           <Spinner fullPage />
         ) : (
-          <Geocoder
-            mapRef={this.mapRef}
-            onResult={this.handleOnResult}
-            proximity={viewport}
-            onViewportChange={this.handleGeocoderViewportChange}
-            mapboxApiAccessToken={MAPBOX_TOKEN}
-            position="top-left"
-          />
+          <>
+            <Geocoder
+              mapRef={this.mapRef}
+              onResult={this.handleOnResult}
+              proximity={viewport}
+              onViewportChange={this.handleGeocoderViewportChange}
+              mapboxApiAccessToken={MAPBOX_TOKEN}
+              position="top-left"
+            />
+            <DeckGL
+              {...viewport}
+              layers={[
+                new ScatterplotLayer({
+                  data: [{ position: [longitude, latitude] }],
+                  getPosition: d => d.position,
+                  getRadius: radius * 1000,
+                  stroked: true,
+                  getFillColor: [255, 255, 255, 50],
+                  pickable: false,
+                }),
+              ]}
+            />
+          </>
         )}
-        <DeckGL
-          {...viewport}
-          layers={[
-            new ScatterplotLayer({
-              data: [{ position: [longitude, latitude] }],
-              getPosition: d => d.position,
-              getRadius: radius * 1000,
-              stroked: true,
-              getColor: [255, 255, 255, 50],
-              pickable: false
-            })
-          ]}
-        />
         {listings.map(listing => {
           const pos = listing.position.geopoint;
           return (
@@ -140,7 +139,7 @@ export default class GeocodeMap extends Component {
               <Link
                 className="map-user"
                 to={`/listings/${listing.id}`}
-                title={listing.rate + " $/day"}
+                title={`${listing.rate} $/day`}
               />
             </Marker>
           );
