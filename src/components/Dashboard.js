@@ -9,17 +9,17 @@ import { Spinner, LiveSwitch } from './misc';
 const pages = [{
   id: '',
   name: 'Active Bookings',
-  desc: 'the active ones',
+  desc: 'currently active bookings',
   list: 'active',
 }, {
   id: 'requests',
   name: 'Booking Requests',
-  desc: 'the requested ones',
+  desc: 'bookings that you have requested or others have requested of you',
   list: 'requests',
 }, {
   id: 'past',
   name: 'Past Bookings',
-  desc: 'the past ones',
+  desc: 'bookings that were either canceled or in the past',
   list: 'past',
 },
 // {
@@ -114,7 +114,7 @@ export default class Dashboard extends React.PureComponent {
 
     return (
       <>
-        <p className="has-text-centered">{page.desc}</p>
+        <p className="has-text-centered has-text-grey">{page.desc}</p>
         <br/>
         {items.length ? items : (
           <div className="box">
