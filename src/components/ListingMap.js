@@ -64,7 +64,7 @@ export default class GeocodeMap extends Component {
   handleViewportChange = viewport => {
     this.setState(
       ({ viewport: pastViewport }) => ({
-        viewport: { ...pastViewport, ...viewport }
+        viewport: { ...pastViewport, ...viewport },
       }),
       () => this.props.onResult({
         coords: [this.state.viewport.latitude, this.state.viewport.longitude],

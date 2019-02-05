@@ -34,25 +34,27 @@ export default class SearchAddress extends Component {
   render() {
     const { required } = this.props;
 
-    return <>
-      <div className="search-address" ref={this.containerRef}>
-        <MapGL
-          ref={this.mapRef}
-          width={1}
-          height={1}
-          mapboxApiAccessToken={MAPBOX_TOKEN}>
-          <Geocoder
-            mapRef={this.mapRef}
-            containerRef={this.containerRef}
-            onResult={this.onResultAddress}
-            onViewportChange={() => {}}
-            mapboxApiAccessToken={MAPBOX_TOKEN}
-            position="top-left"
-          />
-        </MapGL>
-      </div>
-      { required && <FakeRequired required={required}/> }
-    </>;
+    return (
+      <>
+        <div className="search-address" ref={this.containerRef}>
+          <MapGL
+            ref={this.mapRef}
+            width={1}
+            height={1}
+            mapboxApiAccessToken={MAPBOX_TOKEN}>
+            <Geocoder
+              mapRef={this.mapRef}
+              containerRef={this.containerRef}
+              onResult={this.onResultAddress}
+              onViewportChange={() => {}}
+              mapboxApiAccessToken={MAPBOX_TOKEN}
+              position="top-left"
+            />
+          </MapGL>
+        </div>
+        { required && <FakeRequired required={required}/> }
+      </>
+    );
   }
 }
 

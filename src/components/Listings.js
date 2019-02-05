@@ -109,7 +109,7 @@ export default class Listings extends React.Component {
               {listings && listings.map((listing) => {
 
                 let desc = listing.listing_name || '';
-                if (desc.length > 64) desc = desc.substring(0, 64) + '...';
+                if (desc.length > 64) desc = `${desc.substring(0, 64)}...`;
 
                 return (
                   <Link key={listing.id} className="box" to={`/listings/${listing.id}`}>

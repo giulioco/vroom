@@ -41,7 +41,7 @@ export default class ViewListing extends React.Component {
             amenitiesArray.push(key);
           }
         }
-        data.amenities = amenitiesArray.join(", ");
+        data.amenities = amenitiesArray.join(', ');
 
         // find the poster using the id
         db.users.doc(data.lister_id).get().then((user) => {
@@ -49,7 +49,7 @@ export default class ViewListing extends React.Component {
           if (user.exists) {
             data.poster = userData.name;
           } else {
-            data.poster = "A Vroomer";
+            data.poster = 'A Vroomer';
           }
 
           this.setState({ data });
@@ -103,7 +103,9 @@ export default class ViewListing extends React.Component {
 
     if (data === false) throw { code: 404 };
 
-    const { amenities, description, policy, rate, size, listing_name, poster, lister_id, dates_unavailable } = data || {};
+    const {
+      amenities, description, policy, rate, size, listing_name, poster, lister_id, dates_unavailable,
+    } = data || {};
 
     return (
       <div>

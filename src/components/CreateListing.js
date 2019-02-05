@@ -1,5 +1,5 @@
 import React from 'react';
-import firebase from "firebase/app";
+import firebase from 'firebase/app';
 import DayPicker from 'react-day-picker';
 import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
 import StepWizard from 'react-step-wizard';
@@ -178,7 +178,7 @@ export default class CreateListing extends React.Component {
                               placeholder="Text that will show up in searches"
                               className="input"
                               value={this.state.listing_name}
-                              onChange={this.handleChange("listing_name")}
+                              onChange={this.handleChange('listing_name')}
                             />
                           </div>
                         </div>
@@ -187,7 +187,7 @@ export default class CreateListing extends React.Component {
                         <div className="field">
                           {this.state.isUploading && (
                             <p>
-                              {" "}
+                              {' '}
                               <progress
                                 className="progress is-success"
                                 value={this.state.progress}
@@ -209,7 +209,7 @@ export default class CreateListing extends React.Component {
                             accept="image/*"
                             name="listing_imgURL"
                             randomizeFilename
-                            storageRef={firebase.storage().ref("listing_images")}
+                            storageRef={firebase.storage().ref('listing_images')}
                             onUploadStart={this.handleUploadStart}
                             onUploadError={this.handleUploadError}
                             onUploadSuccess={this.handleUploadSuccess}
@@ -229,7 +229,7 @@ export default class CreateListing extends React.Component {
                               placeholder="What best describes your parking space?"
                               value={this.state.description}
                               className="textarea"
-                              onChange={this.handleChange("description")}
+                              onChange={this.handleChange('description')}
                             />
                           </div>
                         </div>
@@ -318,8 +318,8 @@ export default class CreateListing extends React.Component {
                               name="bathroom"
                               id="bathroom"
                               checked={this.state.amenities.bathroom}
-                              onChange={this.handleCheckboxChange("bathroom")}
-                            />{" "}
+                              onChange={this.handleCheckboxChange('bathroom')}
+                            />{' '}
                             <label htmlFor="bathroom">Bathroom </label>
                           </div>
                           <div className="field">
@@ -329,8 +329,8 @@ export default class CreateListing extends React.Component {
                               name="water"
                               id="water"
                               checked={this.state.amenities.water}
-                              onChange={this.handleCheckboxChange("water")}
-                            />{" "}
+                              onChange={this.handleCheckboxChange('water')}
+                            />{' '}
                             <label htmlFor="water">Water </label>
                           </div>
                           <div className="field">
@@ -340,8 +340,8 @@ export default class CreateListing extends React.Component {
                               name="wifi"
                               id="wifi"
                               checked={this.state.amenities.wifi}
-                              onChange={this.handleCheckboxChange("wifi")}
-                            />{" "}
+                              onChange={this.handleCheckboxChange('wifi')}
+                            />{' '}
                             <label htmlFor="wifi"> WiFi </label>
                           </div>
                           <div className="field">
@@ -351,8 +351,8 @@ export default class CreateListing extends React.Component {
                               name="electricity"
                               id="electricity"
                               checked={this.state.amenities.electricity}
-                              onChange={this.handleCheckboxChange("electricity")}
-                            />{" "}
+                              onChange={this.handleCheckboxChange('electricity')}
+                            />{' '}
                             <label htmlFor="electricity"> Electricity </label>
                           </div>
                         </div>
@@ -364,7 +364,7 @@ export default class CreateListing extends React.Component {
                             <div className="select">
                               <select
                                 value={this.state.size}
-                                onChange={this.handleChange("size")}
+                                onChange={this.handleChange('size')}
                               >
                                 <option value="small">Small</option>
                                 <option value="medium">Medium</option>
@@ -404,18 +404,18 @@ export default class CreateListing extends React.Component {
                         <div className="control">
                           <input
                             className={`slider is-fullwidth  ${
-                              this.state.cancellation_policy === "0"
-                                ? "is-success"
-                                : this.state.cancellation_policy === "1"
-                                  ? "is-warning"
-                                  : "is-danger"
+                              this.state.cancellation_policy === '0'
+                                ? 'is-success'
+                                : this.state.cancellation_policy === '1'
+                                  ? 'is-warning'
+                                  : 'is-danger'
                             }`}
                             step="1"
                             min="0"
                             max="2"
                             value={this.state.cancellation_policy}
                             type="range"
-                            onChange={this.handleChange("cancellation_policy")}
+                            onChange={this.handleChange('cancellation_policy')}
                           />
                         </div>
                         <div className="columns is-mobile">

@@ -133,7 +133,10 @@ export const getListings = (lat, long, radius, dates, cb) => {
   const center = geo.point(lat, long);
 
   return geoListings.within(center, radius, 'position').subscribe((res) => {
-    if (!dates) return cb(res);
+    if (!dates) {
+      cb(res);
+      return;
+    }
 
     const startDate = dateToDay(dates[0]);
     const endDate = dateToDay(dates[1]);

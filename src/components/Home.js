@@ -27,9 +27,9 @@ export default class Home extends React.PureComponent {
               <h2 className="subtitle is-size-4 has-text-weight-bold has-text-white ">
                 A platform for people sleeping in their vehicles to find overnight parking
               </h2>
-              <button style={{ background: `url("${signinButton}")`, backgroundSize: 'cover',
-                width: 196, height: 46, border: 'none' }}
-                className="button" onClick={this.signIn} title="Sign In"/>
+              <button style={{
+                background: `url("${signinButton}")`, backgroundSize: 'cover', width: 196, height: 46, border: 'none',
+              }} className="button" onClick={this.signIn} title="Sign In"/>
             </div>
           </div>
         </section>
