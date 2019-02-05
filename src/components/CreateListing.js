@@ -143,12 +143,21 @@ export default class CreateListing extends React.Component {
                     <h1 className="title">Where?</h1>
                   </div>
                   <hr/>
-                  <div className="field">
-                    <label className="label">Address</label>
-                    <SearchAddress
-                      required
-                      onResult={this.handleAddressChange}
-                    />
+                  <div className="columns is-centered">
+                    <div className="column is-5">
+                      <div className="field">
+                        <label className="label">Address</label>
+                        <SearchAddress
+                          required
+                          onResult={this.handleAddressChange}
+                        />
+                      </div>
+                      <div className="field">
+                        <label className="label">Address Verification</label>
+                        <input type="text" className="input" disabled
+                          defaultValue="This feature is not key implemented"/>
+                      </div>
+                    </div>
                   </div>
                   <button type="submit" className="button is-link">
                     Next
