@@ -90,11 +90,12 @@ html {
 .react-calendar {
   width: 100% !important;
 }
-.react-calendar__tile--active {
+.react-calendar__tile--active, .react-calendar__tile--hasActive {
   background: $link !important;
-  &:hover {
-    background: $primary !important; 
-  }
+  color: white !important;
+}
+.react-calendar__tile--active:hover {
+  background: $primary !important; 
 }
 
 .DayPicker {
