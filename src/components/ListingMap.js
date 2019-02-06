@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import MapGL, { Marker } from 'react-map-gl';
 import Geocoder from 'react-map-gl-geocoder';
-import DeckGL, { ScatterplotLayer } from 'deck.gl';
+// import DeckGL, { ScatterplotLayer } from 'deck.gl';
 import { Link } from 'react-router-dom';
+
 import { Spinner } from './misc';
+import { distPoints } from '../utils';
 
 
 const MAPBOX_TOKEN = 'pk.eyJ1Ijoia2Fpb2JhcmIiLCJhIjoiY2pyM3pqamwyMThsaTQ2cWxrNjlvMm9tbSJ9.JrUUH2OmqsbmlKedxW-l2g';
@@ -21,6 +23,8 @@ export default class GeocodeMap extends Component {
   };
 
   componentDidMount() {
+    this.map = this.mapRef.current.getMap();
+
     window.addEventListener('resize', this.resize);
     this.resize();
 
@@ -47,7 +51,7 @@ export default class GeocodeMap extends Component {
     this.setState(
       ({ viewport }) => ({ viewport: { ...viewport, longitude, latitude } }),
       () => {
-        this.props.onResult({ coords: [latitude, longitude] });
+        this.props.onResult({ coords: [latitude, longitude], radius: this.radius });
       },
     );
   }
@@ -61,19 +65,26 @@ export default class GeocodeMap extends Component {
     });
   };
 
-  handleViewportChange = viewport => {
-    console.log('v', viewport.zoom);
+  handleViewportChange = (viewport) => {
+    if (this.map) {
+      const bounds = this.map.getBounds();
+      const topLeft = bounds.getNorthWest();
+      const bottomRight = bounds.getSouthEast();
+      this.radius = distPoints(topLeft.lat, topLeft.lng, bottomRight.lat, bottomRight.lng) / 2.3;
+    }
+
     this.setState(
       ({ viewport: pastViewport }) => ({
         viewport: { ...pastViewport, ...viewport },
       }),
       () => this.props.onResult({
         coords: [this.state.viewport.latitude, this.state.viewport.longitude],
+        radius: this.radius,
       }),
     );
   };
 
-  handleGeocoderViewportChange = viewport => {
+  handleGeocoderViewportChange = (viewport) => {
     const geocoderDefaultOverrides = { transitionDuration: 1000 };
     return this.handleViewportChange({
       ...viewport,
@@ -81,7 +92,7 @@ export default class GeocodeMap extends Component {
     });
   };
 
-  handleOnResult = event => {
+  handleOnResult = (event) => {
     this.address = event.result.place_name;
     const [long, lat] = event.result.center;
     this.setCoords(lat, long);
@@ -89,8 +100,8 @@ export default class GeocodeMap extends Component {
 
   render() {
     const { viewport, isLoading } = this.state;
-    const { listings, radius } = this.props;
-    const { latitude, longitude } = viewport;
+    const { listings } = this.props;
+    // const { latitude, longitude } = viewport;
 
     return (
       <MapGL
@@ -102,6 +113,7 @@ export default class GeocodeMap extends Component {
         visible={!isLoading}
         minZoom={11}
         maxZoom={17}
+        maxPitch={0}
         onLoad={() => this.setState({ isLoading: false })}
       >
         {isLoading ? (
@@ -116,19 +128,19 @@ export default class GeocodeMap extends Component {
               mapboxApiAccessToken={MAPBOX_TOKEN}
               position="top-left"
             />
-            <DeckGL
+            {/* <DeckGL
               {...viewport}
               layers={[
                 new ScatterplotLayer({
                   data: [{ position: [longitude, latitude] }],
                   getPosition: d => d.position,
                   getRadius: radius * 1000,
-                  stroked: true,
+                  stroked: false,
                   getFillColor: [255, 255, 255, 50],
                   pickable: false,
                 }),
               ]}
-            />
+            /> */}
           </>
         )}
         {listings.map(listing => {

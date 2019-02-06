@@ -20,12 +20,17 @@ const _ViewListing = (props) => (
   </div>
 );
 
+const now = new Date();
+const tmrw = new Date();
+tmrw.setDate(tmrw.getDate() + 7);
+db.bookingDates.start = now;
+db.bookingDates.end = tmrw;
+
 export default class Listings extends React.Component {
 
   state = {
     listings: null,
-    radius: 5,
-    dates: null,
+    dates: [now, tmrw],
   }
 
   componentWillUnmount() {
@@ -33,20 +38,21 @@ export default class Listings extends React.Component {
   }
 
   fetchListings = () => {
-    const { radius, dates } = this.state;
+    const { dates } = this.state;
 
     if (!this.coords || !dates) return;
 
     if (this.unsubscribe) this.unsubscribe();
 
-    this.unsubscribe = db.getListings(this.coords[0], this.coords[1], radius, dates, (listings) => {
+    this.unsubscribe = db.getListings(this.coords[0], this.coords[1], this.radius, dates, (listings) => {
       this.setState({ listings });
     });
   }
 
-  onResult = ({ coords, address }) => {
+  onResult = ({ coords, radius }) => {
     this.coords = coords;
-    this.address = address;
+    // this.address = address;
+    this.radius = radius;
 
     if (this.timeout) {
       clearTimeout(this.timeout);
@@ -56,15 +62,15 @@ export default class Listings extends React.Component {
     // this.fetchListings();
   }
 
-  changeRadius = (e) => {
-    if (this.timeout) {
-      clearTimeout(this.timeout);
-      this.timeout = null;
-    }
-    this.timeout = setTimeout(this.fetchListings, 1000);
+  // changeRadius = (e) => {
+  //   if (this.timeout) {
+  //     clearTimeout(this.timeout);
+  //     this.timeout = null;
+  //   }
+  //   this.timeout = setTimeout(this.fetchListings, 1000);
 
-    this.setState({ radius: Number.parseInt(e.target.value, 10) });
-  }
+  //   this.setState({ radius: Number.parseInt(e.target.value, 10) });
+  // }
 
   changeDate = (dates) => {
     if (this.timeout) {
@@ -95,13 +101,13 @@ export default class Listings extends React.Component {
                 <p className="has-text-danger has-text-weight-bold">Please select a date range</p>
               )}
               <Calender selectRange onChange={this.changeDate} value={dates}/>
-              <div className="flex-row" style={{ marginTop: 12 }}>
+              {/* <div className="flex-row" style={{ marginTop: 12 }}>
                 <span className="has-text-centered has-text-white">
                   <strong className="has-text-white">Radius</strong><br />{radius} km
                 </span>
                 <input className="slider is-fullwidth is-link" step="1" min="2" max="70"
                   value={radius} type="range" onChange={this.changeRadius} style={{ marginLeft: 16 }} />
-              </div>
+              </div> */}
             </div>
 
             <div className="column is-3 is-offset-6 listings">
