@@ -95,7 +95,7 @@ class Nav extends React.PureComponent {
       <nav className={`navbar is-fixed-top ${front ? 'is-transparent' : 'is-link'}`}>
         <div className="container">
           <div className="navbar-brand">
-            <Link className="navbar-item " to={loggedIn ? 'listings' : '/'}>
+            <Link className="navbar-item" to={loggedIn ? '/dashboard' : '/'}>
               <img src={brandingImg} alt="Logo" />
             </Link>
             <div className={`navbar-burger burger ${open ? 'is-active' : ''}`}

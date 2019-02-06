@@ -11,7 +11,6 @@ export default class ViewListing extends React.Component {
   state = {
     data: null,
     dates: null,
-    imageUrl: null,
   }
 
   componentDidMount() {
@@ -23,67 +22,57 @@ export default class ViewListing extends React.Component {
 
 
     db.listings.doc(this.id).get().then((doc) => {
-      if (doc.exists) {
-        const data = doc.data();
-
-        db.listingImages.child(data.listing_img).getDownloadURL()
-        .then((imageUrl) => this.setState({ imageUrl }))
-        .catch(console.error);
-
-
-        // amenities is stored as a map,
-        // find the amenities the listing has,
-        // make it into a string that can be displayed
-        const amenitiesArray = [];
-        const keys = Object.keys(data.amenities);
-        for (const key of keys) {
-          if (data.amenities[key]) {
-            amenitiesArray.push(key);
-          }
-        }
-        data.amenities = amenitiesArray.join(', ');
-
-        // find the poster using the id
-        db.users.doc(data.lister_id).get().then((user) => {
-          const userData = user.data();
-          if (user.exists) {
-            data.poster = userData.name;
-          } else {
-            data.poster = 'A Vroomer';
-          }
-
-          this.setState({ data });
-        });
-
-
-      } else {
+      if (!doc.exists) {
         this.setState({ data: false });
+        return;
       }
+
+      const data = doc.data();
+
+
+      // amenities is stored as a map,
+      // find the amenities the listing has,
+      // make it into a string that can be displayed
+      const amenitiesArray = [];
+      const keys = Object.keys(data.amenities);
+      for (const key of keys) {
+        if (data.amenities[key]) {
+          amenitiesArray.push(key);
+        }
+      }
+      data.amenities = amenitiesArray.join(', ');
+
+      // find the poster using the id
+      db.users.doc(data.lister_id).get().then((user) => {
+        const userData = user.data();
+        if (user.exists) {
+          data.poster = userData.name;
+        } else {
+          data.poster = 'A Vroomer';
+        }
+
+        this.setState({ data });
+      });
     });
   }
 
   createBooking = () => {
-    const listingID = this.props.match.params.id;
-    const bookerID = db.getUser().uid;
+    const listing = this.state.data;
+    const listing_id = this.props.match.params.id;
+    const booker_id = db.getUser().uid;
 
-    // TODO clean this up, does it need this first db fetch?
-    db.listings.doc(listingID).get().then((doc) => {
-      if (doc.exists) {
-        const data = doc.data();
+    const bookingData = {
+      lister_id: listing.lister_id,
+      booker_id,
+      start_date: this.state.dates[0],
+      end_date: this.state.dates[1],
+      status: 'pending',
+      listing_id,
+      created: db.Helpers.Timestamp.now(),
+    };
 
-        const bookingData = {
-          lister_id: data.lister_id,
-          booker_id: bookerID,
-          start_date: this.state.dates[0],
-          end_date: this.state.dates[1],
-          status: 'pending',
-          listing_id: listingID,
-          created: db.Helpers.Timestamp.now(),
-        };
-
-        db.bookings.add(bookingData);
-      }
-    });
+    db.bookings.add(bookingData)
+    .then(() => this.props.history.push('/dashboard/requests'));
   }
 
 
@@ -99,12 +88,12 @@ export default class ViewListing extends React.Component {
   }
 
   render() {
-    const { data, dates, imageUrl } = this.state;
+    const { data, dates } = this.state;
 
     if (data === false) throw { code: 404 };
 
     const {
-      amenities, description, policy, rate, size, listing_name, poster, lister_id, dates_unavailable,
+      amenities, description, policy, rate, size, listing_name, poster, lister_id, dates_unavailable, images,
     } = data || {};
 
     return (
@@ -125,7 +114,7 @@ export default class ViewListing extends React.Component {
         <div className="container">
           <div className="columns">
             <div className="column is-half">
-              <LazyImg src={imageUrl} className="shadowed" style={{ height: 282, background: '#eee' }}/>
+              <LazyImg src={images && images[0]} className="shadowed" style={{ height: 282, background: '#eee' }}/>
             </div>
             <div className="column is-half">
               <Calender
@@ -158,11 +147,14 @@ export default class ViewListing extends React.Component {
           <br/>
           <div>
             {lister_id === db.getUser().uid ? (
-              <button onClick={this.deleteListing} className="button is-danger is-medium">
+              <button onClick={this.deleteListing} disabled={!data} className="button is-danger is-medium">
                 <span>Delete this Listing</span>
               </button>
             ) : (
-              <button className="button is-medium is-link" onClick={this.createBooking}>Request Vroom</button>
+              <button className="button is-medium is-link" onClick={this.createBooking}
+                disabled={!data}>
+                Request Vroom
+              </button>
             )}
           </div>
           <br/>

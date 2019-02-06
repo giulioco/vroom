@@ -23,7 +23,7 @@ const auth = firebase.auth();
 const firestore = firebase.firestore();
 const storage = firebase.storage();
 
-export const images = storage.ref('user_images');
+export const userImages = storage.ref('user_images');
 export const listingImages = storage.ref('listing_images');
 
 export const Helpers = firebase.firestore;

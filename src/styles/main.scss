@@ -72,15 +72,11 @@ html {
   border-radius: 50%;
 }
 
-.search-address {
-  max-width: 600px;
-  margin: 0 auto;
-  .mapboxgl-ctrl-geocoder.mapboxgl-ctrl, .mapboxgl-ctrl-top-left {
-    margin: 0;
-    width: 100%;
-    max-width: 100%;
-    box-shadow: none;
-  }
+.search-address .mapboxgl-ctrl-geocoder.mapboxgl-ctrl, .mapboxgl-ctrl-top-left {
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  box-shadow: none;
 }
 .mapboxgl-ctrl-bottom-left {
   display: none;
@@ -101,6 +97,9 @@ html {
   }
 }
 
+.DayPicker {
+  width: 100%;
+}
 .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside){
   background: $link !important;
   &:hover {

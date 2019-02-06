@@ -11,7 +11,7 @@ export const ListingEntry = ({ title = '', listing, user, dates, buttons, onChat
     <br/>
     <div className="columns">
       <div className="column is-3 is-mobile">
-        <LazyImg src={listing.image_url} style={{ height: 128, background: '#eee' }}/>
+        <LazyImg src={listing.images && listing.images[0]} style={{ height: 128, background: '#eee' }}/>
       </div>
       { user && (
         <div className="column is-3 is-mobile">
@@ -64,12 +64,6 @@ export default class BookingEntry extends React.PureComponent {
     .then((doc) => {
 
       const listing = doc.data();
-
-      db.listingImages
-      .child(listing.listing_img)
-      .getDownloadURL()
-      .then(image_url => this.setState({ listing: { ...listing, image_url } }))
-      .catch(console.error);
 
       this.setState({ listing });
     })

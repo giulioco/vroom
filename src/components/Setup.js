@@ -14,44 +14,29 @@ export default class Setup extends React.Component {
     this.state = {
       name: db.getUser().displayName,
       // license_verification: false,
-      avatarURL: null,
-      change: false,
+      change: !!props.setup,
+      hash: '',
     };
-  }
 
-  componentDidMount() {
-    this.userId = db.getUser().uid;
-
-    this.image_name = db.userData().image_name;
-    if (this.image_name) {
-      db.images
-      .child(this.image_name)
-      .getDownloadURL()
-      .then(url => this.setState({ avatarURL: url }))
-      .catch(console.error);
-    }
+    // Have to add default extension or else react-firebase-file-uploader will
+    this.filename = `${db.getUser().uid}.jpg`;
+    // eslint-disable-next-line max-len
+    this.imageUrl = `https://firebasestorage.googleapis.com/v0/b/vroom-db.appspot.com/o/user_images%2F${this.filename}?alt=media`;
   }
 
   handleChange = (event) => {
     this.setState({ name: event.target.value, change: true });
   }
 
-  handleUploadStart = () => this.setState({ isUploading: true, avatarURL: null });
+  handleUploadStart = () => this.setState({ isUploading: true });
 
   handleUploadError = error => {
     this.setState({ isUploading: false });
     console.error(error);
   };
 
-  handleUploadSuccess = filename => {
-    this.image_name = filename;
-    this.setState({ isUploading: false, change: true });
-    
-    db.images
-    .child(filename)
-    .getDownloadURL()
-    .then(url => this.setState({ avatarURL: url }))
-    .catch(console.error);
+  handleUploadSuccess = (_, task) => {
+    this.setState({ isUploading: false, hash: task.metadata_.md5hash });
   };
 
   handleSubmit = (event) => {
@@ -61,7 +46,6 @@ export default class Setup extends React.Component {
 
     db.setupAccount({
       name,
-      image_name: this.image_name,
       setup: true,
       email: db.getUser().email,
     })
@@ -74,7 +58,7 @@ export default class Setup extends React.Component {
   }
 
   render() {
-    const { isUploading, avatarURL, change, name } = this.state;
+    const { isUploading, change, name, hash } = this.state;
     const { setup } = this.props;
 
     return (
@@ -102,14 +86,13 @@ export default class Setup extends React.Component {
             <div className="column is-5 is-offset-1">
               <div className="field">
                 <label className="label">Profile Picture</label>
-                <LazyImg src={isUploading ? null : avatarURL} className="shadowed"
-                  style={{ height: 256, width: 256, background: 'white' }} placeholder={<Spinner fullPage/>}/>
+                <LazyImg src={isUploading ? null : `${this.imageUrl}&rrr=${hash}`} placeholder={isUploading ? <Spinner fullPage/> : null}
+                  style={{ height: 256, width: 256, background: 'white' }} className="shadowed"/>
                 <br/>
                 <CustomUploadButton
                   accept="image/*"
-                  name="avatar"
-                  filename={this.userId}
-                  storageRef={db.images}
+                  filename={this.filename}
+                  storageRef={db.userImages}
                   onUploadStart={this.handleUploadStart}
                   onUploadError={this.handleUploadError}
                   onUploadSuccess={this.handleUploadSuccess}
