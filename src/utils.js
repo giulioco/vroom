@@ -29,14 +29,9 @@ export const decodeQuery = (str) => {
   return obj;
 };
 
-// Takes two dates objects -> returns an array of dates in between
-const ONE_DAY = 24 * 3600 * 1000;
+// Get days since epoch
 export const dateToDay = (date) => {
-  let millis;
-  if (typeof date === 'number') millis = date;
-  else if (date instanceof Date) millis = date.getTime();
-  else if (date instanceof firebase.firestore.Timestamp) millis = date.toMillis();
-  else millis = Date.now();
-
-  return Math.floor(millis / ONE_DAY);
+  if (date instanceof firebase.firestore.Timestamp) date = date.toDate();
+  date.setHours(12, 0, 0, 0);
+  return Math.floor(date / 86400000);
 };

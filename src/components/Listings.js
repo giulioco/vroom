@@ -113,8 +113,11 @@ export default class Listings extends React.Component {
 
                 return (
                   <Link key={listing.id} className="box" to={`/listings/${listing.id}`}>
-                    <LazyImg src={listing.images && listing.images[0]}/><br/>
-                    <strong>{listing.address}</strong><br/>
+                    <LazyImg src={listing.images && listing.images[0]}
+                      style={{ height: 180, background: '#eee' }}/>
+                    <br/>
+                    <strong>{listing.address}</strong>
+                    <br/>
                     <div className="has-text-truncated">
                       <span>{listing.rate || 1} <span className="is-size-7 has-text-grey">$/Day</span></span>
                       &nbsp;
