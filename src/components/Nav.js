@@ -85,9 +85,14 @@ class Nav extends React.PureComponent {
       );
     } else {
       NavBarEnd = (
-        <Link className="navbar-item" to="/logout">
-          Logout
-        </Link>
+        <>
+          <NavLink className="navbar-item" to="/setup">
+            Setup
+          </NavLink>
+          <Link className="navbar-item" to="/logout">
+            Logout
+          </Link>
+        </>
       );
     }
 
