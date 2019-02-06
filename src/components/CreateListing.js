@@ -13,7 +13,7 @@ const Step = ({ title, nextStep, previousStep, children, onSubmit, currentStep, 
   <form onSubmit={(e) => {
     e.preventDefault();
     onSubmit ? onSubmit() : nextStep();
-  }}>
+  }} className="step-wizard">
     <h1 className="is-size-1 has-text-centered">{title}</h1>
     <hr/>
     {children}
@@ -163,7 +163,7 @@ export default class CreateListing extends React.Component {
     const query = encodeQuery({
       key: GMAPS_TOKEN,
       location: `${location[1]},${location[0]}`,
-      size: '400x300',
+      size: '480x320',
     });
 
     this.setState({
@@ -201,7 +201,7 @@ export default class CreateListing extends React.Component {
     return (
       <section className="section">
         <div className="container">
-          <StepWizard>
+          <StepWizard isHashEnabled>
             <Step title="Where?">
               <div className="columns is-centered">
                 <div className="column is-6">
