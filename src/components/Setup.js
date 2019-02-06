@@ -8,6 +8,10 @@ import { LazyImg, Spinner } from './misc';
 
 export default class Setup extends React.Component {
 
+  static defaultProps = {
+    setup: true,
+  }
+
   constructor(props) {
     super(props);
 
@@ -15,6 +19,7 @@ export default class Setup extends React.Component {
       name: db.getUser().displayName,
       // license_verification: false,
       change: !!props.setup,
+      isUploading: false,
       hash: '',
     };
 
@@ -86,7 +91,8 @@ export default class Setup extends React.Component {
             <div className="column is-5 is-offset-1">
               <div className="field">
                 <label className="label">Profile Picture</label>
-                <LazyImg src={isUploading ? null : `${this.imageUrl}&rrr=${hash}`} placeholder={isUploading ? <Spinner fullPage/> : null}
+                <LazyImg src={isUploading ? null : `${this.imageUrl}&rrr=${hash}`}
+                  placeholder={isUploading ? <Spinner fullPage/> : null}
                   style={{ height: 256, width: 256, background: 'white' }} className="shadowed"/>
                 <br/>
                 <CustomUploadButton

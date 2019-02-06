@@ -17,7 +17,7 @@ export default class Account extends React.Component {
   render() {
     return (
       <>
-        <Setup title="Account" {...this.props}/>
+        <Setup title="Account" {...this.props} setup={false}/>
         <section className="section" style={{ marginTop: 0 }}>
           <div className="container">
             <article className="message is-danger">
