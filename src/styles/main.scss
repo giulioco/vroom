@@ -47,6 +47,11 @@ html {
   cursor: pointer;
 }
 
+.map-user-cont {
+  position: absolute;
+  left: 10px;
+  top: -15px;
+}
 .map-user {
   display: block;
   width: 30px;
@@ -55,8 +60,8 @@ html {
   background: $yellow;
   position: absolute;
   transform: rotate(-45deg);
-  left: 50%;
-  top: 50%;
+  left: 0;
+  top: 0;
   margin: -20px 0 0 -20px;
   animation-name: bounce;
   animation-fill-mode: both;
@@ -112,18 +117,12 @@ html {
   }
 }
 
-#doit .hero {
-  background: transparent;
-  padding: 0 8em;
-  height: calc(100vh - 52px);
+.step-wizard {
 	opacity: 1;
 	animation-name: fadeInOpacity;
 	animation-iteration-count: 1;
 	animation-timing-function: ease-in;
-  animation-duration: 0.4s;
-  @include mobile {
-    padding: 0;
-  }
+  animation-duration: 0.5s;
 }
 @keyframes fadeInOpacity {
 	0% {

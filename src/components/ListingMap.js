@@ -15,7 +15,7 @@ export default class GeocodeMap extends Component {
       height: 400,
       latitude: 37.774929,
       longitude: -122.419418,
-      zoom: 11,
+      zoom: 13,
     },
     isLoading: true,
   };
@@ -62,6 +62,7 @@ export default class GeocodeMap extends Component {
   };
 
   handleViewportChange = viewport => {
+    console.log('v', viewport.zoom);
     this.setState(
       ({ viewport: pastViewport }) => ({
         viewport: { ...pastViewport, ...viewport },
@@ -99,6 +100,8 @@ export default class GeocodeMap extends Component {
         onViewportChange={this.handleViewportChange}
         mapboxApiAccessToken={MAPBOX_TOKEN}
         visible={!isLoading}
+        minZoom={11}
+        maxZoom={17}
         onLoad={() => this.setState({ isLoading: false })}
       >
         {isLoading ? (
@@ -136,11 +139,13 @@ export default class GeocodeMap extends Component {
               latitude={pos.latitude}
               longitude={pos.longitude}
             >
-              <Link
-                className="map-user"
-                to={`/listings/${listing.id}`}
-                title={`${listing.rate} $/day`}
-              />
+              <div className="map-user-cont">
+                <Link
+                  className="map-user"
+                  to={`/listings/${listing.id}`}
+                  title={`${listing.rate} $/day`}
+                />
+              </div>
             </Marker>
           );
         })}

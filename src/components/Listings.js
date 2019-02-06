@@ -57,7 +57,6 @@ export default class Listings extends React.Component {
   }
 
   changeRadius = (e) => {
-
     if (this.timeout) {
       clearTimeout(this.timeout);
       this.timeout = null;
