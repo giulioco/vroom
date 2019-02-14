@@ -38,6 +38,7 @@ module.exports = require('webpack-boiler')({
     },
     loader: loaderHTML,
   }],
+  googleAnalytics: 'UA-105229811-4',
 });
 
 delete module.exports.module.rules[3].include;
